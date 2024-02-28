@@ -1,2 +1,2 @@
-# TALPA
-Team Activiteiten Logistieke Planning Applicatie
+# TALPA - Team Activiteiten Logistieke Planning Applicatie
+-
