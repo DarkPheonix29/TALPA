@@ -28,3 +28,4 @@ C:\Users\bounc\OneDrive - Office 365 Fontys\Semester 2\Groeps Project\TALPA\obj\
 C:\Users\bounc\OneDrive - Office 365 Fontys\Semester 2\Groeps Project\TALPA\obj\Debug\net6.0\TALPA.pdb
 C:\Users\bounc\OneDrive - Office 365 Fontys\Semester 2\Groeps Project\TALPA\obj\Debug\net6.0\TALPA.genruntimeconfig.cache
 C:\Users\bounc\OneDrive - Office 365 Fontys\Semester 2\Groeps Project\TALPA\obj\Debug\net6.0\ref\TALPA.dll
+C:\Users\bounc\OneDrive - Office 365 Fontys\Semester 2\Groeps Project\TALPA\obj\Debug\net6.0\scopedcss\Views\Shared\_HomeLayout.cshtml.rz.scp.css
