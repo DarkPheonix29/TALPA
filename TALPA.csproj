@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.4.1" />
     <ProjectReference Include="..\TalpaLibrary\TalpaLibrary.csproj" />
   </ItemGroup>
 
