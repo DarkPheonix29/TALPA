@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {
       "TALPA/1.0.0": {
+        "dependencies": {
+          "TalpaLibrary": "1.0.0"
+        },
         "runtime": {
           "TALPA.dll": {}
+        }
+      },
+      "TalpaLibrary/1.0.0": {
+        "runtime": {
+          "TalpaLibrary.dll": {}
         }
       }
     }
   },
   "libraries": {
     "TALPA/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TalpaLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
