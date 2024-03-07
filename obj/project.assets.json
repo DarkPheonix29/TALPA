@@ -1,28 +1,50 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "TalpaLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/TalpaLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TalpaLibrary.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "TalpaLibrary/1.0.0": {
+      "type": "project",
+      "path": "../TalpaLibrary/TalpaLibrary.csproj",
+      "msbuildProject": "../TalpaLibrary/TalpaLibrary.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj"
+      "TalpaLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bounc\\.nuget\\packages\\": {}
+    "C:\\Users\\keala\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
+      "projectUniqueName": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
       "projectName": "TALPA",
-      "projectPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
-      "packagesPath": "C:\\Users\\bounc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\obj\\",
+      "projectPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
+      "packagesPath": "C:\\Users\\keala\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\bounc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\keala\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -36,8 +58,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj": {
-              "projectPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj"
+            "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj": {
+              "projectPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj"
             }
           }
         }
@@ -46,6 +68,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -70,19 +97,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }
