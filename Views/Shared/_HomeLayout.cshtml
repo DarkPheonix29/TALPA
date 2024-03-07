@@ -20,9 +20,30 @@
 
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-lg-5">
-                <li class="nav-item active pr-lg-5">
-                    <a class="nav-link" href="login">Login</a>
-                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="SignUp">Sign up</a>
+                    </li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                        <li class="nav-item active pr-lg-5">
+                            <a class="nav-link" asp-controller="Account" asp-action="Profile">Profile</a>
+                            </li>
+                        <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Home" asp-action="AdminPage">Admin page</a>
+                        </li>
+                    }
+                }
             </ul>
         </div>
     </nav>
