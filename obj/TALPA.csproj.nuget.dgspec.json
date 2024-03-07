@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj": {}
+    "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj": {
+    "C:\\Users\\keala\\source\\repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
-        "projectName": "TALPA",
-        "projectPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
-        "packagesPath": "C:\\Users\\bounc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\obj\\",
+        "projectUniqueName": "C:\\Users\\keala\\source\\repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj",
+        "projectName": "TalpaLibrary",
+        "projectPath": "C:\\Users\\keala\\source\\repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj",
+        "packagesPath": "C:\\Users\\keala\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\keala\\source\\repos\\DarkPheonix29\\TalpaLibrary\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\bounc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\keala\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +38,79 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
+        "projectName": "TALPA",
+        "projectPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
+        "packagesPath": "C:\\Users\\keala\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\keala\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj": {
+                "projectPath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TalpaLibrary\\TalpaLibrary.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -58,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

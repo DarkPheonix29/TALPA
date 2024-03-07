@@ -1,31 +1,31 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\TALPA.bundle.scp.css",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\TALPA.bundle.scp.css",
       "PackagePath": "staticwebassets\\TALPA.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\favicon.ico",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\fonts\\source-sans-pro.regular.ttf",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\fonts\\source-sans-pro.regular.ttf",
       "PackagePath": "staticwebassets\\fonts\\source-sans-pro.regular.ttf"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\images\\cgi.svg",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\images\\cgi.svg",
       "PackagePath": "staticwebassets\\images\\cgi.svg"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\scripts\\home.js",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\scripts\\home.js",
       "PackagePath": "staticwebassets\\scripts\\home.js"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\styles\\home.css",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\styles\\home.css",
       "PackagePath": "staticwebassets\\styles\\home.css"
     },
     {
-      "Id": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\wwwroot\\styles\\main.css",
+      "Id": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\wwwroot\\styles\\main.css",
       "PackagePath": "staticwebassets\\styles\\main.css"
     },
     {
