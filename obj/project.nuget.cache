@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "nS+537APimatMYfcrVRtbN/i+Kq8/zkzjXCIPFrI5DMxvakSljLTe2r3deZ8sPvuJMprTz2RDV+QjM789Rop1w==",
-  "success": true,
-  "projectFilePath": "C:\\Users\\keala\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
+  "dgSpecHash": "FSNTVePXXnwLL7JeD3LRxAxWSqLOPtB0DRqHbucRCdWzGjEFvbXXy3ofWV3W+jw/NvYR4Nrm1yQhI/zWPCMZyA==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TalpaLibrary\\TalpaLibrary.csproj",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
