@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TALPA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67388d6e439cab3531a9934b5194fbf5542f1ba8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+405ba2b9bd1352c05b08c3d1aa048c7726d5ad55")]
 [assembly: System.Reflection.AssemblyProductAttribute("TALPA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TALPA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
