@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\bounc\\.nuget\\packages\\": {}
+    "C:\\Users\\Tim\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
+      "projectUniqueName": "C:\\Users\\Tim\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
       "projectName": "TALPA",
-      "projectPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\TALPA.csproj",
-      "packagesPath": "C:\\Users\\bounc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bounc\\OneDrive - Office 365 Fontys\\Semester 2\\Groeps Project\\TALPA\\obj\\",
+      "projectPath": "C:\\Users\\Tim\\Source\\Repos\\DarkPheonix29\\TALPA\\TALPA.csproj",
+      "packagesPath": "C:\\Users\\Tim\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Tim\\Source\\Repos\\DarkPheonix29\\TALPA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\bounc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tim\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -40,6 +40,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -64,7 +69,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
