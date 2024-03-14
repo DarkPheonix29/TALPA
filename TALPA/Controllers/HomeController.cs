@@ -5,18 +5,24 @@ using TALPA.Models;
 
 namespace TALPA.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<HomeController> _logger = logger;
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Tables() 
+        { 
+            // data ophalen (vanuit de business logic)
+
+            // data in het model plaatsen
+
+            // model in de view plaatsen
+
+            return View(); 
         }
 
         public IActionResult Privacy()
