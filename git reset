@@ -1,0 +1,123 @@
+[33mcommit 4a4d3f0c3b400d03fa125a708baf980cb7e57e5c[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 86042c7 66e3492
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Mar 7 12:05:11 2024 +0100
+
+    Merge branch 'main' of https://github.com/DarkPheonix29/TALPA
+
+[33mcommit 86042c756028cb1d111b7d8af8a45fbc5e2e19b5[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Mar 7 12:04:54 2024 +0100
+
+    -
+
+[33mcommit 66e34923e30f58ff4c593a80d27b81ea25d8cf4b[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 12:02:58 2024 +0100
+
+    ---
+
+[33mcommit cfdf1d45593cafe2d0b27808faa08974acef4d6f[m
+Merge: 53f034e 7ac79bc
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 12:02:40 2024 +0100
+
+    --
+
+[33mcommit 53f034e6bd617db3875da3338a350d7d6774dcae[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 11:57:40 2024 +0100
+
+    ---
+
+[33mcommit f91e3f020486ba6b2d42cdd80161bab43ee8ada5[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 11:57:32 2024 +0100
+
+    --
+
+[33mcommit 7ac79bcf8cbe8cc0ebb47769f0e07d4361977d2f[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Mar 7 11:47:57 2024 +0100
+
+    -
+
+[33mcommit 51ff828138a3458d11d56b5be0b1ee8f62a61856[m
+Merge: 9a61295 fc786bb
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Mar 7 11:47:51 2024 +0100
+
+    Merge branch 'main' of https://github.com/DarkPheonix29/TALPA
+
+[33mcommit 9a612950afc792a993354856c3ed1ef0f104c379[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Mar 7 11:46:02 2024 +0100
+
+    -
+
+[33mcommit fc786bb1b83191ff38aab6ee58d003e2c76f4b1b[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 11:41:03 2024 +0100
+
+    library test
+
+[33mcommit 1751333f190af9a419daa792f9219888e46a071a[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 11:40:02 2024 +0100
+
+    library test
+
+[33mcommit 73005224fbf176c4e3c5880bdbeffaacf28cc1f2[m
+Author: Kealan Thal <kealanthal29@gmail.com>
+Date:   Thu Mar 7 11:20:19 2024 +0100
+
+    Library added
+
+[33mcommit 05279991d21c7657205a35f2081f610abffda9ce[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Feb 29 11:19:47 2024 +0100
+
+    test
+
+[33mcommit dec110c402d0007b2ad6ac9192cb4589d022c574[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Feb 29 10:56:58 2024 +0100
+
+    home pagina van design in mvc gezet
+
+[33mcommit b76021cb1da173e5c5ac6112e1f81fe4e248b474[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Feb 29 10:11:27 2024 +0100
+
+    favicon
+
+[33mcommit 6cb9a19ca97488d085b7338b66617a51f2fee8f9[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Thu Feb 29 09:32:44 2024 +0100
+
+    project setup
+
+[33mcommit 3318e38eba301c7d34b73e2d26feeb08658d6c4e[m
+Merge: 700cc7b a650d11
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Wed Feb 28 17:43:47 2024 +0100
+
+    Merge branch 'main' of https://github.com/DarkPheonix29/TALPA
+
+[33mcommit 700cc7b923a1d1e5ec13d5914d33bca675448399[m
+Author: Rafael Lemmen <BouncePlayR@gmail.com>
+Date:   Wed Feb 28 17:43:44 2024 +0100
+
+    begin website dessign
+
+[33mcommit a650d11e20f9c55bad344056745b3e23ed2bae7d[m
+Author: Rafael Lemmen <66778328+Flyyrin@users.noreply.github.com>
+Date:   Tue Feb 27 10:49:18 2024 +0100
+
+    Update README.md
+
+[33mcommit 1c9c5cc8bdab80ce9cc516612cbcf7ec7433debe[m
+Author: Rafael Lemmen <66778328+Flyyrin@users.noreply.github.com>
+Date:   Tue Feb 27 10:33:31 2024 +0100
+
+    Create README.md
