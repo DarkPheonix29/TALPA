@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/styles/home.css" asp-append-version="true"/>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 px-lg-5 position-absolute w-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 px-lg-5 w-100">
         <a class="navbar-brand pl-lg-5" href="#">
             <img src="~/images/cgi.svg" class="brand pl-lg-5" height="35" alt="">
         </a>
@@ -20,13 +20,34 @@
 
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0 pr-lg-5">
-                <li class="nav-item active pr-lg-5">
-                    <a class="nav-link" href="login">Login</a>
-                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="SignUp">Sign up</a>
+                    </li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                        <li class="nav-item active pr-lg-5">
+                            <a class="nav-link" asp-controller="Account" asp-action="Profile">Profile</a>
+                            </li>
+                        <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item active pr-lg-5">
+                        <a class="nav-link" asp-controller="Home" asp-action="AdminPage">Admin page</a>
+                        </li>
+                    }
+                }
             </ul>
         </div>
     </nav>
-    <div class="container main text-center h-100 d-flex flex-column justify-content-center align-items-center">
+    <div class="container main text-center d-flex flex-column justify-content-center align-items-center">
         @RenderBody()
     </div>
 
