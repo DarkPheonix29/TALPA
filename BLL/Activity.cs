@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
-    internal class Activity(string name, string description, List<string> limitations, User proposingUser, DateTime dateAdded)
+    public class Activity(string name, string description, List<string> limitations, User proposingUser, DateTime dateAdded)
     {
         private string Name { get; set; } = name;
         private string Description { get; set; } = description;
@@ -28,10 +29,11 @@ namespace BLL
         public void SubmitToDatabase()
         {
             List<int> VoterId = new List<int>();
-            foreach (User user in VotedUsers)
-            {
-                VoterId.Add(user.id);
-            }
+            if (!VotedUsers.IsNullOrEmpty() )
+                foreach (User user in VotedUsers)
+                {
+                    VoterId.Add(user.id);
+                }
             SubmitActivity.ActivitySubmit(name, description, dateAdded, limitations, ProposingUser.id, VoterId);
         }
     }

@@ -1,0 +1,27 @@
+using System.Diagnostics;
+using BLL;
+using Activity = BLL.Activity;
+
+namespace UnitTests
+{
+    [TestClass]
+    public class UnitTest1
+    {
+        [TestMethod]
+        public void Activity_submit()
+        {
+            //Arrange
+            BLL.User user = new User("Bob", 1);
+            List<string> limitations = new List<string>();
+            limitations.Add("limitation1");
+            limitations.Add("limitation2");
+            limitations.Add("limitation3");
+            BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, user, DateTime.Now);
+            //Act
+
+            activity.SubmitToDatabase();
+
+            //Assert
+        }
+    }
+}
