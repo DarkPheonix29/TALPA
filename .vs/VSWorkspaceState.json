@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\BLL"
   ],
   "SelectedNode": "\\TALPA.sln",
   "PreviewInSolutionExplorer": false
