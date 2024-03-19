@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL;
 
 namespace BLL
 {
@@ -15,9 +16,23 @@ namespace BLL
         private User ProposingUser { get; set; } = proposingUser;
         private List<User> VotedUsers { get; set; }
 
-        public void Vote(User VotingUser)
+        public bool Vote(User VotingUser)
         {
-            VotedUsers.Add(VotingUser);
+            bool alreadyExist = VotedUsers.Contains(VotingUser);
+            if (!alreadyExist)
+            {
+                VotedUsers.Add(VotingUser);
+            }
+            return alreadyExist;
+        }
+        public void SubmitToDatabase()
+        {
+            List<int> VoterId = new List<int>();
+            foreach (User user in VotedUsers)
+            {
+                VoterId.Add(user.id);
+            }
+            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitations, ProposingUser.id, VoterId);
         }
     }
 }
