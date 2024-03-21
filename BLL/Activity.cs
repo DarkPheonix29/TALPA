@@ -12,6 +12,7 @@ namespace BLL
         private string Name { get; set; } = name;
         private string Description { get; set; } = description;
         private DateTime DateAdded { get; set; } = dateAdded;
+
         private List<Limits> Limitations = new List<Limits>();
         private User ProposingUser { get; set; } = proposingUser;
         private List<User> VotedUsers { get; set; }
@@ -23,7 +24,10 @@ namespace BLL
 
         public void CreateLimitations(List<string> limitations)
         {
-            Limitations.Add(new Limits { Limit = });
+            foreach (var limitation in limitations)
+            {
+                Limitations.Add(new Limits { Description = limitation, Type = "" });
+            }
         }
     }
 }
