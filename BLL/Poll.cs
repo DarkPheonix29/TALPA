@@ -1,6 +1,6 @@
 ﻿using System;
 
-internal class Class1
+internal class Poll
 {
 	
 }
