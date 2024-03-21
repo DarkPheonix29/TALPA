@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    internal class SubmitUser
+    public class SubmitUser
     {
         public static void UserSubmit(string name)
         {

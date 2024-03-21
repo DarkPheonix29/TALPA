@@ -8,6 +8,17 @@ namespace UnitTests
     public class UnitTest1
     {
         [TestMethod]
+        public void User_submit()
+        {
+            //Arange
+
+            string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+            DAL.ConnectionManager.Initialize(connectionString);
+            //Act
+            DAL.SubmitUser.UserSubmit("Ben");
+            //Assert
+        }
+        [TestMethod]
         public void Activity_submit()
         {
 			//Arrange
@@ -15,7 +26,7 @@ namespace UnitTests
 			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
-			BLL.User user = new User("Bob", 1);
+			BLL.User user = new User("Bob", 0);
             List<string> limitations = new List<string>();
             limitations.Add("limitation1");
             limitations.Add("limitation2");
