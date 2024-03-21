@@ -1,4 +1,6 @@
 using Auth0.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,12 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
     options.Domain = builder.Configuration["Auth0:Domain"];
     options.ClientId = builder.Configuration["Auth0:ClientId"];
 });
+
+// Expose Connection String for Database
+string connectionString = builder.Configuration.GetConnectionString("TALPADB");
+DAL.ConnectionManager.Initialize(connectionString);
+
+//build the app
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
