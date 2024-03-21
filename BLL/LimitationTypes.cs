@@ -16,13 +16,6 @@ namespace BLL
         Height,
         Diet,
         Allergy,
-        Claustrophobia,
-        Anatideaphobia,
-        Acrophobia,
-        Nyctophobia,
-        Thalassophobia,
-        Aerophobia,
-        Agoraphobia,
-        Zoophobia
+        Phobia
     }
 }
