@@ -26,7 +26,7 @@ namespace UnitTests
 			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
-			BLL.User user = new User("Bob", 0);
+			BLL.User user = new User("Ben", 2);
             List<string> limitations = new List<string>();
             limitations.Add("limitation1");
             limitations.Add("limitation2");
