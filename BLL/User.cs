@@ -6,9 +6,28 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    internal class User(string name, int id)
+    public class User
     {
-        private string name { get; set; } = name;
-        private int id {  get; set; } = id;
+        public string EmailAddress { get; set; }
+        public string Name { get; set; }
+        public string ProfileImage { get; set; }
+        public string UserId { get; set; }
+        public string Role { get; set; }
+        private int Points { get; set; }
+
+        public void PointsAmount(int initialBalance)
+        {
+            Points = initialBalance;
+        }
+
+        public void Pointsreceive(int amount)
+        {
+            Points += amount;
+        }
+
+        public int SeeAmount(int amount)
+        {
+            return Points;
+        }
     }
 }
