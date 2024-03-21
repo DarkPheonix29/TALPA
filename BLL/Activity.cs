@@ -9,17 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
-    public class Activity(string name, string description, List<int> limitationIDs, User proposingUser, DateTime dateAdded)
+    public class Activity(string name, string description, List<Limit> limitations, User proposingUser, DateTime dateAdded)
     {
         private string Name { get; set; } = name;
         private string Description { get; set; } = description;
         private DateTime DateAdded { get; set; } = dateAdded;
-<<<<<<< HEAD
-        private List<int> Limitations { get; set; } = limitationIDs;
-=======
-
-        private List<Limits> Limitations = new List<Limits>();
->>>>>>> main
+        private List<Limit> Limitations { get; set; } = limitations;
         private User ProposingUser { get; set; } = proposingUser;
         private List<User> VotedUsers { get; set; }
 
@@ -34,20 +29,26 @@ namespace BLL
         }
         public void SubmitToDatabase()
         {
-            List<int> VoterId = new List<int>();
+            List<int> VoterId = new();
+            List<int> limitationIDs = new();
             if (!VotedUsers.IsNullOrEmpty() )
                 foreach (User user in VotedUsers)
                 {
-                    VoterId.Add(user.id);
+                    VoterId.Add(user.Id);
                 }
-            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitationIDs, ProposingUser.id);
+            if (!limitations.IsNullOrEmpty())
+                foreach (Limit limit in limitations)
+                {
+                    limitationIDs.Add(limit.Id);
+                }
+            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
         }
 
         public void CreateLimitations(List<string> limitations)
         {
             foreach (var limitation in limitations)
             {
-                Limitations.Add(new Limits { Description = limitation, Type = "" });
+                Limitations.Add(new Limit { Description = limitation, Type = "" });
             }
         }
     }

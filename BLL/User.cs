@@ -8,7 +8,7 @@ namespace BLL
 {
     public class User(string name, int id)
     {
-        private string name { get; set; } = name;
-        public int id { get; set; } = id;
+        public string Name { get; set; } = name;
+        public int Id { get; set; } = id;
     }
 }
