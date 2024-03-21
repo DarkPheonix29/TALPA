@@ -9,16 +9,18 @@ namespace DAL
 {
     public class SubmitUser
     {
-        public static void UserSubmit(string name)
+        public static void UserSubmit(string email)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = $"INSERT INTO user (username) VALUES (@Name)";
+                string query = $"INSERT INTO [user] (username) OUTPUT INSERTED.id VALUES (@Email)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
                     {
-                        command.Parameters.AddWithValue("@Name", name);
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        connection.Open();
 
                         int userId = (int)command.ExecuteScalar();
                         Console.WriteLine(userId.ToString());

@@ -8,12 +8,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
-    public class Activity(string name, string description, List<string> limitations, User proposingUser, DateTime dateAdded)
+    public class Activity(string name, string description, List<int> limitationIDs, User proposingUser, DateTime dateAdded)
     {
         private string Name { get; set; } = name;
         private string Description { get; set; } = description;
         private DateTime DateAdded { get; set; } = dateAdded;
-        private List<string> Limitations { get; set; } = limitations;
+        private List<int> Limitations { get; set; } = limitationIDs;
         private User ProposingUser { get; set; } = proposingUser;
         private List<User> VotedUsers { get; set; }
 
@@ -34,7 +34,7 @@ namespace BLL
                 {
                     VoterId.Add(user.id);
                 }
-            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitations, ProposingUser.id, VoterId);
+            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitationIDs, ProposingUser.id);
         }
     }
 }
