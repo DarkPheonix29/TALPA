@@ -10,8 +10,12 @@ namespace UnitTests
         [TestMethod]
         public void Activity_submit()
         {
-            //Arrange
-            BLL.User user = new User("Bob", 1);
+			//Arrange
+
+			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			DAL.ConnectionManager.Initialize(connectionString);
+
+			BLL.User user = new User("Bob", 1);
             List<string> limitations = new List<string>();
             limitations.Add("limitation1");
             limitations.Add("limitation2");

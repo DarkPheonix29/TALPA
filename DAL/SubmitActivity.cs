@@ -21,7 +21,7 @@ namespace DAL
                 {
                     try
                     {
-                        command.Parameters.AddWithValue("@Data", name);
+                        command.Parameters.AddWithValue("@Name", name);
                         command.Parameters.AddWithValue("@Description", description);
                         command.Parameters.AddWithValue("@Proposing_user", proposingUserId);
                         command.Parameters.AddWithValue("@Date_added", dateAdded);
