@@ -27,10 +27,10 @@ namespace UnitTests
 			DAL.ConnectionManager.Initialize(connectionString);
 
 			BLL.User user = new User("Ben", 2);
-            List<Limit> limitations = new();
-            limitations.Add(new Limit(1,"testLimit1","test"));
-            limitations.Add(new Limit(2,"testLimit2","test"));
-            limitations.Add(new Limit(3,"testLimit3","test"));
+            List<LimitationTypes> limitations = new();
+            limitations.Add((LimitationTypes)1);
+            limitations.Add((LimitationTypes)2);
+            limitations.Add((LimitationTypes)5);
             BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, user, DateTime.Now);
             //Act
 

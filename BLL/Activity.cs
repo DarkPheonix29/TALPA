@@ -9,12 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL
 {
-    public class Activity(string name, string description, List<Limit> limitations, User proposingUser, DateTime dateAdded)
+    public class Activity(string name, string description, List<LimitationTypes> limitations, User proposingUser, DateTime dateAdded)
     {
         private string Name { get; set; } = name;
         private string Description { get; set; } = description;
         private DateTime DateAdded { get; set; } = dateAdded;
-        private List<Limit> Limitations { get; set; } = limitations;
+        private List<LimitationTypes> Limitations { get; set; } = limitations;
         private User ProposingUser { get; set; } = proposingUser;
         private List<User> VotedUsers { get; set; }
 
@@ -37,19 +37,11 @@ namespace BLL
                     VoterId.Add(user.Id);
                 }
             if (!limitations.IsNullOrEmpty())
-                foreach (Limit limit in limitations)
+                foreach (LimitationTypes limit in limitations)
                 {
-                    limitationIDs.Add(limit.Id);
+                    limitationIDs.Add((int)limit);
                 }
             SubmitActivity.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
-        }
-
-        public void CreateLimitations(List<string> limitations)
-        {
-            foreach (var limitation in limitations)
-            {
-                Limitations.Add(new Limit { Description = limitation, Type = "" });
-            }
         }
     }
 }

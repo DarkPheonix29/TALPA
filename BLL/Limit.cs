@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class Limit(int id, string description, string type)
+    public class Limit(int id, string type)
     {
         public int Id { get; set; } = id;
 
-        public string Description { get; set; } = description;
-
         public string Type { get; set; } = type;
-
 
     }
 }
