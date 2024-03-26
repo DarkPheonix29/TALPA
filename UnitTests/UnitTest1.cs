@@ -15,7 +15,7 @@ namespace UnitTests
             string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
             DAL.ConnectionManager.Initialize(connectionString);
             //Act
-            DAL.SubmitUser.UserSubmit("Ben");
+            DAL.SubmitUser.UserSubmit("ben@gmail.com");
             //Assert
         }
         [TestMethod]
@@ -26,7 +26,7 @@ namespace UnitTests
 			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
-			BLL.User user = new User("Ben", 2);
+			BLL.User user = new User("ben@gmail.com", 9);
             List<LimitationTypes> limitations = new();
             limitations.Add((LimitationTypes)1);
             limitations.Add((LimitationTypes)2);
