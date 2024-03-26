@@ -54,7 +54,8 @@ namespace DAL
                     {
                         try
                         {
-                            command.Parameters.AddWithValue("@ActivityId", activityId);
+	                        command.Parameters.Clear();
+							command.Parameters.AddWithValue("@ActivityId", activityId);
                             command.Parameters.AddWithValue("@LimitationId", id);
 
                             command.ExecuteNonQuery();
