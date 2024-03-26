@@ -16,10 +16,11 @@ namespace DAL
             {
                 try
                 {
-                    connection.Open();
-
                     var tableNames = new List<string>();
-                    DataTable schema = connection.GetSchema("Tables");
+
+					connection.Open();
+
+					DataTable schema = connection.GetSchema("Tables");
                     foreach (DataRow row in schema.Rows)
                     {
                         tableNames.Add(row["TABLE_NAME"].ToString());

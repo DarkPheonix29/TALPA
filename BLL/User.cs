@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    internal class User(string name, int id)
+    public class User(string name, int id)
     {
-        private string name { get; set; } = name;
-        private int id {  get; set; } = id;
+        public string Name { get; set; } = name;
+        public int Id { get; set; } = id;
     }
 }
