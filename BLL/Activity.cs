@@ -34,14 +34,14 @@ namespace BLL
             if (!VotedUsers.IsNullOrEmpty() )
                 foreach (User user in VotedUsers)
                 {
-                    VoterId.Add(user.id);
+                    VoterId.Add(user.Id);
                 }
             if (!limitations.IsNullOrEmpty())
                 foreach (LimitationTypes limit in limitations)
                 {
                     limitationIDs.Add((int)limit);
                 }
-            ActivityDataManager.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.id);
+            ActivityDataManager.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
         }
 
         //public Activity getActivityFromDB(int id)
