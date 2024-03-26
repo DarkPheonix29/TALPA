@@ -34,21 +34,21 @@ namespace BLL
             if (!VotedUsers.IsNullOrEmpty() )
                 foreach (User user in VotedUsers)
                 {
-                    VoterId.Add(user.Id);
+                    VoterId.Add(user.id);
                 }
             if (!limitations.IsNullOrEmpty())
                 foreach (LimitationTypes limit in limitations)
                 {
                     limitationIDs.Add((int)limit);
                 }
-            ActivityDataManager.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
+            ActivityDataManager.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.id);
         }
 
-        public Activity getActivityFromDB(int id)
-        {
-	        ActivityDataManager.GetActivity(id);
-	        Activity activity = new();
-	        return activity;
-        }
+        //public Activity getActivityFromDB(int id)
+        //{
+	       // ActivityDataManager.GetActivity(id);
+	       // Activity activity = new();
+	       // return activity;
+        //}
     }
 }
