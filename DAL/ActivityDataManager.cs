@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class SubmitActivity
+    public class ActivityDataManager
     {
         public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, int proposingUserId)
         {
@@ -94,5 +94,33 @@ namespace DAL
                 }
             }
         }
-    }
+        public static DataTable GetActivity(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT * FROM Activity WHERE {id} = @ActivityId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+                        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+						DataTable dt = new();
+						using (SqlDataAdapter da = new(command))
+				        {
+					        da.Fill(dt);
+				        }
+
+				        return dt;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error fetching activity.", ex);
+			        }
+				}
+	        }
+        }
+	}
 }

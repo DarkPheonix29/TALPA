@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class SubmitUser
+    public class UserDataManager
     {
         public static void UserSubmit(string email)
         {

@@ -41,7 +41,14 @@ namespace BLL
                 {
                     limitationIDs.Add((int)limit);
                 }
-            SubmitActivity.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
+            ActivityDataManager.ActivitySubmit(name, description, dateAdded, limitationIDs , ProposingUser.Id);
+        }
+
+        public Activity getActivityFromDB(int id)
+        {
+	        ActivityDataManager.GetActivity(id);
+	        Activity activity = new();
+	        return activity;
         }
     }
 }
