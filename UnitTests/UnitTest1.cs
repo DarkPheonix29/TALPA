@@ -43,10 +43,12 @@ namespace UnitTests
         [TestMethod]
         public void Get_Activity()
         {
-	        //Arrange
+			//Arrange
+			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			DAL.ConnectionManager.Initialize(connectionString);
 
-	        //Act
-	        DataTable dt = DAL.ActivityDataManager.GetActivity(9);
+			//Act
+			DataTable dt = DAL.ActivityDataManager.GetActivity(9);
 
 			DataRow row = dt.Rows[0];
             foreach (DataColumn column in dt.Columns)
