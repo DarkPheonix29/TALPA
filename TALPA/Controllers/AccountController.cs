@@ -20,7 +20,6 @@ namespace TALPA.Controllers
                 .Build();
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
-            Console.WriteLine($"{User.Identity.Name}");
 		}
 
         [Authorize]
