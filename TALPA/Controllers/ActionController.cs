@@ -21,7 +21,39 @@ namespace TALPA.Controllers
                 {
                     restrictionString += $"{restriction}, ";
                 }
-                return Content($"Activity: {model.Activity} <br> Restrictions: {restrictionString}");
+                return Content($"Activity: {model.Activity} | Restrictions: {restrictionString}");
+            }
+            return Content("error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MakeChoice(ChoiceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string availableDatesString = "";
+                foreach (var availableDate in model.AvailableDates)
+                {
+                    availableDatesString += $"{availableDate}, ";
+                }
+                return Content($"Activity: {model.Activity} | Available Date: {availableDatesString}");
+            }
+            return Content("error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeAvailability(ChangeAvailabilityViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string availabilityString = "";
+                foreach (var availableDate in model.AvailableDates)
+                {
+                    availabilityString += $"{availableDate}, ";
+                }
+                return Content($"New Availability: {availabilityString}");
             }
             return Content("error");
         }

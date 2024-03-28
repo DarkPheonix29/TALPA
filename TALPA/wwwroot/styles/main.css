@@ -49,3 +49,11 @@ html, body {
 .clickable {
     cursor: pointer;
 }
+
+.invalid {
+    color: rgb(186, 28, 28) !important;
+}
+
+.dropdown-menu {
+    width: 300px !important;
+}

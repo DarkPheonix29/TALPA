@@ -5,9 +5,6 @@
 
 @model TALPA.Models.UserProfile
 
-@Model.EmailAddress
-@Model.Role
-
 <div class="container-fluid main d-flex flex-column justify-content-center px-md-5">
     <div class="row">
         <h1 class="title">Dashboard</h1>
@@ -28,7 +25,7 @@
                                 <td>
                                     <div class="row px-2">
                                         <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
-                                            <h2><i class="bi bi-check-square clickable" id="selectOption1"></i></h2>
+                                            <h2><i class="bi bi-check-square clickable selectOption" id="selectOption1"></i></h2>
                                         </div>
                                         <div class="col p-0 text-left">
                                             <h3 id="selectOption1Name">Paintball</h3>
@@ -41,7 +38,7 @@
                                 <td>
                                     <div class="row px-2">
                                         <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
-                                            <h2><i class="bi bi-square clickable" id="selectOption2"></i></h2>
+                                            <h2><i class="bi bi-square clickable selectOption" id="selectOption2"></i></h2>
                                         </div>
                                         <div class="col p-0 text-left">
                                             <h3 id="selectOption2Name">Voetballen</h3>
@@ -54,7 +51,7 @@
                                 <td>
                                     <div class="row px-2">
                                         <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
-                                            <h2><i class="bi bi-square clickable" id="selectOption3"></i></h2>
+                                            <h2><i class="bi bi-square clickable selectOption" id="selectOption3"></i></h2>
                                         </div>
                                         <div class="col p-0 text-left">
                                             <h3 id="selectOption3Name">Zwemmen</h3>
@@ -190,7 +187,7 @@
                         </div>
                         <div class="form-group">
                             <label for="restrictionsInput">Beperkingen</label>
-                            <select class="form-select" id="restrictionsInput" data-placeholder="Kies Beperkingen" multiple name="Restrictions">
+                            <select class="form-select" id="restrictionsInput" data-placeholder="Kies Beperkingen" name="Restrictions" multiple>
                                 <option>Mobility</option>
                                 <option>Time</option>
                                 <option>Intellect</option>
@@ -215,21 +212,26 @@
     <div class="modal fade" id="makeChoice" tabindex="-1" aria-labelledby="makeChoiceLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title" id="makeChoiceLabel">Keuze Maken: <span id="choiceName"></span></h5>
-                </div>
-                <div class="modal-body mb-0 pb-0">
-                    <div class="form-group">
-                        <label for="dateInput">Beschikbare Dagen</label>
-                        <input type="text" class="form-control py-4 scrollInput" id="dateInput" placeholder="Selecteer Beschikbare Dagen" disabled>
+                <form asp-controller="Action" asp-action="MakeChoice" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title" id="makeChoiceLabel">Keuze Maken: <span id="choiceName"></span></h5>
+                        <input type="text" id="activity" name="activity" hidden />
                     </div>
-                    <div id="datepicker" class="d-flex justify-content-center text-center" name="dates"></div>
-                    <p class="text-muted text-right mb-0 mt-3">Deze Keuze Is Definitief.</p>
-                </div>
-                <div class="modal-footer mt-0 pt-2">
-                    <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
-                    <button type="button" class="btn">Keuze Maken</button>
-                </div>
+                    <div class="modal-body mb-0 pb-0">
+                        <div class="form-group">
+                            <label for="dateInput">Beschikbare Dagen</label>
+                            <input type="text" class="form-control py-4 scrollInput" id="dateInput" placeholder="Selecteer Beschikbare Dagen" disabled>
+                            <select id="availableDates" name="availableDates" multiple hidden></select>
+                        </div>
+                        <div id="datepicker" class="d-flex justify-content-center text-center" name="dates"></div>
+                        <p class="text-muted text-right mb-0 mt-3 invalid">Deze Keuze Is Definitief.</p>
+                    </div>
+                    <div class="modal-footer mt-0 pt-2">
+                        <button type="button" class="btn btn-close" data-dismiss="modal" data-bs-dismiss="modal">Annuleer</button>
+                        <button type="submit" class="btn">Keuze Maken</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -237,20 +239,24 @@
     <div class="modal fade" id="changeAvailability" tabindex="-1" aria-labelledby="changeAvailabilityLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title" id="changeAvailabilityLabel">Beschikbaarheid Aanpassen</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="dateInput">Beschikbare Dagen</label>
-                        <input type="text" class="form-control py-4 scrollInput" id="dateInput2" placeholder="Selecteer Beschikbare Dagen" disabled>
+                <form asp-controller="Action" asp-action="ChangeAvailability" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title" id="changeAvailabilityLabel">Beschikbaarheid Aanpassen</h5>
                     </div>
-                    <div id="datepicker2" class="d-flex justify-content-center text-center" name="dates"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
-                    <button type="button" class="btn">Beschikbaarheid Opslaan</button>
-                </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="dateInput">Beschikbare Dagen</label>
+                            <input type="text" class="form-control py-4 scrollInput" id="dateInput2" placeholder="Selecteer Beschikbare Dagen" disabled>
+                            <select id="availableDates2" name="availableDates" multiple hidden></select>
+                        </div>
+                        <div id="datepicker2" class="d-flex justify-content-center text-center" name="dates"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
+                        <button type="submit" class="btn">Beschikbaarheid Opslaan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
