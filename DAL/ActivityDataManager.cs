@@ -122,5 +122,34 @@ namespace DAL
 				}
 	        }
         }
+
+        public static DataTable GetLimitations(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT * FROM activity_limitation WHERE activity_id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+				        DataTable dt = new();
+				        using (SqlDataAdapter da = new(command))
+				        {
+					        da.Fill(dt);
+				        }
+
+				        return dt;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error fetching activity.", ex);
+			        }
+		        }
+	        }
+		}
 	}
 }
