@@ -1,3 +1,4 @@
+using System.Data;
 using System.Diagnostics;
 using BLL;
 using Activity = BLL.Activity;
@@ -15,7 +16,7 @@ namespace UnitTests
             string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
             DAL.ConnectionManager.Initialize(connectionString);
             //Act
-            DAL.SubmitUser.UserSubmit("ben@gmail.com");
+            DAL.UserDataManager.UserSubmit("ben@gmail.com");
             //Assert
         }
         [TestMethod]
@@ -38,5 +39,23 @@ namespace UnitTests
 
             //Assert
         }
+
+        [TestMethod]
+        public void Get_Activity()
+        {
+			//Arrange
+			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			DAL.ConnectionManager.Initialize(connectionString);
+
+			//Act
+			DataTable dt = DAL.ActivityDataManager.GetActivity(9);
+
+			DataRow row = dt.Rows[0];
+            foreach (DataColumn column in dt.Columns)
+            {
+	            Console.WriteLine($"{column.ColumnName}: {row[column]}");
+            }
+			//Assert
+		}
     }
 }
