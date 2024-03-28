@@ -20,8 +20,7 @@ namespace TALPA.Controllers
                 .Build();
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
-            Console.WriteLine($"{User.Identity.Name}");
-		}
+        }
 
         [Authorize]
         public async Task Logout()
@@ -62,7 +61,7 @@ namespace TALPA.Controllers
 		{
             var UserProfile = new UserProfile
             {
-				UserName = User.Identity.Name,
+				Name = User.Identity.Name,
 				EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
 				ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
