@@ -1,6 +1,6 @@
 @font-face {
     font-family: sourceSansPro;
-    src: url(../fonts/source-sans-pro.regular.ttf);
+    src: url(source-sans-pro.regular.ttf);
 }
 
 html, body {
@@ -13,6 +13,15 @@ html, body {
     background-color: #efefef !important;
 }
 
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #acacac;
+}
+
 .navbar {
     color: #000;
     border-bottom: 1px solid #d2d2d2;
@@ -20,8 +29,23 @@ html, body {
     box-shadow: 0 0.5px 1px rgba(0,0,0,0.25);
     font-weight: bold;
     z-index: 999;
+    position: static !important;
+    top: 0;
 }
 
 .main {
     background-color: #00000000;
+    height: 80%;
+}
+
+.currentPage {
+    color: #5236AB !important;
+}
+
+.nav-link:hover {
+    color: #5236AB !important;
+}
+
+.clickable {
+    cursor: pointer;
 }

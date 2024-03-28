@@ -1,32 +1,173 @@
 ﻿@{
-	Layout = "_HomeLayout";
-	ViewData["Title"] = "User Profile";
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Dashboard";
 }
 
 @model TALPA.Models.UserProfile
 
-<h1>@ViewData["Title"]</h1>
+@Model.EmailAddress
+@Model.Role
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="row">
-			<h2>@ViewData["title"].</h2>
-			<div class="col-md-2">
-				<img src="@Model.ProfileImage"
-					 alt="" style="height:100px;width:100px" class="img-rounded img-responsive" />
-			</div>
-			<div class="col-md-4">
-				<h3>@Model.Name</h3>
+<div class="container-fluid main d-flex flex-column justify-content-center px-md-5">
+    <div class="row">
+        <h1 class="title">Dashboard</h1>
+    </div>
+    <div class="row content-row h-75">
+        <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
+            @if (true)
+            {
+                
+            }
+            <h2 class="subtitle mb-3">Aankomend Uitje</h2>
+            <div class="tableLine"></div>
+            <div class="overflow-auto card1-text py-3">
+                <h3>Paintball</h3>
+                <p>
+                    Wij nodigen jullie uit voor ons aankomende bedrijfsuitje op [datum]. We zullen elkaar ontmoeten bij de achteringang van het gebouw om 9:00 uur. Van daaruit gaan we samen op pad voor een dag vol avontuur en teambuilding.
+                    <br><br>
+                    Tijdens dit uitje wordt er gezorgd voor een heerlijke lunch, dus je hoeft je geen zorgen te maken over eten. Het belooft een dag vol plezier en gezelligheid te worden, waarbij we de banden tussen collega's versterken en nieuwe herinneringen creëren.
+                    <br><br>
+                    We verwachten terug te zijn bij de achteringang van het gebouw rond 18:00 uur. Zorg ervoor dat je op tijd aanwezig bent, zodat we gezamenlijk kunnen vertrekken en optimaal van deze dag kunnen genieten.
+                    <br><br>
+                    Tot dan!
+                </p>
+                <p href="#" class="text-muted mb-3"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Locatie: </span> Rachelsmolen 1, 5612 MA Eindhoven</p>
+            </div>
+        </div>
+        <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
+            <h2 class="subtitle mb-3 d-block d-sm-inline">Mijn Suggesties</h2>
+            <button type="button" class="btn d-block d-sm-inline float-sm-right" data-toggle="modal" data-target="#suggestionModal">Suggestie Maken</button>
+            <div class="overflow-auto card2-text">
+                <table class="table table-striped table-borderless align-middle h-100 mb-0">
+                    <thead class="sticky-top top-0">
+                        <tr class="bg-white">
+                            <th scope="col" class="w-25">Suggestie</th>
+                            <th scope="col" class="text-center">Geselecteerd</th>
+                            <th scope="col" class="text-center">Stemmen</th>
+                            <th scope="col" class="text-center">Gekozen</th>
+                        </tr>
+                        <tr class="tableLine">
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="tableRow">Bowlen</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Darten</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Karten</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Voetballen</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Racen</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Grai Maaien</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Lopen</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="tableRow">Zwemmen</th>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="bg-white fixed-bottom bottom-0 position-sticky">
+                        <tr class="tableLine">
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                            <th class="p-0"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col" class="w-25">Totaal</th>
+                            <th scope="col" class="text-center">7</th>
+                            <th scope="col" class="text-center">4</th>
+                            <th scope="col" class="text-center">2</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
 
-				<p>
-					@Model.UserId
-
-					<i class="glyphicon glyphicon-envelope"></i> @Model.EmailAddress
-				</p>
-				<p>
-					@Model.Role
-				</p>
-			</div>
-		</div>
-	</div>
+    <div class="modal fade" id="suggestionModal" tabindex="-1" aria-labelledby="suggestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="suggestionModalLabel">Maak Een Suggestie</h5>
+                </div>
+                <form asp-controller="Action" asp-action="CreateSuggestion" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="activityInput">Activiteit</label>
+                            <input type="text" class="form-control py-4" id="activityInput" placeholder="Kies een activiteit" name="Activity">
+                        </div>
+                        <div class="form-group">
+                            <label for="restrictionsInput">Beperkingen</label>
+                            <select class="form-select" id="restrictionsInput" data-placeholder="Kies Beperkingen" multiple name="Restrictions">
+                                <option>Christmas Island</option>
+                                <option>South Sudan</option>
+                                <option>Jamaica</option>
+                                <option>Kenya</option>
+                                <option>French Guiana</option>
+                                <option>Mayotta</option>
+                                <option>Liechtenstein</option>
+                                <option>Denmark</option>
+                                <option>Eritrea</option>
+                                <option>Gibraltar</option>
+                                <option>Saint Helena, Ascension and Tristan da Cunha</option>
+                                <option>Haiti</option>
+                                <option>Namibia</option>
+                                <option>South Georgia and the South Sandwich Islands</option>
+                                <option>Vietnam</option>
+                                <option>Yemen</option>
+                                <option>Philippines</option>
+                                <option>Benin</option>
+                                <option>Czech Republic</option>
+                                <option>Russia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
+                        <button type="submit" class="btn">Maak Suggestie</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
