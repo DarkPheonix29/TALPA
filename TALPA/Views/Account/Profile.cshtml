@@ -14,26 +14,78 @@
     </div>
     <div class="row content-row h-75">
         <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
+
             @if (true)
             {
-                
+                <h2 class="subtitle mb-3 d-block d-sm-inline">Stem Op Een Uitje</h2>
+                <button type="button" class="btn d-block d-sm-inline float-sm-right" data-toggle="modal" data-target="#changeAvailability">Beschikbaarheid Aanpassen</button>
+                <p href="#" class="text-muted my-2"><span class="font-weight-bold">Deadline: </span>20 april 17:00</p>
+                <div class="tableLine"></div>
+                <div class="card1-text">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
+                                            <h2><i class="bi bi-check-square clickable" id="selectOption1"></i></h2>
+                                        </div>
+                                        <div class="col p-0 text-left">
+                                            <h3 id="selectOption1Name">Paintball</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
+                                            <h2><i class="bi bi-square clickable" id="selectOption2"></i></h2>
+                                        </div>
+                                        <div class="col p-0 text-left">
+                                            <h3 id="selectOption2Name">Voetballen</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col-2 col-md-1 p-0 d-flex justify-content-center align-items-center mr-3">
+                                            <h2><i class="bi bi-square clickable" id="selectOption3"></i></h2>
+                                        </div>
+                                        <div class="col p-0 text-left">
+                                            <h3 id="selectOption3Name">Zwemmen</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             }
-            <h2 class="subtitle mb-3">Aankomend Uitje</h2>
-            <div class="tableLine"></div>
-            <div class="overflow-auto card1-text py-3">
-                <h3>Paintball</h3>
-                <p>
-                    Wij nodigen jullie uit voor ons aankomende bedrijfsuitje op [datum]. We zullen elkaar ontmoeten bij de achteringang van het gebouw om 9:00 uur. Van daaruit gaan we samen op pad voor een dag vol avontuur en teambuilding.
-                    <br><br>
-                    Tijdens dit uitje wordt er gezorgd voor een heerlijke lunch, dus je hoeft je geen zorgen te maken over eten. Het belooft een dag vol plezier en gezelligheid te worden, waarbij we de banden tussen collega's versterken en nieuwe herinneringen creëren.
-                    <br><br>
-                    We verwachten terug te zijn bij de achteringang van het gebouw rond 18:00 uur. Zorg ervoor dat je op tijd aanwezig bent, zodat we gezamenlijk kunnen vertrekken en optimaal van deze dag kunnen genieten.
-                    <br><br>
-                    Tot dan!
-                </p>
-                <p href="#" class="text-muted mb-3"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
-                <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Locatie: </span> Rachelsmolen 1, 5612 MA Eindhoven</p>
-            </div>
+            else {
+                <h2 class="subtitle mb-3">Aankomend Uitje</h2>
+                <div class="tableLine"></div>
+                <div class="overflow-auto card1-text py-3">
+                    <h3>Paintball</h3>
+                    <p>
+                        Wij nodigen jullie uit voor ons aankomende bedrijfsuitje op [datum]. We zullen elkaar ontmoeten bij de achteringang van het gebouw om 9:00 uur. Van daaruit gaan we samen op pad voor een dag vol avontuur en teambuilding.
+                        <br><br>
+                        Tijdens dit uitje wordt er gezorgd voor een heerlijke lunch, dus je hoeft je geen zorgen te maken over eten. Het belooft een dag vol plezier en gezelligheid te worden, waarbij we de banden tussen collega's versterken en nieuwe herinneringen creëren.
+                        <br><br>
+                        We verwachten terug te zijn bij de achteringang van het gebouw rond 18:00 uur. Zorg ervoor dat je op tijd aanwezig bent, zodat we gezamenlijk kunnen vertrekken en optimaal van deze dag kunnen genieten.
+                        <br><br>
+                        Tot dan!
+                    </p>
+                    <p href="#" class="text-muted mb-3"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                    <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Locatie: </span> Rachelsmolen 1, 5612 MA Eindhoven</p>
+                </div>
+            }
+
         </div>
         <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
             <h2 class="subtitle mb-3 d-block d-sm-inline">Mijn Suggesties</h2>
@@ -159,4 +211,53 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="makeChoice" tabindex="-1" aria-labelledby="makeChoiceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="makeChoiceLabel">Keuze Maken: <span id="choiceName"></span></h5>
+                </div>
+                <div class="modal-body mb-0 pb-0">
+                    <div class="form-group">
+                        <label for="dateInput">Beschikbare Dagen</label>
+                        <input type="text" class="form-control py-4 scrollInput" id="dateInput" placeholder="Selecteer Beschikbare Dagen" disabled>
+                    </div>
+                    <div id="datepicker" class="d-flex justify-content-center text-center" name="dates"></div>
+                    <p class="text-muted text-right mb-0 mt-3">Deze Keuze Is Definitief.</p>
+                </div>
+                <div class="modal-footer mt-0 pt-2">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
+                    <button type="button" class="btn">Keuze Maken</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeAvailability" tabindex="-1" aria-labelledby="changeAvailabilityLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="changeAvailabilityLabel">Beschikbaarheid Aanpassen</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dateInput">Beschikbare Dagen</label>
+                        <input type="text" class="form-control py-4 scrollInput" id="dateInput2" placeholder="Selecteer Beschikbare Dagen" disabled>
+                    </div>
+                    <div id="datepicker2" class="d-flex justify-content-center text-center" name="dates"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
+                    <button type="button" class="btn">Beschikbaarheid Opslaan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="~/scripts/multiSelect.js"></script>
+<script src="~/scripts/calendar.js"></script>
+<script src="~/scripts/makeChoice.js"></script>
