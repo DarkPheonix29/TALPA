@@ -61,8 +61,8 @@ namespace TALPA.Controllers
 		{
             var UserProfile = new UserProfile
             {
-				UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
-				EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
 				ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
 			};
