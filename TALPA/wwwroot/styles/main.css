@@ -1,6 +1,6 @@
 @font-face {
     font-family: sourceSansPro;
-    src: url(source-sans-pro.regular.ttf);
+    src: url(../fonts/source-sans-pro.regular.ttf);
 }
 
 html, body {
@@ -48,4 +48,12 @@ html, body {
 
 .clickable {
     cursor: pointer;
+}
+
+.invalid {
+    color: rgb(186, 28, 28) !important;
+}
+
+.dropdown-menu {
+    width: 300px !important;
 }
