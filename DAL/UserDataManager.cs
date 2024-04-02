@@ -14,7 +14,7 @@ namespace DAL
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = $"INSERT INTO [user] (id) OUTPUT INSERTED.id VALUES (@Id)";
+                string query = $"INSERT INTO [user] (id) INSERTED.id VALUES (@Id)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
