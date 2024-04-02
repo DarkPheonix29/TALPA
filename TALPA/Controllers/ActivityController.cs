@@ -26,7 +26,7 @@ namespace TALPA.Controllers
                     limitationList.Add(limitatio);
                 }
                 ActivityManager am = new();
-                Activity activity = new(model.Activity, "", limitationList, user.UserId, DateTime.Now);
+                Activity activity = new(model.Activity, "", limitationList, HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, DateTime.Now);
                 am.SubmitToDatabase(activity);
                 return Content("succes");
             }

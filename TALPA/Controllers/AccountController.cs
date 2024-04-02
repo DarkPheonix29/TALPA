@@ -29,6 +29,21 @@ namespace TALPA.Controllers
             //check user.isauthenticated
             //check by email if database record exists
             //if not, call method to add new user based on claims
+            if(User.Identities.Any())
+            {
+                //get matching email from database from claims
+                string idInDB = DAL.UserDataManager.GetUser(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value).Columns["id"].ToString();
+                if (idInDB == null)
+                {
+					//add user to database
+					Console.WriteLine("User not found in database. Adding user.");
+                    DAL.UserDataManager.UserSubmit(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+				}
+                else
+                {
+                    Console.WriteLine($"User found in database. Matching ID: {idInDB}");
+                }
+            }
             return Redirect("/");
         }
 
