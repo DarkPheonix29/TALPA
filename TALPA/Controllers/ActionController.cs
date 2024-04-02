@@ -25,11 +25,42 @@ namespace TALPA.Controllers
                     Enum.TryParse("Active", out LimitationTypes limitatio);
                     limitationList.Add(limitatio);
                 }
-                
                 ActivityManager am = new();
                 Activity activity = new(model.Activity, "", limitationList, user.UserId, DateTime.Now);
                 am.SubmitToDatabase(activity);
                 return Content("succes");
+            }
+            return Content("error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MakeChoice(ChoiceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string availableDatesString = "";
+                foreach (var availableDate in model.AvailableDates)
+                {
+                    availableDatesString += $"{availableDate}, ";
+                }
+                return Content($"Activity: {model.Activity} | Available Date: {availableDatesString}");
+            }
+            return Content("error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeAvailability(ChangeAvailabilityViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string availabilityString = "";
+                foreach (var availableDate in model.AvailableDates)
+                {
+                    availabilityString += $"{availableDate}, ";
+                }
+                return Content($"New Availability: {availabilityString}");
             }
             return Content("error");
         }

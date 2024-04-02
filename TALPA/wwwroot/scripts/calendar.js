@@ -12,7 +12,8 @@ $(function () {
 
     var chosenAvailableDates = [
         "27/3/2024",
-        "28/3/2024"
+        "28/3/2024",
+        "21/4/2024"
     ]
 
     $.fn.datepicker.dates['nl'] = {
@@ -42,7 +43,16 @@ $(function () {
     $('#datepicker').on('changeDate', function() {
         $('#dateInput').val(
             $('#datepicker').datepicker('getFormattedDate')
-        );
+        ).change();
+
+        console.log("change")
+        var valuesArray = $('#datepicker').datepicker('getFormattedDate').split(', ');
+        $('#availableDates').empty();
+        $.each(valuesArray, function (index, value) {
+            var trimmedValue = value.trim();
+            $('#availableDates').append('<option value="' + trimmedValue + '">' + trimmedValue + '</option>');
+            $('#availableDates option[value="' + trimmedValue + '"]').prop('selected', true);
+        });
     });
 
     $('#datepicker2').datepicker({
@@ -59,12 +69,20 @@ $(function () {
     $('#datepicker2').on('changeDate', function() {
         $('#dateInput2').val(
             $('#datepicker2').datepicker('getFormattedDate')
-        );
+        ).change();
+
+        console.log("change2")
+        var valuesArray = $('#datepicker2').datepicker('getFormattedDate').split(', ');
+        $('#availableDates2').empty();
+        $.each(valuesArray, function (index, value) {
+            var trimmedValue = value.trim();
+            $('#availableDates2').append('<option value="' + trimmedValue + '">' + trimmedValue + '</option>');
+            $('#availableDates2 option[value="' + trimmedValue + '"]').prop('selected', true);
+        });
     });
 
     $("#changeAvailability").on('show.bs.modal', function(){
-        // TODO
-        $('#datepicker2').val("27/3/2024").datepicker("update");
+        LoadAvailability()
     });
 
     $("#changeAvailability").on('hide.bs.modal', function(){
@@ -120,5 +138,13 @@ $(function () {
         var newestDate = new Date(Math.max.apply(null, dateObjects));
         var differenceInMs = newestDate.getTime() - oldestDate.getTime();
         return Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+    }
+
+    function LoadAvailability() {
+        $('#datepicker2').datepicker('setDates', chosenAvailableDates);
+        $('#dateInput2').val(
+            $('#datepicker2').datepicker('getFormattedDate')
+        ).change();
+        $('#datepicker2').datepicker('updateViewDate', "21/5/2025");
     }
 })

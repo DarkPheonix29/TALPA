@@ -52,3 +52,7 @@ td.day, span.month, span.year {
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+.datepicker table tr td.active.today {
+    border-color: #000000 !important;
+}

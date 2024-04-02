@@ -23,26 +23,14 @@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item active pr-lg-5">
-                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                    </li>
-                    <li class="nav-item active pr-lg-5">
-                        <a class="nav-link" asp-controller="Account" asp-action="SignUp">Sign up</a>
+                        <a class="nav-link" href="/dashboard">Login</a>
                     </li>
                 }
                 @if (User.Identity.IsAuthenticated)
                 {
-                        <li class="nav-item active pr-lg-5">
-                            <a class="nav-link" href="/dashboard">Profile</a>
-                            </li>
-                        <li class="nav-item active pr-lg-5">
-                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item active pr-lg-5">
-                        <a class="nav-link" asp-controller="Home" asp-action="AdminPage">Admin page</a>
-                        </li>
-                    }
+                <li class="nav-item active pr-lg-5">
+                    <a class="nav-link" href="/dashboard">Profile</a>
+                </li>
                 }
             </ul>
         </div>

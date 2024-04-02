@@ -10,9 +10,11 @@ namespace TALPA.Controllers
 {
     public class AccountController : Controller
     {
-        public async Task Login(string returnUrl = "/")
+        public async Task Login()
         {
-            var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
+            var returnUrl = Url.Action(nameof(Auth0LoginCallback));
+
+			var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
                 // Indicate here where Auth0 should redirect the user after a login.
                 // Note that the resulting absolute Uri must be added to the
                 // **Allowed Callback URLs** settings for the app.
@@ -21,6 +23,14 @@ namespace TALPA.Controllers
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
 		}
+
+        public ActionResult Auth0LoginCallback()
+        {
+            //check user.isauthenticated
+            //check by email if database record exists
+            //if not, call method to add new user based on claims
+            return Redirect("/");
+        }
 
         [Authorize]
         public async Task Logout()
@@ -61,7 +71,7 @@ namespace TALPA.Controllers
 		{
             var UserProfile = new UserProfile
             {
-				UserName = User.Identity.Name,
+				UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
 				EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
 				ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
