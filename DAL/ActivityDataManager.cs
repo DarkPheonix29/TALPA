@@ -13,7 +13,7 @@ namespace DAL
 {
     public class ActivityDataManager
     {
-        public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, int proposingUserId)
+        public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -151,5 +151,6 @@ namespace DAL
 		        }
 	        }
 		}
+
 	}
 }

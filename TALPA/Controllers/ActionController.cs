@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TALPA.Models;
 using BLL;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TALPA.Controllers
 {
@@ -26,8 +27,7 @@ namespace TALPA.Controllers
                 }
                 
                 ActivityManager am = new();
-                User user = new();
-                Activity activity = new(model.Activity, "", limitationList, user, DateTime.Now);
+                Activity activity = new(model.Activity, "", limitationList, user.UserId, DateTime.Now);
                 am.SubmitToDatabase(activity);
                 return Content("succes");
             }

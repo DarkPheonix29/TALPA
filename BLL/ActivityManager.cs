@@ -13,7 +13,7 @@ namespace BLL
     {
         public void SubmitToDatabase(Activity activity)
         {
-            List<int> VoterId = new();
+            List<string> VoterId = new();
             List<int> limitationIDs = new();
             if (!activity.VotedUsers.IsNullOrEmpty())
                 foreach (User user in activity.VotedUsers)
@@ -25,7 +25,7 @@ namespace BLL
                 {
                     limitationIDs.Add((int)limit);
                 }
-            ActivityDataManager.ActivitySubmit(activity.Name, activity.Description, activity.DateAdded, limitationIDs, activity.ProposingUser.Id);
+            ActivityDataManager.ActivitySubmit(activity.Name, activity.Description, activity.DateAdded, limitationIDs, activity.ProposingUserId);
         }
         public Activity constructActivityFromDB(int id)
         {
@@ -40,8 +40,8 @@ namespace BLL
                 limitations.Add((LimitationTypes)limitationId);
             }
 
-            User proposingUser = new("", 0);
-            Activity activity = new(Convert.ToString(row["name"]), Convert.ToString(row["description"]), limitations, proposingUser.ConstructUserFromDB(Convert.ToInt32(row["proposing_user"])), Convert.ToDateTime(row["date_added"]));
+            UserManager proposingUser = new();
+            Activity activity = new(Convert.ToString(row["name"]), Convert.ToString(row["description"]), limitations, proposingUser.ConstructUserFromDB(Convert.ToString(row["proposing_user"])).Id, Convert.ToDateTime(row["date_added"]));
             return activity;
         }
     }
