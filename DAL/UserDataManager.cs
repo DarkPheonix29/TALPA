@@ -35,7 +35,7 @@ namespace DAL
             }
         }
 
-        public static DataTable GetUser(int id)
+        public static DataTable GetUser(string id)
         {
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{

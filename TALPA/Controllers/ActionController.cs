@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TALPA.Models;
+using BLL;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TALPA.Controllers
 {
@@ -12,16 +14,21 @@ namespace TALPA.Controllers
     {
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult CreateSuggestion(SuggestionViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string restrictionString = "";
-                foreach (var restriction in model.Restrictions)
+                List<LimitationTypes> limitationList = new();
+                foreach (var limitation in model.limitations)
                 {
-                    restrictionString += $"{restriction}, ";
+                    Enum.TryParse("Active", out LimitationTypes limitatio);
+                    limitationList.Add(limitatio);
                 }
-                return Content($"Activity: {model.Activity} | Restrictions: {restrictionString}");
+                ActivityManager am = new();
+                Activity activity = new(model.Activity, "", limitationList, user.UserId, DateTime.Now);
+                am.SubmitToDatabase(activity);
+                return Content("succes");
             }
             return Content("error");
         }

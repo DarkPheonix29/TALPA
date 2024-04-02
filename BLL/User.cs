@@ -8,17 +8,9 @@ using DAL;
 
 namespace BLL
 {
-    public class User(string name, int id)
+    public class User(string name, string id)
     {
         public string Name { get; set; } = name;
-        public int Id { get; set; } = id;
-
-        public User ConstructUserFromDB(int id)
-        {
-            DataTable dt = UserDataManager.GetUser(id);
-            DataRow row = dt.Rows[0];
-			User user = new(Convert.ToString(row["name"]), Convert.ToInt32(row["id"]));
-            return user;
-        }
+        public string Id { get; set; } = id;
     }
 }

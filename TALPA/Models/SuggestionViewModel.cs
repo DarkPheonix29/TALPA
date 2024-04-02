@@ -3,11 +3,11 @@
     public class SuggestionViewModel
     {
         public string Activity { get; set; }
-        public List<string> Restrictions { get; set; }
+        public List<string> limitations { get; set; }
 
         public SuggestionViewModel()
         {
-            Restrictions = new List<string>();
+            limitations = new List<string>();
         }
     }
 }
