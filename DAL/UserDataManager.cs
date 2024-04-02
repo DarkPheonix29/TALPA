@@ -14,7 +14,7 @@ namespace DAL
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = $"INSERT INTO [user] (id) INSERTED.id VALUES (@Id)";
+                string query = $"INSERT INTO [user] (id) VALUES (@Id)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
@@ -38,7 +38,7 @@ namespace DAL
         {
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "SELECT * FROM user WHERE id = @UserId";
+				string query = "SELECT * FROM [user] WHERE id = @UserId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
@@ -57,7 +57,7 @@ namespace DAL
 					catch (Exception ex)
 					{
 						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error fetching user.", ex);
+						return null;
 					}
 				}
 			}
