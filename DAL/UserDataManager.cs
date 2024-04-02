@@ -10,21 +10,20 @@ namespace DAL
 {
     public class UserDataManager
     {
-        public static void UserSubmit(string email)
+        public static void UserSubmit(string id)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = $"INSERT INTO [user] (email) OUTPUT INSERTED.id VALUES (@Email)";
+                string query = $"INSERT INTO [user] (id) OUTPUT INSERTED.id VALUES (@Id)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
                     {
-                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@id", id);
 
                         connection.Open();
 
-                        int userId = (int)command.ExecuteScalar();
-                        Console.WriteLine(userId.ToString());
+                        command.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
