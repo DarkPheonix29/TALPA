@@ -26,6 +26,7 @@ namespace TALPA.Controllers
 
         public ActionResult Auth0LoginCallback()
         {
+            return Redirect("/");
             if (User.Identity.IsAuthenticated)
             {
                 string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
