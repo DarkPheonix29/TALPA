@@ -176,7 +176,7 @@
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title" id="suggestionModalLabel">Maak Een Suggestie</h5>
                 </div>
-                <form asp-controller="Action" asp-action="CreateSuggestion" method="post">
+                <form asp-controller="Activity" asp-action="CreateSuggestion" method="post">
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="form-group">
@@ -210,7 +210,7 @@
     <div class="modal fade" id="makeChoice" tabindex="-1" aria-labelledby="makeChoiceLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form asp-controller="Action" asp-action="MakeChoice" method="post">
+                <form asp-controller="Activity" asp-action="MakeChoice" method="post">
                     @Html.AntiForgeryToken()
                     <div class="modal-header justify-content-center">
                         <h5 class="modal-title" id="makeChoiceLabel">Keuze Maken: <span id="choiceName"></span></h5>
@@ -237,7 +237,7 @@
     <div class="modal fade" id="changeAvailability" tabindex="-1" aria-labelledby="changeAvailabilityLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form asp-controller="Action" asp-action="ChangeAvailability" method="post">
+                <form asp-controller="Activity" asp-action="ChangeAvailability" method="post">
                     @Html.AntiForgeryToken()
                     <div class="modal-header justify-content-center">
                         <h5 class="modal-title" id="changeAvailabilityLabel">Beschikbaarheid Aanpassen</h5>
