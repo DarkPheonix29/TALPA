@@ -8,7 +8,7 @@ using TALPA.Models;
 
 namespace TALPA.Controllers
 {
-    public class AccountController : Controller
+	public class AccountController : Controller
     {
         public async Task Login()
         {
@@ -26,13 +26,21 @@ namespace TALPA.Controllers
 
         public ActionResult Auth0LoginCallback()
         {
-            //check user.isauthenticated
-            //check by email if database record exists
-            //if not, call method to add new user based on claims
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                System.Data.DataTable user = DAL.UserDataManager.GetUser(userId);
+
+                if (user == null)
+                {
+                    Console.WriteLine("User not found in database. Adding user.");
+                    DAL.UserDataManager.UserSubmit(userId);
+                }
+            }
             return Redirect("/");
         }
 
-        [Authorize]
+			[Authorize]
         public async Task Logout()
         {
             var authenticationProperties = new LogoutAuthenticationPropertiesBuilder()
