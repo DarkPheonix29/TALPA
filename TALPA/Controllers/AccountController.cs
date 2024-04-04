@@ -33,7 +33,6 @@ namespace TALPA.Controllers
 
                 if (user == null)
                 {
-                    Console.WriteLine("User not found in database. Adding user.");
                     DAL.UserDataManager.UserSubmit(userId);
                 }
             }
