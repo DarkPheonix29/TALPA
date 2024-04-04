@@ -15,6 +15,8 @@ namespace BLL
         public string Role { get; set; }
         private int Points { get; set; }
 
+
+
         public void PointsAmount(int initialBalance)
         {
             Points = initialBalance;
