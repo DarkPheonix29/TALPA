@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace BLL
         {
             DataTable dt = UserDataManager.GetUser(id);
             DataRow row = dt.Rows[0];
-            User user = new(Convert.ToString(row["name"]), Convert.ToString(row["id"]));
+            User user = new(Convert.ToInt32(row["points"]));
             return user;
         }
     }

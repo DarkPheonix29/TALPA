@@ -1,6 +1,6 @@
 ﻿namespace BLL
 {
-    public class User
+    public class User(int points)
     {
         public string EmailAddress { get; set; }
         public string Name { get; set; }
@@ -8,7 +8,7 @@
         public string UserId { get; set; }
         public string Role { get; set; }
         public string UserName { get; set; }
-        private int Points { get; set; }
+        private int Points { get; set; } = points;
 
 
 
