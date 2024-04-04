@@ -13,6 +13,7 @@ namespace BLL
         public string ProfileImage { get; set; }
         public string UserId { get; set; }
         public string Role { get; set; }
+        public string UserName { get; set; }
         private int Points { get; set; }
 
 
