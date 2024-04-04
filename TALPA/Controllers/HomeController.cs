@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 using TALPA.Models;
 
 namespace TALPA.Controllers
@@ -11,7 +12,14 @@ namespace TALPA.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var UserProfile = new UserProfile
+            {
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
+            };
+            return View(UserProfile);
         }
 
         public IActionResult Tables() 
