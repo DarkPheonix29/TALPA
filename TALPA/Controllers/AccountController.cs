@@ -75,7 +75,7 @@ namespace TALPA.Controllers
         }
 
 		[Authorize]
-		public IActionResult Profile()
+		public IActionResult Dashboard()
 		{
             var UserProfile = new UserProfile
             {

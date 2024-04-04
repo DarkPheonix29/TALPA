@@ -42,7 +42,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "dashboard",
     pattern: "dashboard",
-    defaults: new { controller = "Account", action = "Profile" }
+    defaults: new { controller = "Account", action = "Dashboard" }
 );
 
 app.Run();
