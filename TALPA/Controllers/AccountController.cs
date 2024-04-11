@@ -84,7 +84,55 @@ namespace TALPA.Controllers
 				ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
 			};
-			return View(UserProfile);
-		}
-	}
+
+            if (UserProfile.Role == "Admin")
+            {
+                return View("AdminDashboard", UserProfile);
+            }
+
+            if (UserProfile.Role == "Manager")
+            {
+                return View("ManagerDashboard", UserProfile);
+            }
+
+            return View("EmployeeDashboard", UserProfile);
+        }
+
+        [Authorize]
+        public IActionResult Employees()
+        {
+            var UserProfile = new UserProfile
+            {
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+            };
+
+            if (UserProfile.Role != "Manager" && UserProfile.Role != "Admin")
+            {
+                return Redirect("/dashboard");
+            }
+
+            return View(UserProfile);
+        }
+
+        public IActionResult CreatePoll()
+        {
+            var UserProfile = new UserProfile
+            {
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+            };
+
+            if (UserProfile.Role != "Manager" && UserProfile.Role != "Admin")
+            {
+                return Redirect("/dashboard");
+            }
+
+            return View(UserProfile);
+        }
+    }
 }

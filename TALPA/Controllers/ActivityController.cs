@@ -64,5 +64,16 @@ namespace TALPA.Controllers
             }
             return Content("error");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeDeadline(ChangeDeadlineViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return Content($"New Deadline: {model.DeadlineDate}");
+            }
+            return Content("error");
+        }
     }
 }
