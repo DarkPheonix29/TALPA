@@ -57,3 +57,11 @@ html, body {
 .dropdown-menu {
     width: 300px !important;
 }
+
+.vertical-center-box {
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
+}
