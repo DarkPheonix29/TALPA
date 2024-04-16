@@ -80,7 +80,7 @@
                 <div class="container mb-3">
                     <input type="text" id="searchInput" onkeyup="searchEmployees()" class="form-control" placeholder="Zoeken naar medewerker...">
                 </div>
-                <table class="table table-striped table-borderless align-middle h-100 mb-0">
+                <table id="employeeTable" class="table table-striped table-borderless align-middle h-100 mb-0">
                     <thead class="sticky-top top-0">
                         <tr class="bg-white">
                             <th scope="col" class="w-25">Naam</th>
@@ -89,14 +89,6 @@
                             <th scope="col" class="text-center">Suggesties Geselecteerd</th>
                             <th scope="col" class="text-center">Suggestie Stemmen</th>
                             <th scope="col" class="text-center">Suggesties Gekozen</th>
-                        </tr>
-                        <tr class="tableLine">
-                            <th class="p-0"></th>
-                            <th class="p-0"></th>
-                            <th class="p-0"></th>
-                            <th class="p-0"></th>
-                            <th class="p-0"></th>
-                            <th class="p-0"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -170,7 +162,7 @@
                         <tr>
                             <th scope="col" class="w-25">Totaal</th>
                             <th scope="col" class="text-center"></th>
-                            <th scope="col" class="text-center">0</th>
+                            <th id="totalPoints" scope="col" class="text-center">0</th>
                             <th scope="col" class="text-center">0</th>
                             <th scope="col" class="text-center">0</th>
                             <th scope="col" class="text-center">0</th>
@@ -238,6 +230,16 @@
             return 0;
         });
         table.tBodies[0].append(...sortedRows);
+
+        // Bereken totaal aantal punten
+        var totalPoints = 0;
+        rows.forEach(function (row) {
+            if (row.style.display !== "none") {
+                var points = parseInt(row.querySelector('td:nth-child(3)').textContent);
+                totalPoints += points;
+            }
+        });
+        document.getElementById('totalPoints').textContent = totalPoints;
     }
 </script>
 
