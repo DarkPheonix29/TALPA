@@ -159,17 +159,16 @@ namespace TALPA.Controllers
             }
 
             List<BLL.Models.Activity> activities = new List<BLL.Models.Activity>();
-            List<string> categories = new List<string>();
-            List<Restriction> restrictions = new List<Restriction>();
-            string description = string.Concat(Enumerable.Repeat("Description", 7));
-            for (int i = 1; i <= 3; i++)
-            {
-                categories.Add("Cata"+i);
-                restrictions.Add(new Restriction("restriction" + i, "description", "cata"));
-            }
-
             for (int i = 1; i <= 10; i++)
             {
+                List<string> categories = new List<string>();
+                List<Restriction> restrictions = new List<Restriction>();
+                string description = string.Concat(Enumerable.Repeat("Description", 7));
+                for (int j = 1; j <= 3; j++)
+                {
+                    categories.Add("Cata" + i);
+                    restrictions.Add(new Restriction("restriction" + i, "description", "cata"));
+                }
                 activities.Add(new BLL.Models.Activity(i, "Activiteit" + i, description, categories, restrictions));
             }
 

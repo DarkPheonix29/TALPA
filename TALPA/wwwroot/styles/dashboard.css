@@ -9,6 +9,13 @@
     margin-top: 0.5rem;
 }
 
+.card3-text {
+    height: 70%;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
 td {
     text-align: center;
     vertical-align: middle !important;
@@ -126,4 +133,8 @@ tfoot {
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-search {
     margin-top: 7px;
+}
+
+tr {
+    display: block;
 }
