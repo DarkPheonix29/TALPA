@@ -209,22 +209,36 @@
 
 <script>
     function searchEmployees() {
-
+        // Verkrijg de waarde van de zoekbalk
         var input = document.getElementById('searchInput');
         var filter = input.value.toUpperCase();
-        var employees = document.querySelectorAll('.employee');
 
-        employees.forEach(function (employee) {
-            var email = employee.querySelector('.employee-email').textContent.toUpperCase();
-            if (email.indexOf(filter) > -1) {
-                employee.style.display = "";
+        // Verkrijg alle rijen met de class 'employee'
+        var rows = document.querySelectorAll('.employee');
+
+        // Loop door elke rij en verberg degene die niet overeenkomen met de zoekterm
+        rows.forEach(function (row) {
+            var nameCell = row.querySelector('.tableRow');
+            var nameText = nameCell.textContent || nameCell.innerText;
+            if (nameText.toUpperCase().indexOf(filter) > -1) {
+                row.style.display = "";
             } else {
-                employee.style.display = "none";
+                row.style.display = "none";
             }
         });
+
+        // Sorteer de tabel op basis van de ingevoerde naam
+        var table = document.querySelector('.table');
+        var sortedRows = Array.from(rows).sort(function (a, b) {
+            var nameA = a.querySelector('.tableRow').textContent.trim().toUpperCase();
+            var nameB = b.querySelector('.tableRow').textContent.trim().toUpperCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        });
+        table.tBodies[0].append(...sortedRows);
     }
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="~/scripts/multiSelectManager.js"></script>
