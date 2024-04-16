@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Poll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BLL\\Poll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BLL\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\bll\\poll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:bll\\poll.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BLL\\Activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\bll\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:bll\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,6 +35,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Activity.cs",
+              "DocumentMoniker": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Activity.cs",
+              "RelativeDocumentMoniker": "BLL\\Activity.cs",
+              "ToolTip": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Activity.cs",
+              "RelativeToolTip": "BLL\\Activity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T12:52:35.103Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\User.cs",
               "RelativeDocumentMoniker": "BLL\\User.cs",
@@ -46,25 +59,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Activity.cs",
-              "DocumentMoniker": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Activity.cs",
-              "RelativeDocumentMoniker": "BLL\\Activity.cs",
-              "ToolTip": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Activity.cs",
-              "RelativeToolTip": "BLL\\Activity.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-14T09:49:26.591Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Poll.cs",
               "DocumentMoniker": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Poll.cs",
               "RelativeDocumentMoniker": "BLL\\Poll.cs",
               "ToolTip": "C:\\Users\\Tim\\source\\repos\\DarkPheonix29\\TALPA\\BLL\\Poll.cs",
               "RelativeToolTip": "BLL\\Poll.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAQwBoAAAAiAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-14T09:50:03.81Z",
               "EditorCaption": ""

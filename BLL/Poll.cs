@@ -13,14 +13,14 @@ namespace BLL
         //Deze moet bij de activity komen
         private bool Won = false;
 
-        private int TieBreakerNumber;
-        private int TripleTieBreakerNumber;
+        public int TieBreakerNumber;
+        public int TripleTieBreakerNumber;
 
         private DateTime CurrentTime = DateTime.Now;
         private DateTime Deadline { get; set; } = deadline;
-        private Activity Activity1 { get; set; } = activity1;
-        private Activity Activity2 { get; set; } = activity2;
-        private Activity Activity3 { get; set; } = activity3;
+        private Activity Activity1ID { get; set; } = activity1;
+        private Activity Activity2ID { get; set; } = activity2;
+        private Activity Activity3ID { get; set; } = activity3;
 
         public void ActivityVoted(int VotedActivity)
         {
@@ -53,6 +53,7 @@ namespace BLL
             {
                 // verwijst naar de activity die gewonnen heeft en zet won op true
                 Won = true;
+                ActivityVotes1 = activity1;
             }
 
             else if (ActivityVotes2 > ActivityVotes1 && ActivityVotes2 > ActivityVotes3)
