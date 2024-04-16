@@ -212,7 +212,7 @@
 
         var input = document.getElementById('searchInput');
         var filter = input.value.toUpperCase();
-        var employees = document.querySelectorAll('employee');
+        var employees = document.querySelectorAll('emails .employee');
 
         employees.forEach(function (employee) {
             var name = employee.textContent.toUpperCase();
