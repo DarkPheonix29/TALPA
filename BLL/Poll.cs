@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace BLL
 {
-    internal class Poll (DateTime deadline, Activity activity1, Activity activity2, Activity activity3)
+    internal class Poll(DateTime deadline)
     {
         private int ActivityVotes1 = 0;
         private int ActivityVotes2 = 0;
@@ -18,11 +18,18 @@ namespace BLL
 
         private DateTime CurrentTime = DateTime.Now;
         private DateTime Deadline { get; set; } = deadline;
-        private Activity Activity1ID { get; set; } = activity1;
-        private Activity Activity2ID { get; set; } = activity2;
-        private Activity Activity3ID { get; set; } = activity3;
+        private List<int> activity_id { get; set; }
 
-        public void ActivityVoted(int VotedActivity)
+        private void Splitactivitiess(int poll_id)
+        {
+            if (activity_id.Count == 3)
+            {
+                ActivityVotes1 = activity_id[0];
+                ActivityVotes2 = activity_id[1];
+                ActivityVotes3 = activity_id[2];
+            }
+        }
+            public void ActivityVoted(int VotedActivity)
         {
             switch (VotedActivity)
             {
@@ -53,7 +60,8 @@ namespace BLL
             {
                 // verwijst naar de activity die gewonnen heeft en zet won op true
                 Won = true;
-                ActivityVotes1 = activity1;
+                
+                
             }
 
             else if (ActivityVotes2 > ActivityVotes1 && ActivityVotes2 > ActivityVotes3)
