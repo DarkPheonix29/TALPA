@@ -53,7 +53,7 @@ namespace BLL
             {
                 // verwijst naar de activity die gewonnen heeft en zet won op true
                 Won = true;
-                ActivityVotes1 = activity1;
+         
             }
 
             else if (ActivityVotes2 > ActivityVotes1 && ActivityVotes2 > ActivityVotes3)
