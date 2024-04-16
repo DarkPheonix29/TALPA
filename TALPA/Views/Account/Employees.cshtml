@@ -212,11 +212,11 @@
 
         var input = document.getElementById('searchInput');
         var filter = input.value.toUpperCase();
-        var employees = document.querySelectorAll('emails .employee');
+        var employees = document.querySelectorAll('.employee');
 
         employees.forEach(function (employee) {
-            var name = employee.textContent.toUpperCase();
-            if (name.indexOf(filter) > -1) {
+            var email = employee.querySelector('.employee-email').textContent.toUpperCase();
+            if (email.indexOf(filter) > -1) {
                 employee.style.display = "";
             } else {
                 employee.style.display = "none";
@@ -224,6 +224,7 @@
         });
     }
 </script>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="~/scripts/multiSelectManager.js"></script>
