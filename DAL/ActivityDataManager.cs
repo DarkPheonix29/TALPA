@@ -63,7 +63,7 @@ namespace DAL
                         catch (Exception ex)
                         {
                             // Handle exceptions appropriately (e.g., logging)
-                            throw new Exception("Error submitting activity.", ex);
+                            throw new Exception("Error adding limitation.", ex);
                         }
                     }
                 }
@@ -89,7 +89,7 @@ namespace DAL
                     catch (Exception ex)
                     {
                         // Handle exceptions appropriately (e.g., logging)
-                        throw new Exception("Error submitting activity.", ex);
+                        throw new Exception("Error updating voted user.", ex);
                     }
                 }
             }
@@ -117,7 +117,7 @@ namespace DAL
 			        catch (Exception ex)
 			        {
 				        // Handle exceptions appropriately (e.g., logging)
-				        throw new Exception("Error fetching activity.", ex);
+				        throw new Exception("Error getting activity.", ex);
 			        }
 				}
 	        }
@@ -146,11 +146,59 @@ namespace DAL
 			        catch (Exception ex)
 			        {
 				        // Handle exceptions appropriately (e.g., logging)
-				        throw new Exception("Error fetching activity.", ex);
+				        throw new Exception("Error getting limitation.", ex);
 			        }
 		        }
 	        }
 		}
 
+        public void DeleteActivityById(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "DELETE * FROM Activity WHERE id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error deleting activity.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public DataTable GetAllActivity()
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT * FROM activity";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        connection.Open();
+				        DataTable dt = new();
+				        using (SqlDataAdapter da = new(command))
+				        {
+					        da.Fill(dt);
+				        }
+
+				        return dt;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error getting activity's.", ex);
+			        }
+		        }
+	        }
+		}
 	}
 }
