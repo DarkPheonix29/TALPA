@@ -28,7 +28,7 @@ namespace DAL
                     catch (Exception ex)
                     {
                         // Handle exceptions appropriately (e.g., logging)
-                        throw new Exception("Error submitting activity.", ex);
+                        throw new Exception("Error submitting user.", ex);
                     }
                 }
             }
