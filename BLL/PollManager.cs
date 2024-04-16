@@ -9,7 +9,7 @@ namespace BLL
 {
 	internal class PollManager
 	{
-		private void Splitactivitiess(int poll_id, Poll poll)
+		private void Splitactivitiess(Poll poll)
 		{
 			if (poll.activity_id.Count == 3)
 			{
