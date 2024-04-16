@@ -166,9 +166,9 @@
                             <th scope="col" class="w-25">Totaal</th>
                             <th scope="col" class="text-center"></th>
                             <th id="totalPoints" scope="col" class="text-center">0</th>
-                            <th id="totalSelectedSuggestions" scope="col" class="text-center">0</th>
-                            <th id="totalVoteSuggestions" scope="col" class="text-center">0</th>
-                            <th id="totalChosenSuggestions" scope="col" class="text-center">0</th>
+                            <th scope="col" class="text-center">0</th>
+                            <th scope="col" class="text-center">0</th>
+                            <th scope="col" class="text-center">0</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -212,23 +212,12 @@
         // Verkrijg alle rijen met de class 'employee'
         var rows = document.querySelectorAll('.employee');
 
-        // Variabelen voor het bijhouden van de totale waarden
-        var totalPoints = 0;
-        var totalSelectedSuggestions = 0;
-        var totalVoteSuggestions = 0;
-        var totalChosenSuggestions = 0;
-
         // Loop door elke rij en verberg degene die niet overeenkomen met de zoekterm
         rows.forEach(function (row) {
             var nameCell = row.querySelector('.tableRow');
             var nameText = nameCell.textContent || nameCell.innerText;
             if (nameText.toUpperCase().indexOf(filter) > -1) {
                 row.style.display = "";
-                // Verzamel waarden voor totaalberekening
-                totalPoints += parseInt(row.querySelector('td:nth-child(3)').textContent);
-                totalSelectedSuggestions += parseInt(row.querySelector('td:nth-child(4)').textContent);
-                totalVoteSuggestions += parseInt(row.querySelector('td:nth-child(5)').textContent);
-                totalChosenSuggestions += parseInt(row.querySelector('td:nth-child(6)').textContent);
             } else {
                 row.style.display = "none";
             }
@@ -245,14 +234,17 @@
         });
         table.tBodies[0].append(...sortedRows);
 
-        // Toon totaal aantal punten en suggesties in de footer
+        // Bereken totaal aantal punten
+        var totalPoints = 0;
+        rows.forEach(function (row) {
+            if (row.style.display !== "none") {
+                var points = parseInt(row.querySelector('td:nth-child(3)').textContent);
+                totalPoints += points;
+            }
+        });
         document.getElementById('totalPoints').textContent = totalPoints;
-        document.getElementById('totalSelectedSuggestions').textContent = totalSelectedSuggestions;
-        document.getElementById('totalVoteSuggestions').textContent = totalVoteSuggestions;
-        document.getElementById('totalChosenSuggestions').textContent = totalChosenSuggestions;
     }
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="~/scripts/multiSelectManager.js"></script>
