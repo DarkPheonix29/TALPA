@@ -13,18 +13,9 @@
 </address> *@
 
 
-@{
-    var fetchAllTables = new FetchAllTables();
-    var tableNames = FetchAllTables.GetTableNames();
-}
-
 <div class= "content">
     <h1>List of Tables</h1>
     <ul>
-        @foreach (var tableName in tableNames)
-        {
 
-            <li>Name: @tableName</li>
-        }
     </ul>
 </div>
