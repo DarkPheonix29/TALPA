@@ -14,7 +14,7 @@ namespace UnitTests
         {
             //Arange
 
-            string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+            string connectionString = "User Id=postgres.fstwndfgkrxyywdmrkql;Password=dPaue%iMJ7Z%E3rFY6e7;Server=aws-0-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres;";
             DAL.ConnectionManager.Initialize(connectionString);
             //Act
             DAL.UserDataManager.UserSubmit("ben@gmail.com");
