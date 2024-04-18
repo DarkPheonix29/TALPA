@@ -46,6 +46,24 @@ app.MapControllerRoute(
 );
 
 app.MapControllerRoute(
+    name: "dashboard/0",
+    pattern: "dashboard/0",
+    defaults: new { controller = "Employee", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
+    name: "dashboard/1",
+    pattern: "dashboard/1",
+    defaults: new { controller = "Manager", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
+    name: "dashboard/2",
+    pattern: "dashboard/2",
+    defaults: new { controller = "Admin", action = "Dashboard" }
+);
+
+app.MapControllerRoute(
     name: "dashboard/medewerkers",
     pattern: "dashboard/medewerkers",
     defaults: new { controller = "Manager", action = "Employees" }
