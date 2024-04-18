@@ -76,7 +76,7 @@
     <div class="row content-row h-75">
         <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
             <h2 class="subtitle mb-3 d-block d-sm-inline">Activiteiten</h2>
-            <div class="row">
+            <div class="row mt-1">
                 <div class="col">
                     <input type="text" class="form-control py-4 input-long" id="activitySearch" placeholder="Zoek een activiteit">
                 </div>
@@ -126,9 +126,9 @@
                     <tbody>
                         @foreach (var activity in Model.Activities)
                         {
-                            <tr>
+                            <tr class="w-100">
                                 <th scope="row" class="tableRow ellipsis">@activity.Name</th>
-                                <td class="ellipsis">@activity.Description</td>
+                                <td class="ellipsis w-25">@activity.Description</td>
                                 <td>
                                     <h5>
                                         @foreach (var catogory in @activity.Categories)
