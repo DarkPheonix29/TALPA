@@ -45,7 +45,7 @@ namespace UnitTests
         public void Get_Activity()
         {
 			//Arrange
-			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
 			//Act
