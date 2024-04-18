@@ -12,6 +12,35 @@ namespace TALPA.Controllers
 {
 	public class EmployeeController : Controller
     {
-  
+        [Authorize]
+        public IActionResult Dashboard()
+        {
+            var UserProfile = new UserProfile
+            {
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+            };
+
+            if (UserProfile.Role != "Medewerker")
+            {
+                return Redirect("/dashboard");
+            }
+
+            List<Employee> employees = new List<Employee>();
+            for (int i = 1; i <= 10; i++)
+            {
+                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
+            }
+
+            EmployeeDashboardViewModel employeeViewModel = new EmployeeDashboardViewModel
+            {
+                UserProfile = UserProfile,
+                Employees = employees
+            };
+
+            return View(UserProfile);
+        }
     }
 }

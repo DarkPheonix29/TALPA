@@ -87,29 +87,17 @@ namespace TALPA.Controllers
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
 			};
 
-            List<Employee> employees = new List<Employee>();
-            for (int i = 1; i <= 10; i++)
-            {
-                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
-            }
-
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel
-            {
-                UserProfile = UserProfile,
-                Employees = employees
-            };
-
             if (UserProfile.Role == "Admin")
             {
-                return View("../Admin/Dashboard", UserProfile);
+                return Redirect("Dashboard/2");
             }
 
             if (UserProfile.Role == "Manager")
             {
-                return View("../Manager/Dashboard", employeeViewModel);
+                return Redirect("Dashboard/1");
             }
 
-            return View("../Employee/Dashboard", UserProfile);
+            return Redirect("Dashboard/0");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TALPA.Controllers
 	public class ManagerController : Controller
     {
         [Authorize]
-        public IActionResult Employees()
+        public IActionResult Dashboard()
         {
             var UserProfile = new UserProfile
             {
@@ -23,7 +23,7 @@ namespace TALPA.Controllers
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
             };
 
-            if (UserProfile.Role != "Manager" && UserProfile.Role != "Admin")
+            if (UserProfile.Role != "Manager")
             {
                 return Redirect("/dashboard");
             }
@@ -34,13 +34,44 @@ namespace TALPA.Controllers
                 employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
             }
 
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel
+            ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
             {
                 UserProfile = UserProfile,
                 Employees = employees
             };
 
-            return View(employeeViewModel);
+            return View(managerDashboardViewModel);
+        }
+
+        [Authorize]
+        public IActionResult Employees()
+        {
+            var UserProfile = new UserProfile
+            {
+                UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
+                EmailAddress = User.Identity.Name,
+                ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
+                Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+            };
+
+            if (UserProfile.Role != "Manager")
+            {
+                return Redirect("/dashboard");
+            }
+
+            List<Employee> employees = new List<Employee>();
+            for (int i = 1; i <= 10; i++)
+            {
+                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
+            }
+
+            ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
+            {
+                UserProfile = UserProfile,
+                Employees = employees
+            };
+
+            return View(managerDashboardViewModel);
         }
 
         public IActionResult CreatePoll()
@@ -53,7 +84,7 @@ namespace TALPA.Controllers
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
             };
 
-            if (UserProfile.Role != "Manager" && UserProfile.Role != "Admin")
+            if (UserProfile.Role != "Manager")
             {
                 return Redirect("/dashboard");
             }
