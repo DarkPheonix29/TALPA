@@ -18,9 +18,9 @@ namespace BLL
 
         private DateTime CurrentTime = DateTime.Now;
         private DateTime Deadline { get; set; } = deadline;
-        private Activity Activity1ID { get; set; } = activity1;
-        private Activity Activity2ID { get; set; } = activity2;
-        private Activity Activity3ID { get; set; } = activity3;
+        private Activity Activity1ID { get; set; } //= activity1;
+        private Activity Activity2ID { get; set; } //= activity2;
+        private Activity Activity3ID { get; set; } //= activity3;
 
         public void ActivityVoted(int VotedActivity)
         {

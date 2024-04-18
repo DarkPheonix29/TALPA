@@ -9,6 +9,7 @@ namespace BLL
 {
 	internal class PollManager
 	{
+		/*
 		private void Splitactivitiess(Poll poll)
 		{
 			if (poll.activity_id.Count == 3)
@@ -157,6 +158,6 @@ namespace BLL
 		private void GivePointsToWinner()
 		{
 
-		}
+		} */
 	}
 }
