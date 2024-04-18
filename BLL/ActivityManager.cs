@@ -18,7 +18,7 @@ namespace BLL
             if (!activity.VotedUsers.IsNullOrEmpty())
                 foreach (User user in activity.VotedUsers)
                 {
-                    VoterId.Add(user.Id);
+                    VoterId.Add(user.UserId);
                 }
             if (!activity.Limitations.IsNullOrEmpty())
                 foreach (LimitationTypes limit in activity.Limitations)
@@ -41,7 +41,7 @@ namespace BLL
             }
 
             UserManager proposingUser = new();
-            Activity activity = new(Convert.ToString(row["name"]), Convert.ToString(row["description"]), limitations, proposingUser.ConstructUserFromDB(Convert.ToString(row["proposing_user"])).Id, Convert.ToDateTime(row["date_added"]));
+            Activity activity = new(Convert.ToString(row["name"]), Convert.ToString(row["description"]), limitations, proposingUser.ConstructUserFromDB(Convert.ToString(row["proposing_user"])).UserId, Convert.ToDateTime(row["date_added"]));
             return activity;
         }
     }

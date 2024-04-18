@@ -45,4 +45,17 @@ app.MapControllerRoute(
     defaults: new { controller = "Account", action = "Dashboard" }
 );
 
+app.MapControllerRoute(
+    name: "dashboard/medewerkers",
+    pattern: "dashboard/medewerkers",
+    defaults: new { controller = "Manager", action = "Employees" }
+);
+
+app.MapControllerRoute(
+    name: "dashboard/uitje",
+    pattern: "dashboard/uitje",
+    defaults: new { controller = "Manager", action = "CreatePoll" }
+);
+
+
 app.Run();

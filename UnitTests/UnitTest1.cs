@@ -14,10 +14,10 @@ namespace UnitTests
         {
             //Arange
 
-            string connectionString = "User Id=postgres.fstwndfgkrxyywdmrkql;Password=dPaue%iMJ7Z%E3rFY6e7;Server=aws-0-eu-central-1.pooler.supabase.com;Port=5432;Database=postgres;";
+            string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
             DAL.ConnectionManager.Initialize(connectionString);
             //Act
-            DAL.UserDataManager.UserSubmit("ben@gmail.com");
+            DAL.UserDataManager.UserSubmit("auth0|66052e2b423e9ac1d787cb32");
             //Assert
         }
         [TestMethod]
@@ -25,14 +25,14 @@ namespace UnitTests
         {
 			//Arrange
 
-			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
             List<LimitationTypes> limitations = new();
             limitations.Add((LimitationTypes)1);
             limitations.Add((LimitationTypes)2);
             limitations.Add((LimitationTypes)5);
-            BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, "9", DateTime.Now);
+            BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, "auth0|66052e2b423e9ac1d787cb32", DateTime.Now);
             ActivityManager AM = new();
             //Act
 
@@ -45,7 +45,7 @@ namespace UnitTests
         public void Get_Activity()
         {
 			//Arrange
-			string connectionString = "data source=localhost;initial catalog=TALPADB;trusted_connection=true;Encrypt=true;TrustServerCertificate=true";
+			string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
 			//Act

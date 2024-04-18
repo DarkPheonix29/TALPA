@@ -57,3 +57,16 @@ html, body {
 .dropdown-menu {
     width: 300px !important;
 }
+
+.vertical-center-box {
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.badge-secondary {
+    background: repeating-linear-gradient(-90deg, rgba(82,54,171,1) 0%, rgba(228,25,55,1) 100%) !important;
+    background-attachment: fixed !important;
+}

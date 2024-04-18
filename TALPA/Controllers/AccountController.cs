@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TALPA.Models;
+using BLL.Models;
+using BLL;
 
 namespace TALPA.Controllers
 {
@@ -84,7 +86,30 @@ namespace TALPA.Controllers
 				ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
 			};
-			return View(UserProfile);
-		}
-	}
+
+            List<Employee> employees = new List<Employee>();
+            for (int i = 1; i <= 10; i++)
+            {
+                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
+            }
+
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel
+            {
+                UserProfile = UserProfile,
+                Employees = employees
+            };
+
+            if (UserProfile.Role == "Admin")
+            {
+                return View("../Admin/Dashboard", UserProfile);
+            }
+
+            if (UserProfile.Role == "Manager")
+            {
+                return View("../Manager/Dashboard", employeeViewModel);
+            }
+
+            return View("../Employee/Dashboard", UserProfile);
+        }
+    }
 }
