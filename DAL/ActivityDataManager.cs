@@ -13,7 +13,7 @@ namespace DAL
 {
     public class ActivityDataManager
     {
-        public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId)
+        public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId, List<DateTime> dates)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -32,6 +32,7 @@ namespace DAL
                         int activityId = (int)command.ExecuteScalar();
 
                         Add_limitations(limitationsId, activityId);
+						Add_dates(dates, activityId);
                     }
                     catch (Exception ex)
                     {
@@ -69,8 +70,35 @@ namespace DAL
                 }
             }
         }
+        public static void Add_dates(List<DateTime> dates, int activityId)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = $"INSERT INTO activity_dates (activity_id, date) VALUES (@ActivityId, @date)";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        connection.Open();
+			        foreach (DateTime date in dates)
+			        {
+				        try
+				        {
+					        command.Parameters.Clear();
+					        command.Parameters.AddWithValue("@ActivityId", activityId);
+					        command.Parameters.AddWithValue("@date", date);
 
-        public static void VotedUserUpdate(int votedUserId, int activityId)
+					        command.ExecuteNonQuery();
+				        }
+				        catch (Exception ex)
+				        {
+					        // Handle exceptions appropriately (e.g., logging)
+					        throw new Exception("Error adding dates.", ex);
+				        }
+			        }
+		        }
+	        }
+        }
+
+		public static void VotedUserUpdate(int votedUserId, int activityId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -196,6 +224,82 @@ namespace DAL
 			        {
 				        // Handle exceptions appropriately (e.g., logging)
 				        throw new Exception("Error getting activity's.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public void ChooseActivity(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "INSERT INTO activity (has_been_chosen) VALUES (@HasBeenChosen) WHERE id = @id";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@HasBeenChosen", 1);
+				        command.Parameters.AddWithValue("@id", id);
+						connection.Open();
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error choosing activity.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public static DataTable GetDates(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT * FROM activity_dates WHERE activity_id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+				        DataTable dt = new();
+				        using (SqlDataAdapter da = new(command))
+				        {
+					        da.Fill(dt);
+				        }
+
+				        return dt;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error getting dates.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public void SubmitLimitation(string description, string type)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = $"INSERT INTO limitation (description, type) OUTPUT INSERTED.id VALUES (@Description, @Type)";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@Type", type);
+				        command.Parameters.AddWithValue("@Description", description);
+
+				        connection.Open();
+
+				        command.ExecuteNonQuery();
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error submitting activity.", ex);
 			        }
 		        }
 	        }

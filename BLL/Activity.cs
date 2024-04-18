@@ -20,6 +20,7 @@ namespace BLL
         public List<LimitationTypes> Limitations { get; set; } = limitations;
         public string ProposingUserId { get; set; } = proposingUserId;
         public List<User> VotedUsers { get; set; }
+        public List<DateTime> Dates { get; set; }
 
         public bool Vote(User VotingUser)
         {
