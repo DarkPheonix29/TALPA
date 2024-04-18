@@ -9,14 +9,13 @@ namespace BLL
 {
 	internal class PollManager
 	{
-		/*
 		private void Splitactivitiess(Poll poll)
 		{
-			if (poll.activity_id.Count == 3)
+			if (poll.Activity_Id.Count == 3)
 			{
-				poll.ActivityVotes1 = poll.activity_id[0];
-				poll.ActivityVotes2 = poll.activity_id[1];
-				poll.ActivityVotes3 = poll.activity_id[2];
+				poll.ActivityVotes1 = poll.Activity_Id[0];
+				poll.ActivityVotes2 = poll.Activity_Id[1];
+				poll.ActivityVotes3 = poll.Activity_Id[2];
 			}
 		}
 		public void ActivityVoted(int VotedActivity, Poll poll)
@@ -158,6 +157,6 @@ namespace BLL
 		private void GivePointsToWinner()
 		{
 
-		} */
+		}
 	}
 }

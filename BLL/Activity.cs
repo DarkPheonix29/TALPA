@@ -18,7 +18,7 @@ namespace BLL
         public string Description { get; set; } = description;
         public DateTime DateAdded { get; set; } = dateAdded;
         public List<LimitationTypes> Limitations { get; set; } = limitations;
-        public String ProposingUserId { get; set; } = proposingUserId;
+        public string ProposingUserId { get; set; } = proposingUserId;
         public List<User> VotedUsers { get; set; }
 
         public bool Vote(User VotingUser)
