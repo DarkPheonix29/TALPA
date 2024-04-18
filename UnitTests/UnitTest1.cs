@@ -32,7 +32,11 @@ namespace UnitTests
             limitations.Add((LimitationTypes)1);
             limitations.Add((LimitationTypes)2);
             limitations.Add((LimitationTypes)5);
+            List<DateTime> dates = new();
+            dates.Add(DateTime.Now);
+            dates.Add(DateTime.Now);
             BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, "auth0|66052e2b423e9ac1d787cb32", DateTime.Now);
+            activity.Dates = dates;
             ActivityManager AM = new();
             //Act
 
@@ -58,5 +62,20 @@ namespace UnitTests
             }
 			//Assert
 		}
-    }
+
+        [TestMethod]
+        public void Submit_Limitation()
+        {
+	        //Arrange
+	        string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.ActivityDataManager adm = new();
+
+	        string description = "This is a test limitation, don't forget to delete it.";
+	        string type = "test";
+	        //Act
+	        adm.SubmitLimitation(description, type);
+	        //Assert
+		}
+	}
 }
