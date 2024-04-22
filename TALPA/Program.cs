@@ -14,7 +14,9 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 
 // Expose Connection String for Database
 string connectionString = builder.Configuration.GetConnectionString("TALPADB");
+string connectionStringMySQL = builder.Configuration.GetConnectionString("LocalMySQL");
 DAL.ConnectionManager.Initialize(connectionString);
+DAL.SQLConnectionManager.Initialize(connectionStringMySQL);
 
 //build the app
 var app = builder.Build();

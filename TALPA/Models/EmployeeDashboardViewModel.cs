@@ -6,6 +6,6 @@ namespace TALPA.Models
     public class EmployeeDashboardViewModel
     {
         public UserProfile UserProfile { get; set; }
-        public List<Employee> Employees { get; set; }
+        public List<Suggestion> Suggestions { get; set; }
     }
 }

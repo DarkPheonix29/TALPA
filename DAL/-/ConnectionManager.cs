@@ -21,5 +21,10 @@ namespace DAL
 
             return new SqlConnection(_connectionString);
         }
+
+        public static string GetConnectionString()
+        {
+            return _connectionString;
+        }
     }
 }

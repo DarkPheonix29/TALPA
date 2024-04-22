@@ -12,6 +12,13 @@ namespace TALPA.Controllers
 {
 	public class EmployeeController : Controller
     {
+        private readonly SuggestionManager suggestionManager;
+
+        public EmployeeController()
+        {
+            suggestionManager = new SuggestionManager();
+        }
+
         [Authorize]
         public IActionResult Dashboard()
         {
@@ -21,6 +28,8 @@ namespace TALPA.Controllers
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+                Team = "team",
+                Points = 0,
             };
 
             if (UserProfile.Role != "Medewerker")
@@ -28,19 +37,16 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            List<Employee> employees = new List<Employee>();
-            for (int i = 1; i <= 10; i++)
-            {
-                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
-            }
+            string user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            List<Suggestion> suggestions = suggestionManager.GetUserSuggestions(user);
 
             EmployeeDashboardViewModel employeeViewModel = new EmployeeDashboardViewModel
             {
                 UserProfile = UserProfile,
-                Employees = employees
+                Suggestions = suggestions
             };
 
-            return View(UserProfile);
+            return View(employeeViewModel);
         }
     }
 }

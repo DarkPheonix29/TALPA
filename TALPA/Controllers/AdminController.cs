@@ -21,6 +21,8 @@ namespace TALPA.Controllers
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+                Team = "team",
+                Points = 0,
             };
 
             if (UserProfile.Role != "Admin")

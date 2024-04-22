@@ -12,6 +12,15 @@ namespace TALPA.Controllers
 {
 	public class ManagerController : Controller
     {
+        private readonly SuggestionManager suggestionManager;
+        private readonly EmployeeManager employeeManager;
+
+        public ManagerController()
+        {
+            suggestionManager = new SuggestionManager();
+            employeeManager = new EmployeeManager();
+        }
+
         [Authorize]
         public IActionResult Dashboard()
         {
@@ -21,6 +30,8 @@ namespace TALPA.Controllers
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+                Team = "team",
+                Points = 0,
             };
 
             if (UserProfile.Role != "Manager")
@@ -28,16 +39,17 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            List<Employee> employees = new List<Employee>();
-            for (int i = 1; i <= 10; i++)
-            {
-                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
-            }
+            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int team = employeeManager.GetUserTeam(user);
 
+            List<Employee> employees = employeeManager.GetTeamEmployees(team);
+
+            List<string>  suggestions = new List<string>();
             ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
             {
                 UserProfile = UserProfile,
-                Employees = employees
+                Employees = employees,
+                Suggestions = suggestions
             };
 
             return View(managerDashboardViewModel);
@@ -52,6 +64,8 @@ namespace TALPA.Controllers
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+                Team = "team",
+                Points = 0,
             };
 
             if (UserProfile.Role != "Manager")
@@ -59,11 +73,10 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            List<Employee> employees = new List<Employee>();
-            for (int i = 1; i <= 10; i++)
-            {
-                employees.Add(new Employee("Employee" + i, "Employee" + i + "@talpa.com", i, i, i, i));
-            }
+            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int team = employeeManager.GetUserTeam(user);
+
+            List<Employee> employees = employeeManager.GetTeamEmployees(team);
 
             ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
             {
@@ -82,6 +95,8 @@ namespace TALPA.Controllers
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
+                Team = "team",
+                Points = 0,
             };
 
             if (UserProfile.Role != "Manager")
@@ -89,24 +104,12 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            List<BLL.Models.Activity> activities = new List<BLL.Models.Activity>();
-            for (int i = 1; i <= 10; i++)
-            {
-                List<string> categories = new List<string>();
-                List<Restriction> restrictions = new List<Restriction>();
-                string description = string.Concat(Enumerable.Repeat("Description", 7));
-                for (int j = 1; j <= 3; j++)
-                {
-                    categories.Add("Cata" + i);
-                    restrictions.Add(new Restriction("restriction" + i, "description", "cata"));
-                }
-                activities.Add(new BLL.Models.Activity(i, "Activiteit" + i, description, categories, restrictions));
-            }
+            List<Suggestion> suggestions = suggestionManager.GetSuggestions();
 
             ActivityViewModel activityViewModel = new ActivityViewModel
             {
                 UserProfile = UserProfile,
-                Activities = activities
+                Suggestions = suggestions
             };
 
             return View(activityViewModel);

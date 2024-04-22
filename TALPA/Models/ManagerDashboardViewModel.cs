@@ -7,5 +7,6 @@ namespace TALPA.Models
     {
         public UserProfile UserProfile { get; set; }
         public List<Employee> Employees { get; set; }
+        public List<string> Suggestions { get; set; }
     }
 }

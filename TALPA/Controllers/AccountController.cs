@@ -7,11 +7,19 @@ using System.Security.Claims;
 using TALPA.Models;
 using BLL.Models;
 using BLL;
+using System.Net.Mail;
 
 namespace TALPA.Controllers
 {
 	public class AccountController : Controller
     {
+        private readonly EmployeeManager employeeManager;
+
+        public AccountController()
+        {
+            employeeManager = new EmployeeManager();
+        }
+
         public async Task Login()
         {
             var returnUrl = Url.Action(nameof(Auth0LoginCallback));
@@ -28,16 +36,13 @@ namespace TALPA.Controllers
 
         public ActionResult Auth0LoginCallback()
         {
-            return Redirect("/");
             if (User.Identity.IsAuthenticated)
             {
-                string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                System.Data.DataTable user = DAL.UserDataManager.GetUser(userId);
+                string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                string name = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value;
+                string email = User.Identity.Name;
 
-                if (user == null)
-                {
-                    DAL.UserDataManager.UserSubmit(userId);
-                }
+                employeeManager.RegisterUser(user, name, email);
             }
             return Redirect("/");
         }
@@ -89,15 +94,15 @@ namespace TALPA.Controllers
 
             if (UserProfile.Role == "Admin")
             {
-                return Redirect("Dashboard/2");
+                return Redirect("dashboard/2");
             }
 
             if (UserProfile.Role == "Manager")
             {
-                return Redirect("Dashboard/1");
+                return Redirect("dashboard/1");
             }
 
-            return Redirect("Dashboard/0");
+            return Redirect("dashboard/0");
         }
     }
 }

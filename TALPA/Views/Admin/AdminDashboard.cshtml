@@ -34,7 +34,17 @@
                                     <h3 class="mb-0"><i class="bi bi-person-circle align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserName</a>
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.UserName</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row mx-3 d-flex align-items-center mb-2">
+                                <div class="col-1 p-0 align-middle">
+                                    <h3 class="mb-0"><i class="bi bi-coin align-middle"></i></h3>
+                                </div>
+                                <div class="col p-0">
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Points</a>
                                 </div>
                             </div>
                         </li>
@@ -44,7 +54,7 @@
                                     <h3 class="mb-0"><i class="bi bi-envelope-at align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3">@Model.EmailAddress</a>
+                                    <p class="mb-0 ml-3">@Model.UserProfile.EmailAddress</a>
                                 </div>
                             </div>
                         </li>
@@ -54,7 +64,17 @@
                                     <h3 class="mb-0"><i class="bi bi-building-gear align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3">@Model.Role</a>
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Role</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row mx-3 d-flex align-items-center mb-2">
+                                <div class="col-1 p-0 align-middle">
+                                    <h3 class="mb-0"><i class="bi bi-people align-middle"></i></h3>
+                                </div>
+                                <div class="col p-0">
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Team</a>
                                 </div>
                             </div>
                         </li>

@@ -3,6 +3,12 @@
     ViewData["Title"] = "Medewerker Dashboard";
 }
 
+@{
+    int totalSuggestionsSelected = 0;
+    int totalSuggestionVoted = 0;
+    int totalSuggestionChosen = 0;
+}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 px-lg-5 w-100">
     <a class="navbar-brand pl-lg-5" href="#">
         <img src="~/images/cgi.svg" class="brand pl-lg-5" height="35" alt="">
@@ -25,7 +31,7 @@
             <li class="nav-item active pr-lg-5">
                 <div class="dropdown">
                     <a class="nav-link active text-capitalize" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        @Model.UserName
+                        @Model.UserProfile.UserName
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                         <li>
@@ -34,7 +40,17 @@
                                     <h3 class="mb-0"><i class="bi bi-person-circle align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserName</a>
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.UserName</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row mx-3 d-flex align-items-center mb-2">
+                                <div class="col-1 p-0 align-middle">
+                                    <h3 class="mb-0"><i class="bi bi-coin align-middle"></i></h3>
+                                </div>
+                                <div class="col p-0">
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Points</a>
                                 </div>
                             </div>
                         </li>
@@ -44,7 +60,7 @@
                                     <h3 class="mb-0"><i class="bi bi-envelope-at align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3">@Model.EmailAddress</a>
+                                    <p class="mb-0 ml-3">@Model.UserProfile.EmailAddress</a>
                                 </div>
                             </div>
                         </li>
@@ -54,7 +70,17 @@
                                     <h3 class="mb-0"><i class="bi bi-building-gear align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
-                                    <p class="mb-0 ml-3">@Model.Role</a>
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Role</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row mx-3 d-flex align-items-center mb-2">
+                                <div class="col-1 p-0 align-middle">
+                                    <h3 class="mb-0"><i class="bi bi-people align-middle"></i></h3>
+                                </div>
+                                <div class="col p-0">
+                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Team</a>
                                 </div>
                             </div>
                         </li>
@@ -152,7 +178,7 @@
             <h2 class="subtitle mb-3 d-block d-sm-inline">Mijn Suggesties</h2>
             <button type="button" class="btn d-block d-sm-inline float-sm-right" data-toggle="modal" data-target="#suggestionModal">Suggestie Maken</button>
             <div class="overflow-auto card2-text">
-                <table class="table table-striped table-borderless align-middle h-100 mb-0">
+                <table class="table table-striped table-borderless align-middle m-h-100 mb-0">
                     <thead class="sticky-top top-0">
                         <tr class="bg-white">
                             <th scope="col" class="w-25">Suggestie</th>
@@ -168,54 +194,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row" class="tableRow">Bowlen</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Darten</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Karten</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Voetballen</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Racen</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Grai Maaien</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Lopen</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="tableRow">Zwemmen</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
+                        @foreach (var suggestion in Model.Suggestions)
+                        {
+                            totalSuggestionsSelected += @suggestion.Selected;
+                            totalSuggestionVoted += @suggestion.Voted;
+                            totalSuggestionChosen += @suggestion.Chosen;
+
+                            <tr>
+                                <th scope="row" class="tableRow" data-toggle="tooltip" data-placement="right" title="@suggestion.Description">@suggestion.Name</th>
+                                <td>@suggestion.Selected</td>
+                                <td>@suggestion.Voted</td>
+                                <td>@suggestion.Chosen</td>
+                            </tr>
+                        }
                     </tbody>
                     <tfoot class="bg-white fixed-bottom bottom-0 position-sticky">
                         <tr class="tableLine">
@@ -226,9 +217,9 @@
                         </tr>
                         <tr>
                             <th scope="col" class="w-25">Totaal</th>
-                            <th scope="col" class="text-center">7</th>
-                            <th scope="col" class="text-center">4</th>
-                            <th scope="col" class="text-center">2</th>
+                            <th scope="col" class="text-center">@totalSuggestionsSelected</th>
+                            <th scope="col" class="text-center">@totalSuggestionVoted</th>
+                            <th scope="col" class="text-center">@totalSuggestionChosen</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -247,20 +238,35 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="activityInput">Activiteit</label>
-                            <input type="text" class="form-control py-4" id="activityInput" placeholder="Kies een activiteit" name="Activity">
+                            <input type="text" class="form-control py-4" id="activityInput" placeholder="Activiteit" name="Activity">
+                        </div>
+                        <div class="form-group">
+                            <label for="activityInput">Beschrijving</label>
+                            <textarea type="text" class="form-control py-4" rows="4" id="descriptionInput" placeholder="Beschrijving" name="Description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="limitationsInput">Kenmerken</label>
+                            <select class="form-select" id="categoriesInput" data-placeholder="Kies Kenmerken" name="Categories" multiple>
+                                <option>Binnen</option>
+                                <option>Buiten</option>
+                                <option>Eten</option>
+                                <option>Water</option>
+                                <option>Avond</option>
+                                <option>Middag</option>
+                                <option>Ochtend</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="limitationsInput">Beperkingen</label>
-                            <select class="form-select" id="limitationsInput" data-placeholder="Kies Beperkingen" name="Restrictions" multiple>
-                                <option>Mobility</option>
-                                <option>Time</option>
-                                <option>Intellect</option>
-                                <option>GroupSize</option>
-                                <option>Age</option>
-                                <option>Height</option>
-                                <option>Diet</option>
-                                <option>Allergy</option>
-                                <option>Phobia</option>
+                            <select class="form-select" id="limitationsInput" data-placeholder="Kies Beperkingen" name="Limitations" multiple>
+                                <option>Mobiliteit</option>
+                                <option>Tijd</option>
+                                <option>Groepsgrootte</option>
+                                <option>Leeftijd</option>
+                                <option>Lengte</option>
+                                <option>Dieet</option>
+                                <option>Allergie</option>
+                                <option>Fobie</option>
                             </select>
                         </div>
                     </div>

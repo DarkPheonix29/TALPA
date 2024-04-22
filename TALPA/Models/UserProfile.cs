@@ -11,5 +11,6 @@ namespace TALPA.Models
         public string Role { get; set; }
         public string UserName { get; set; }
         public int Points { get; set; }
+        public string Team { get; set; }
     }
 }

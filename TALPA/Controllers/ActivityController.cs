@@ -12,6 +12,13 @@ namespace TALPA.Controllers
 {
     public class ActivityController : Controller
     {
+        private readonly SuggestionManager suggestionManager;
+
+        public ActivityController()
+        {
+            suggestionManager = new SuggestionManager();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -19,18 +26,15 @@ namespace TALPA.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<LimitationTypes> limitationList = new();
-                foreach (var limitation in model.limitations)
-                {
-                    Enum.TryParse("Active", out LimitationTypes limitatio);
-                    limitationList.Add(limitatio);
-                }
-                ActivityManager am = new();
-                Activity activity = new(model.Activity, "", limitationList, HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, DateTime.Now);
-                am.SubmitToDatabase(activity);
-                return Content("succes");
+                string user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                string activity = model.Activity;
+                string description = model.Description;
+                List<string> limitations = model.Limitations;
+                List<string> categories = model.Categories;
+
+                suggestionManager.SubmitSuggestion(user, activity, description, limitations, categories);
             }
-            return Content("error");
+            return Redirect("/dashboard");
         }
 
         [HttpPost]
