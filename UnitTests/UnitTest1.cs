@@ -9,12 +9,12 @@ namespace UnitTests
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
+	    string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
+		[TestMethod]
         public void User_submit()
         {
             //Arange
 
-            string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
             DAL.ConnectionManager.Initialize(connectionString);
             //Act
             DAL.UserDataManager.UserSubmit("auth0|66052e2b423e9ac1d787cb32");
@@ -25,13 +25,12 @@ namespace UnitTests
         {
 			//Arrange
 
-			string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
             List<LimitationTypes> limitations = new();
             limitations.Add((LimitationTypes)1);
-            limitations.Add((LimitationTypes)2);
-            limitations.Add((LimitationTypes)5);
+            limitations.Add((LimitationTypes)1);
+            limitations.Add((LimitationTypes)1);
             List<DateTime> dates = new();
             dates.Add(DateTime.Now);
             dates.Add(DateTime.Now);
@@ -49,7 +48,6 @@ namespace UnitTests
         public void Get_Activity()
         {
 			//Arrange
-			string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 			DAL.ConnectionManager.Initialize(connectionString);
 
 			//Act
@@ -67,7 +65,6 @@ namespace UnitTests
         public void Submit_Limitation()
         {
 	        //Arrange
-	        string connectionString = "Server=mssqlstud.fhict.local;Database=dbi532486_talpadb;User Id=dbi532486_talpadb;Password=5J@bmcLekt;Encrypt=true;TrustServerCertificate=true";
 	        DAL.ConnectionManager.Initialize(connectionString);
 	        DAL.ActivityDataManager adm = new();
 
@@ -76,6 +73,48 @@ namespace UnitTests
 	        //Act
 	        adm.SubmitLimitation(description, type);
 	        //Assert
+		}
+
+        [TestMethod]
+        public void Create_Poll()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.PollDataManager pdm = new();
+			List<int> activitys = new();
+			activitys.Add(1);
+            activitys.Add(1);
+            activitys.Add(1);
+
+			//Act
+			pdm.PollSubmit("auth0|66052e2b423e9ac1d787cb32", DateTime.Now, activitys);
+			//Assert
+        }
+
+        [TestMethod]
+        public void Update_Votes()
+        {
+            //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.PollDataManager pdm = new();
+
+			//Act
+			pdm.UpdateVotes(1, 18);
+
+			//Assert
+		}
+
+        [TestMethod]
+        public void Delete_Poll()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.PollDataManager pdm = new();
+
+			//Act
+            pdm.DeletePoll("auth0|66052e2b423e9ac1d787cb32");
+
+			//Assert
 		}
 	}
 }

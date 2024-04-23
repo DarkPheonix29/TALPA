@@ -29,7 +29,7 @@ namespace DAL
 
                         connection.Open();
 
-                        int activityId = (int)command.ExecuteScalar();
+                        int activityId = Convert.ToInt32(command.ExecuteScalar());
 
                         Add_limitations(limitationsId, activityId);
 						Add_dates(dates, activityId);
@@ -74,7 +74,7 @@ namespace DAL
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
-		        string query = $"INSERT INTO activity_dates (activity_id, date) VALUES (@ActivityId, @date)";
+		        string query = $"INSERT INTO activity_date (activity_id, date) VALUES (@ActivityId, @date)";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        connection.Open();
