@@ -160,10 +160,10 @@ namespace BLL
 
 		}
 
-		public void SubmitPollToDatabase(Poll poll, string id)
+		public void SubmitPollToDatabase(Poll poll, int teamId)
 		{
 			PollDataManager pdm = new PollDataManager();
-			pdm.PollSubmit(id, poll.Deadline, poll.Activity_Id);
+			pdm.PollSubmit(teamId, poll.Deadline, poll.Activity_Id);
 		}
 
 		public void UpdatePollVotesInDatabase(int activityId, int pollId)
@@ -172,10 +172,10 @@ namespace BLL
 			pdm.UpdateVotes(activityId, pollId);
 		}
 
-		public void DeletePollFromDatabase(string id)
+		public void DeletePollFromDatabase(int teamId)
 		{
 			PollDataManager pdm = new PollDataManager();
-			pdm.DeletePoll(id);
+			pdm.DeletePoll(teamId);
 		}
 	}
 }

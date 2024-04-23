@@ -87,7 +87,7 @@ namespace UnitTests
             activitys.Add(1);
 
 			//Act
-			pdm.PollSubmit("auth0|66052e2b423e9ac1d787cb32", DateTime.Now, activitys);
+			pdm.PollSubmit(1, DateTime.Now, activitys);
 			//Assert
         }
 
@@ -99,7 +99,7 @@ namespace UnitTests
 	        DAL.PollDataManager pdm = new();
 
 			//Act
-			pdm.UpdateVotes(1, 18);
+			pdm.UpdateVotes(1, 1);
 
 			//Assert
 		}
@@ -112,9 +112,48 @@ namespace UnitTests
 			DAL.PollDataManager pdm = new();
 
 			//Act
-            pdm.DeletePoll("auth0|66052e2b423e9ac1d787cb32");
+            pdm.DeletePoll(1);
 
 			//Assert
+		}
+
+        [TestMethod]
+        public void Create_Team()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.TeamDataManager tdm = new();
+
+			//Act
+            tdm.CreateTeam("auth0|66052e2b423e9ac1d787cb32");
+
+			//Assert
+		}
+
+        [TestMethod]
+        public void Add_member_to_team()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.TeamDataManager tdm = new();
+
+			//Act
+            tdm.AddMemberToTeam("auth0|66052e2b423e9ac1d787cb32", 1);
+
+			//Assert
+		}
+
+        [TestMethod]
+        public void Remove_member_from_team()
+        {
+	        //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.TeamDataManager tdm = new();
+
+	        //Act
+	        tdm.RemoveMemberFromTeam("auth0|66052e2b423e9ac1d787cb32");
+
+	        //Assert
 		}
 	}
 }

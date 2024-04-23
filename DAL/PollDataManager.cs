@@ -10,16 +10,16 @@ namespace DAL
 {
 	public class PollDataManager
 	{
-		public void PollSubmit(string ManagerId, DateTime deadline, List<int> activitys)
+		public void PollSubmit(int teamId, DateTime deadline, List<int> activitys)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"INSERT INTO poll (manager_id, deadline) OUTPUT INSERTED.id VALUES (@ManagerId, @Deadline)";
+				string query = $"INSERT INTO poll (team_id, deadline) OUTPUT INSERTED.id VALUES (@TeamId, @Deadline)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
 					{
-						command.Parameters.AddWithValue("@ManagerId", ManagerId);
+						command.Parameters.AddWithValue("@TeamId", teamId);
 						command.Parameters.AddWithValue("@Deadline", deadline);
 
 						connection.Open();
@@ -93,16 +93,16 @@ namespace DAL
 			}
 		}
 
-		public void DeletePoll(string managerId)
+		public void DeletePoll(int teamId)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "DELETE FROM Poll WHERE manager_id = @ManagerId";
+				string query = "DELETE FROM Poll WHERE team_id = @TeamId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
 					{
-						command.Parameters.AddWithValue("@ManagerId", managerId);
+						command.Parameters.AddWithValue("@TeamId", teamId);
 
 						connection.Open();
 
