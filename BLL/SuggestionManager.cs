@@ -44,7 +44,7 @@ namespace BLL
             {
                 List<string> limitations = new List<string>();
                 List<string> categories = new List<string>();
-                suggestions.Add(new Suggestion(row["suggestion"].ToString(), row["description"].ToString(), limitations, categories, 0, 0, 0));
+                suggestions.Add(new Suggestion(Convert.ToInt32(row["id"]), row["suggestion"].ToString(), row["description"].ToString(), limitations, categories, 0, 0, 0));
             }
 
             return suggestions;
@@ -70,7 +70,7 @@ namespace BLL
                     categories.Add(row3["categorie"].ToString());
                 }
 
-                suggestions.Add(new Suggestion(row["suggestion"].ToString(), row["description"].ToString(), limitations, categories, 1, 2, 3));
+                suggestions.Add(new Suggestion(Convert.ToInt32(row["id"]), row["suggestion"].ToString(), row["description"].ToString(), limitations, categories, 1, 2, 3));
             }
 
             return suggestions;

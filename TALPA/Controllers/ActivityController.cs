@@ -13,10 +13,14 @@ namespace TALPA.Controllers
     public class ActivityController : Controller
     {
         private readonly SuggestionManager suggestionManager;
+        private readonly PollManager pollManager;
+        private readonly EmployeeManager employeeManager;
 
         public ActivityController()
         {
             suggestionManager = new SuggestionManager();
+            pollManager = new PollManager();
+            employeeManager = new EmployeeManager();
         }
 
         [HttpPost]
@@ -76,6 +80,22 @@ namespace TALPA.Controllers
             if (ModelState.IsValid)
             {
                 return Content($"New Deadline: {model.DeadlineDate}");
+            }
+            return Content("error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePoll(CreatePollViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                int team = employeeManager.GetUserTeam(user);
+                pollManager.CreatePoll(team, model.Dates, model.Activities.Select(s => int.Parse(s)).ToList());
+       
+                TempData["AlertMessage"] = "Stemming is aangemaakt.";
+                return Redirect($"/dashboard");
             }
             return Content("error");
         }

@@ -32,7 +32,7 @@ tfoot {
     bottom: -10px;
 }
 
-.tableRow {
+.tableRow, #activities {
     color: #5236AB;
 }
 
@@ -140,4 +140,16 @@ tfoot {
 
 .select2-container--bootstrap-5 .select2-selection--multiple .select2-search {
     margin-top: 7px;
+}
+
+tr.selected {
+    box-sizing: border-box;
+    border: 2px solid #5236AB;
+}
+
+.alert-warning {
+    right: 0;
+    margin-right: 7rem;
+    background-color: #5236AB !important;
+    color: #fff;
 }

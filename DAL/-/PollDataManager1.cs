@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-	internal class PollDataManager
+	internal class PollDataManager1
 	{
 		public void PollSubmit(string ManagerId, DateTime deadline, List<int> activitys)
 		{

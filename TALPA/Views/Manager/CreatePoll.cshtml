@@ -68,16 +68,6 @@
                         <li>
                             <div class="row mx-3 d-flex align-items-center mb-2">
                                 <div class="col-1 p-0 align-middle">
-                                    <h3 class="mb-0"><i class="bi bi-coin align-middle"></i></h3>
-                                </div>
-                                <div class="col p-0">
-                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Points</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row mx-3 d-flex align-items-center mb-2">
-                                <div class="col-1 p-0 align-middle">
                                     <h3 class="mb-0"><i class="bi bi-envelope-at align-middle"></i></h3>
                                 </div>
                                 <div class="col p-0">
@@ -113,6 +103,8 @@
         </ul>
     </div>
 </nav>
+
+<div id="alert-box" class="position-absolute overflow-hidden r-0"></div>
 <div class="corner corner-rt position-absolute d-none d-xl-block"></div>
 <div class="corner corner-lb position-absolute d-none d-xl-block"></div>
 
@@ -122,8 +114,9 @@
     </div>
     <div class="row content-row h-75">
         <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
-            <h2 class="subtitle mb-3 d-block d-sm-inline">Activiteiten</h2>
-            <div class="row mt-1">
+            <h2 class="subtitle mb-4 d-block d-sm-inline">Activiteiten: <span id="activities" class="h5"></span></h2>
+            <button type="button" class="btn d-block d-sm-inline float-sm-right" id="startPoll">Stemming Starten</button>
+            <div class="row mt-3">
                 <div class="col">
                     <input type="text" class="form-control py-4 input-long" id="activitySearch" placeholder="Zoek een activiteit">
                 </div>
@@ -160,7 +153,7 @@
                             <th class="p-0"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="activityTable">
                         <tr id="placeHolderRow">
                             <th scope="row" class="tableRow">Geen zoek resultaat.</th>
                             <td></td>
@@ -169,7 +162,7 @@
                         </tr>
                         @foreach (var activity in Model.Suggestions)
                         {
-                            <tr class="w-100">
+                            <tr class="w-100 activityRow" name="@activity.Name" actId="@activity.Id">
                                 <th scope="row" class="tableRow ellipsis">@activity.Name</th>
                                 <td class="ellipsis w-25">@activity.Description</td>
                                 <td id="categories">
@@ -204,34 +197,38 @@
         </div>
     </div>
 
-    <div class="modal fade" id="changeDeadline" tabindex="-1" aria-labelledby="changeDeadlineLabel" aria-hidden="true">
+    <div class="modal fade" id="setPeriod" tabindex="-1" aria-labelledby="changeAvailabilityLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form asp-controller="Activity" asp-action="changeDeadline" method="post">
-                    @Html.AntiForgeryToken()
-                    <div class="modal-header justify-content-center">
-                        <h5 class="modal-title" id="changeDeadlineLabel">Deadline Aanpassen</h5>
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="changeAvailabilityLabel">Beschikbaarheid</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dateInput">Beschikbare Dagen</label>
+                        <input type="text" class="form-control py-4 scrollInput" id="dateInput3" placeholder="Selecteer Beschikbare Dagen" disabled>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="dateInput">Deadline</label>
-                            <input type="text" class="form-control py-4 scrollInput" id="dateInput" placeholder="Selecteer Een Dag" disabled>
-                            <input type="text" id="hiddenDateInput" name="DeadlineDate" hidden>
-                        </div>
-                        <div id="datepicker" class="d-flex justify-content-center text-center"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-close" data-dismiss="modal">Annuleer</button>
-                        <button type="submit" class="btn">Deadline Aanpassen</button>
-                    </div>
-                </form>
+                    <div id="datepicker3" class="d-flex justify-content-center text-center" name="dates"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal" data-bs-dismiss="modal">Annuleer</button>
+                    <button type="submit" class="btn" id="startPoll2">Stemming Starten</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <form asp-controller="Activity" asp-action="createPoll" method="post" id="pollForm">
+        @Html.AntiForgeryToken()
+        <select id="activitiesSelect" name="activities" multiple hidden></select>
+        <select id="availableDates3" name="dates" multiple hidden></select>
+    </form>
+
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="~/scripts/multiSelectManager.js"></script>
-<script src="~/scripts/calendarManager.js"></script>
+<script src="~/scripts/calendarManagerPoll.js"></script>
 <script src="~/scripts/activityFilter.js"></script>
+<script src="~/scripts/activitySelector.js"></script>
+<script src="~/scripts/alert.js"></script>

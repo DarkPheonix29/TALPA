@@ -14,23 +14,28 @@ namespace TALPA.Controllers
     {
         private readonly SuggestionManager suggestionManager;
         private readonly EmployeeManager employeeManager;
+        private readonly PollManager pollManager;
 
         public ManagerController()
         {
             suggestionManager = new SuggestionManager();
             employeeManager = new EmployeeManager();
+            pollManager = new PollManager();
         }
 
         [Authorize]
         public IActionResult Dashboard()
         {
+            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int team = employeeManager.GetUserTeam(user);
+
             var UserProfile = new UserProfile
             {
                 UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
-                Team = "team",
+                Team = "team "+team,
                 Points = 0,
             };
 
@@ -39,18 +44,18 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            int team = employeeManager.GetUserTeam(user);
-
             List<Employee> employees = employeeManager.GetTeamEmployees(team);
-
+            Poll poll = pollManager.getCurrentPoll(team);
             List<string>  suggestions = new List<string>();
             ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
             {
                 UserProfile = UserProfile,
                 Employees = employees,
-                Suggestions = suggestions
+                Suggestions = suggestions,
+                Poll = poll,
             };
+
+            ViewBag.AlertMessage = TempData["AlertMessage"] ?? "";
 
             return View(managerDashboardViewModel);
         }
@@ -58,13 +63,16 @@ namespace TALPA.Controllers
         [Authorize]
         public IActionResult Employees()
         {
+            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int team = employeeManager.GetUserTeam(user);
+
             var UserProfile = new UserProfile
             {
                 UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
-                Team = "team",
+                Team = "team " + team,
                 Points = 0,
             };
 
@@ -73,15 +81,13 @@ namespace TALPA.Controllers
                 return Redirect("/dashboard");
             }
 
-            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            int team = employeeManager.GetUserTeam(user);
-
             List<Employee> employees = employeeManager.GetTeamEmployees(team);
-
+            Poll poll = pollManager.getCurrentPoll(team);
             ManagerDashboardViewModel managerDashboardViewModel = new ManagerDashboardViewModel
             {
                 UserProfile = UserProfile,
-                Employees = employees
+                Employees = employees,
+                Poll = poll
             };
 
             return View(managerDashboardViewModel);
@@ -89,13 +95,16 @@ namespace TALPA.Controllers
 
         public IActionResult CreatePoll()
         {
+            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            int team = employeeManager.GetUserTeam(user);
+
             var UserProfile = new UserProfile
             {
                 UserName = User.Claims.FirstOrDefault(c => c.Type == "https://localhost:7112/username")?.Value,
                 EmailAddress = User.Identity.Name,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
-                Team = "team",
+                Team = "team " + team,
                 Points = 0,
             };
 

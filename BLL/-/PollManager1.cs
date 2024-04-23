@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-	internal class PollManager
+	internal class PollManager1
 	{
-		private void Splitactivitiess(Poll poll)
+		private void Splitactivitiess(Poll1 poll)
 		{
 			if (poll.Activity_Id.Count == 3)
 			{
@@ -18,7 +18,7 @@ namespace BLL
 				poll.ActivityVotes3 = poll.Activity_Id[2];
 			}
 		}
-		public void ActivityVoted(int VotedActivity, Poll poll)
+		public void ActivityVoted(int VotedActivity, Poll1 poll)
 		{
 			switch (VotedActivity)
 			{
@@ -34,7 +34,7 @@ namespace BLL
 			}
 		}
 
-		public void DeadlineCheck(Poll poll)
+		public void DeadlineCheck(Poll1 poll)
 		{
 			if (DateTime.Now >= poll.Deadline)
 			{
@@ -43,7 +43,7 @@ namespace BLL
 			}
 		}
 
-		private void DecideWinner(Poll poll)
+		private void DecideWinner(Poll1 poll)
 		{
 			if (poll.ActivityVotes1 > poll.ActivityVotes2 && poll.ActivityVotes1 > poll.ActivityVotes3)
 			{
@@ -69,7 +69,7 @@ namespace BLL
 			}
 		}
 
-		private void TieBreaker(Poll poll)
+		private void TieBreaker(Poll1 poll)
 		{
 			if (poll.ActivityVotes1 == poll.ActivityVotes2 && poll.ActivityVotes1 == poll.ActivityVotes3)
 			{
@@ -142,13 +142,13 @@ namespace BLL
 			}
 		}
 
-		private void GetDoubleRandom(Poll poll)
+		private void GetDoubleRandom(Poll1 poll)
 		{
 			Random rnd = new Random();
 			poll.TieBreakerNumber = rnd.Next(1);
 		}
 
-		private void GetTripleRandom(Poll poll)
+		private void GetTripleRandom(Poll1 poll)
 		{
 			Random rnd = new Random();
 			poll.TripleTieBreakerNumber = rnd.Next(2);

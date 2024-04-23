@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Manager Dashboard";
-    int state = 2;
 }
 
 @{
@@ -43,17 +42,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="row mx-3 d-flex align-items-center mb-2">
-                                <div class="col-1 p-0 align-middle">
-                                    <h3 class="mb-0"><i class="bi bi-coin align-middle"></i></h3>
-                                </div>
-                                <div class="col p-0">
-                                    <p class="mb-0 ml-3 text-capitalize">@Model.UserProfile.Points</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
+                       <li>
                             <div class="row mx-3 d-flex align-items-center mb-2">
                                 <div class="col-1 p-0 align-middle">
                                     <h3 class="mb-0"><i class="bi bi-envelope-at align-middle"></i></h3>
@@ -91,6 +80,16 @@
         </ul>
     </div>
 </nav>
+
+@if (!string.IsNullOrWhiteSpace(@ViewBag.AlertMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show position-absolute mt-4 position-absolute" role="alert">
+        <strong>@ViewBag.AlertMessage</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <div class="corner corner-rt position-absolute d-none d-xl-block"></div>
 <div class="corner corner-lb position-absolute d-none d-xl-block"></div>
 
@@ -101,56 +100,8 @@
     <div class="row content-row h-75">
         <div class="col-xl section m-3 p-3 shadow h-100 w-100 overflow-hidden">
 
-            @if (state == 1)
+            @if (false)
             {
-                <h2 class="subtitle mb-3 d-block d-sm-inline">Stem Op Een Uitje</h2>
-                <button type="button" class="btn d-block d-sm-inline float-sm-right" data-toggle="modal" data-target="#changeDeadline">Deadline Aanpassen</button>
-                <p href="#" class="text-muted my-2"><span class="font-weight-bold">Deadline: </span>20 april 17:00</p>
-                <div class="tableLine"></div>
-                <div class="card1-text">
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="row px-2">
-                                        <div class="col p-0 ml-3 text-left">
-                                            <h3 id="selectOption1Name">Paintball</h3>
-                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="row px-2">
-                                        <div class="col p-0 ml-3 text-left">
-                                            <h3 id="selectOption2Name">Voetballen</h3>
-                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="row px-2">
-                                        <div class="col p-0 ml-3 text-left">
-                                            <h3 id="selectOption3Name">Zwemmen</h3>
-                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            }
-            else if (state == 2) {
-                <div class="text-center h-100 vertical-center-box">
-                    <h2 class="subtitle mb-3">Nog Geen Uitjes Geplanned</h2>
-                    <button type="button" class="btn" onclick="location.href='/dashboard/uitje';">Stemming Starten</button>
-                </div>
-            }
-            else {
                 <h2 class="subtitle mb-3">Aankomend Uitje</h2>
                 <div class="tableLine"></div>
                 <div class="overflow-auto card1-text py-3">
@@ -166,6 +117,55 @@
                     </p>
                     <p href="#" class="text-muted mb-3"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
                     <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Locatie: </span> Rachelsmolen 1, 5612 MA Eindhoven</p>
+                </div>
+            }
+            @if (!Model.Poll.Active)
+            {
+                <div class="text-center h-100 vertical-center-box">
+                    <h2 class="subtitle mb-3">Nog Geen Uitjes Geplanned</h2>
+                    <button type="button" class="btn" onclick="location.href='/dashboard/uitje';">Stemming Starten</button>
+                </div>
+            }
+            else {
+                <h2 class="subtitle mb-3 d-block d-sm-inline">Stem Op Een Uitje</h2>
+                <button type="button" class="btn d-block d-sm-inline float-sm-right" data-toggle="modal" data-target="#changeDeadline">Deadline Aanpassen</button>
+                <p href="#" class="text-muted my-2"><span class="font-weight-bold">Deadline: </span>20 april 17:00</p>
+                <div class="tableLine"></div>
+                <div class="card1-text">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col p-0 ml-3 text-left">
+                                            <h3 id="selectOption1Name">@Model.Poll.Activity1Name</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col p-0 ml-3 text-left">
+                                            <h3 id="selectOption2Name">@Model.Poll.Activity2Name</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="row px-2">
+                                        <div class="col p-0 ml-3 text-left">
+                                            <h3 id="selectOption3Name">@Model.Poll.Activity3Name</h3>
+                                            <p href="#" class="text-muted mb-0"><span class="font-weight-bold">Beperkingen: </span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             }
 

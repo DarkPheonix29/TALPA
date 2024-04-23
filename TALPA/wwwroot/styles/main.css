@@ -71,3 +71,33 @@ html, body {
     background: repeating-linear-gradient(-90deg, rgba(82,54,171,1) 0%, rgba(228,25,55,1) 100%) !important;
     background-attachment: fixed !important;
 }
+
+.alertRemove {
+    animation: alertRemove 1s linear;
+}
+
+.alertRemoved {
+    height: 0px;
+    width: 0px;
+    right: -500px !important;
+}
+
+@keyframes alertRemove {
+    0% {
+        right: 0;
+    }
+
+    50% {
+        right: -500px;
+    }
+
+    100% {
+        right: -500px;
+        height: 0px;
+        width: 0px;
+    }
+}
+
+.r-0 {
+    right: 0;
+}

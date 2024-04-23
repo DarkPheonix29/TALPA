@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace BLL
 {
-    internal class Poll(DateTime deadline, List<int> activity_id)
+    internal class Poll1(DateTime deadline, List<int> activity_id)
     {
         public int ActivityVotes1 = 0;
         public int ActivityVotes2 = 0;

@@ -20,7 +20,7 @@ function filter() {
     });
     
     var hasMatch = false
-    $("tbody tr").each(function () {
+    $(".activityTable .activityRow").each(function () {
         var row = $(this);
         var text = row.text().toLowerCase();
         var limitations = row.find("#limitations").text().toLowerCase();
