@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL;
 
 namespace BLL
 {
@@ -157,6 +158,24 @@ namespace BLL
 		private void GivePointsToWinner()
 		{
 
+		}
+
+		public void SubmitPollToDatabase(Poll poll, string id)
+		{
+			PollDataManager pdm = new PollDataManager();
+			pdm.PollSubmit(id, poll.Deadline, poll.Activity_Id);
+		}
+
+		public void UpdatePollVotesInDatabase(int activityId, int pollId)
+		{
+			PollDataManager pdm = new PollDataManager();
+			pdm.UpdateVotes(activityId, pollId);
+		}
+
+		public void DeletePollFromDatabase(string id)
+		{
+			PollDataManager pdm = new PollDataManager();
+			pdm.DeletePoll(id);
 		}
 	}
 }
