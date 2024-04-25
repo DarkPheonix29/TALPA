@@ -1,6 +1,7 @@
 using System.Data;
 using System.Diagnostics;
 using BLL;
+using DAL;
 using Activity = BLL.Activity;
 
 
@@ -14,10 +15,11 @@ namespace UnitTests
         public void User_submit()
         {
             //Arange
-
             DAL.ConnectionManager.Initialize(connectionString);
+            UserDataManager udm = new();
+
             //Act
-            DAL.UserDataManager.UserSubmit("auth0|66052e2b423e9ac1d787cb32");
+            udm.UserSubmit("auth0|66052e2b423e9ac1d787cb32");
             //Assert
         }
         [TestMethod]
@@ -49,9 +51,10 @@ namespace UnitTests
         {
 			//Arrange
 			DAL.ConnectionManager.Initialize(connectionString);
+			ActivityDataManager adm = new();
 
 			//Act
-			DataTable dt = DAL.ActivityDataManager.GetActivity(9);
+			DataTable dt = adm.GetActivity(9);
 
 			DataRow row = dt.Rows[0];
             foreach (DataColumn column in dt.Columns)

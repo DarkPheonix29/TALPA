@@ -25,15 +25,18 @@ namespace BLL
                 {
                     limitationIDs.Add((int)limit);
                 }
-            ActivityDataManager.ActivitySubmit(activity.Name, activity.Description, activity.DateAdded, limitationIDs, activity.ProposingUserId, activity.Dates);
+            ActivityDataManager adm = new();
+            adm.ActivitySubmit(activity.Name, activity.Description, activity.DateAdded, limitationIDs, activity.ProposingUserId, activity.Dates);
         }
         public Activity constructActivityFromDB(int id)
         {
             List<LimitationTypes> limitations = new();
             List<DateTime> dates = new();
-            DataTable adt = ActivityDataManager.GetActivity(id);
-            DataTable ldt = ActivityDataManager.GetLimitations(id);
-            DataTable ddt = ActivityDataManager.GetDates(id);
+
+            ActivityDataManager adm = new();
+            DataTable adt = adm.GetActivity(id);
+            DataTable ldt = adm.GetLimitations(id);
+            DataTable ddt = adm.GetDates(id);
             DataRow row = adt.Rows[0];
 
             foreach (DataRow lrow in ldt.Rows)

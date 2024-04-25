@@ -7,6 +7,7 @@ using System.Security.Claims;
 using TALPA.Models;
 using BLL.Models;
 using BLL;
+using DAL;
 
 namespace TALPA.Controllers
 {
@@ -32,11 +33,12 @@ namespace TALPA.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                System.Data.DataTable user = DAL.UserDataManager.GetUser(userId);
+                UserDataManager udm = new();
+                System.Data.DataTable user = udm.GetUser(userId);
 
                 if (user == null)
                 {
-                    DAL.UserDataManager.UserSubmit(userId);
+                    udm.UserSubmit(userId);
                 }
             }
             return Redirect("/");

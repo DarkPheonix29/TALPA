@@ -10,7 +10,7 @@ namespace DAL
 {
     public class UserDataManager
     {
-        public static void UserSubmit(string id)
+        public void UserSubmit(string id)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -34,7 +34,7 @@ namespace DAL
             }
         }
 
-        public static DataTable GetUser(string id)
+        public DataTable GetUser(string id)
         {
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{

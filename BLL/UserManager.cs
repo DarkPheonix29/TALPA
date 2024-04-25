@@ -15,8 +15,8 @@ namespace BLL
     {
         public User ConstructUserFromDB(string id)
         {
-            
-            DataTable dt = UserDataManager.GetUser(id);
+	        UserDataManager udm = new();
+            DataTable dt = udm.GetUser(id);
             DataRow row = dt.Rows[0];
             User user = new(Convert.ToInt32(row["points"]));
             return user;
