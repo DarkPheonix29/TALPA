@@ -39,7 +39,7 @@ namespace BLL
             DataTable result = _employeeDataManager.GetTeamEmployees(team_id);
             foreach (DataRow row in result.Rows)
             {
-                employees.Add(new Employee(row["name"].ToString(), row["email"].ToString(), 0, 0, 0, 0));
+                //employees.Add(new Employee(row["name"].ToString(), row["email"].ToString(), 0, 0, 0, 0));
             }
 
             return employees;

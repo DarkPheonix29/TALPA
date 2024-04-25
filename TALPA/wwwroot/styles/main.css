@@ -101,3 +101,25 @@ html, body {
 .r-0 {
     right: 0;
 }
+
+/**/
+body {
+    background-color: #efefef !important;
+}
+
+.btn {
+    padding: 0.7rem !important;
+    border: none !important;
+    color: #fff !important;
+    background-color: #5236AB !important;
+    border-radius: 10px !important;
+}
+
+.btn:hover {
+    background-color: #734eeb !important;
+}
+
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+    }

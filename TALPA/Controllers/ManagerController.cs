@@ -10,13 +10,13 @@ using BLL;
 
 namespace TALPA.Controllers
 {
-	public class ManagerController : Controller
+	public class EmployeeUtility1 : Controller
     {
         private readonly SuggestionManager suggestionManager;
         private readonly EmployeeManager employeeManager;
         private readonly PollManager pollManager;
 
-        public ManagerController()
+        public EmployeeUtility1()
         {
             suggestionManager = new SuggestionManager();
             employeeManager = new EmployeeManager();
