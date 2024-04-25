@@ -76,6 +76,57 @@ namespace DAL
 					catch (Exception ex)
 					{
 						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error removing user from team.", ex);
+					}
+				}
+			}
+		}
+
+		public void RemoveAllMembersFromTeam(int teamId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"UPDATE [user] SET team_id = null WHERE team_id = @Id";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@Id", teamId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error removing all users from team.", ex);
+					}
+				}
+			}
+		}
+
+		public void DeleteTeam(int teamId)
+		{
+			RemoveAllMembersFromTeam(teamId);
+			PollDataManager pdm = new();
+			pdm.DeletePoll(teamId);
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"DELETE FROM team WHERE id = @Id";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@Id", teamId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
 						throw new Exception("Error adding user to team.", ex);
 					}
 				}

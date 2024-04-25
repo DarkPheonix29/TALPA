@@ -184,7 +184,7 @@ namespace DAL
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
-		        string query = "DELETE * FROM Activity WHERE id = @ActivityId";
+		        string query = "DELETE FROM Activity WHERE id = @ActivityId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try

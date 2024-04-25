@@ -158,5 +158,18 @@ namespace UnitTests
 
 	        //Assert
 		}
+
+        [TestMethod]
+        public void Delete_team()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.TeamDataManager tdm = new();
+
+			//Act
+			tdm.DeleteTeam(1);
+
+			//Assert
+		}
 	}
 }
