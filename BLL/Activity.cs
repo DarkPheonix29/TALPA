@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using DAL;
-using Microsoft.IdentityModel.Tokens;
-
+﻿
 namespace BLL
 {
     public class Activity(string name, string description, List<LimitationTypes> limitations, string proposingUserId, DateTime dateAdded)
