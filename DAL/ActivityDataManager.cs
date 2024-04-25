@@ -13,7 +13,7 @@ namespace DAL
 {
     public class ActivityDataManager
     {
-        public static void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId, List<DateTime> dates)
+        public void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId, List<DateTime> dates)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -43,7 +43,7 @@ namespace DAL
             }
         }
 
-        public static void Add_limitations(List<int> limitationsId, int activityId)
+        public void Add_limitations(List<int> limitationsId, int activityId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -70,7 +70,7 @@ namespace DAL
                 }
             }
         }
-        public static void Add_dates(List<DateTime> dates, int activityId)
+        public void Add_dates(List<DateTime> dates, int activityId)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
@@ -98,7 +98,7 @@ namespace DAL
 	        }
         }
 
-		public static void VotedUserUpdate(int votedUserId, int activityId)
+		public void VotedUserUpdate(int votedUserId, int activityId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -122,7 +122,7 @@ namespace DAL
                 }
             }
         }
-        public static DataTable GetActivity(int id)
+        public DataTable GetActivity(int id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
@@ -151,7 +151,7 @@ namespace DAL
 	        }
         }
 
-        public static DataTable GetLimitations(int id)
+        public DataTable GetLimitations(int id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
@@ -251,7 +251,7 @@ namespace DAL
 	        }
 		}
 
-        public static DataTable GetDates(int id)
+        public DataTable GetDates(int id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
