@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -95,9 +96,10 @@ namespace DAL
 
 		public void DeletePoll(int teamId)
 		{
+			DeleteSelection(teamId);
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "DELETE FROM Poll WHERE team_id = @TeamId";
+				string query = "DELETE FROM poll WHERE team_id = @TeamId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
@@ -112,6 +114,58 @@ namespace DAL
 					{
 						// Handle exceptions appropriately (e.g., logging)
 						throw new Exception("Error deleting poll.", ex);
+					}
+				}
+			}
+		}
+
+		public void DeleteSelection(int teamId)
+		{
+			int pollId = GetPollId(teamId);
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "DELETE FROM activity_poll WHERE selection_id = @PollId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@PollId", pollId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error deleting selection.", ex);
+					}
+				}
+			}
+		}
+
+		public int GetPollId(int teamId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"SELECT (id) FROM poll WHERE team_id = @TeamId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@TeamId", teamId);
+
+						connection.Open();
+
+						int id = Convert.ToInt32(command.ExecuteScalar());
+
+						return id;
+
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting poll id.", ex);
 					}
 				}
 			}
