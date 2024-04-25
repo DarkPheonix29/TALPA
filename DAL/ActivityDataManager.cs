@@ -1,13 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -98,7 +90,7 @@ namespace DAL
 	        }
         }
 
-		public void VotedUserUpdate(int votedUserId, int activityId)
+		public void VotedUserUpdate(string votedUserId, int activityId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
@@ -182,6 +174,7 @@ namespace DAL
 
         public void DeleteActivityById(int id)
         {
+			RemoveDates(id);
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 		        string query = "DELETE FROM Activity WHERE id = @ActivityId";
@@ -192,6 +185,8 @@ namespace DAL
 				        command.Parameters.AddWithValue("@ActivityId", id);
 
 				        connection.Open();
+
+						command.ExecuteNonQuery();
 			        }
 			        catch (Exception ex)
 			        {
@@ -275,6 +270,30 @@ namespace DAL
 			        {
 				        // Handle exceptions appropriately (e.g., logging)
 				        throw new Exception("Error getting dates.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public void RemoveDates(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "DELETE FROM Activity_date WHERE activity_id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+
+						command.ExecuteNonQuery();
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error removing dates.", ex);
 			        }
 		        }
 	        }
