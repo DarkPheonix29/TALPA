@@ -171,5 +171,49 @@ namespace UnitTests
 
 			//Assert
 		}
+
+        [TestMethod]
+        public void Get_all_activities()
+        {
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.ActivityDataManager adm = new();
+
+			//Act
+			DataTable dt = adm.GetAllActivity();
+
+			foreach (DataRow row in dt.Rows)
+			{
+				Console.WriteLine($"{row["name"]} : {row["description"]} : {row["proposing_user"]} : {row["date_added"]}");
+			}
+
+			//Assert
+		}
+
+        [TestMethod]
+        public void Delete_activity()
+        {
+	        //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.ActivityDataManager adm = new();
+
+	        //Act
+	        adm.DeleteActivityById(9);
+
+	        //Assert
+		}
+
+        [TestMethod]
+        public void Update_voted_users()
+        {
+	        //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.ActivityDataManager adm = new();
+
+	        //Act
+	        adm.VotedUserUpdate("auth0|66052e2b423e9ac1d787cb32", 1);
+
+	        //Assert
+		}
 	}
 }
