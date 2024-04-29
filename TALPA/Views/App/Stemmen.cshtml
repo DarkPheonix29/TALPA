@@ -4,18 +4,29 @@
     ViewData["Page"] = "Stemmen";
 }
 
-<div class="d-flex align-items-center justify-content-between mb-3">
+@model TALPA.Models.PollViewModel
+
+<div class="d-md-flex align-items-center justify-content-between mb-3">
 	<h1>Stem op je favoriete uitje</h1>
-	<p class="mb-0"><small class="text-muted">Resterende tijd: 34:05:27:01</small></p>
+	<p class="mb-0"><small class="text-muted">Resterende tijd: <span id="countdown"></span></small></p>
 </div>
-<p class="text-center">Op dit moment is er geen stemming bezig.</p>
+
+@if (Model.PollChosen && Model.PollChosen)
+{
+	
+} 
+else
+{
+	<p class="text-center">Op dit moment is er geen stemming bezig.</p>
+}
+
 <div class="row">
 	<div class="col-lg-4 mb-4">
 		<div class="card h-100">
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -25,11 +36,11 @@
 		</div>
 	</div>
 	<div class="col-lg-4 mb-4">
-		<div class="card h-100">
+		<div class="card">
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -39,11 +50,11 @@
 		</div>
 	</div>
 	<div class="col-lg-4 mb-4">
-		<div class="card h-100">
+		<div class="card">
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -54,25 +65,14 @@
 	</div>
 </div>
 
+<p class="text-center">Mijn beschikbaarheid: 10 april 2024, 17 april 2024, 20 april 2024</p>
 <div class="row mt-3">
 	<div class="col-lg-4 mb-4">
 		<div class="card h-100">
-			<div class="card-header">
-				<div class="d-flex align-items-center justify-content-between">
-					<div>
-						<a class="text-btn" target="_blank" href="https://maps.google.com/?q=Molendijk 6, 6107 AA Stevensweert">Molendijk 6, 6107 AA Stevensweert</a>
-						<br />
-						<p class="mb-0">10 april 2024 17:00 tot 19:30</p>
-					</div>
-					<a class="btn" target="_blank" href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Bedrijfs+uitje:+Stadswandeling&dates=20240430T160000/20240430T173000&location=Molendijk+6,+6107+AA+Stevensweert&details=Verken+de+bezienswaardigheden+en+verborgen+juweeltjes+van+de+stad+tijdens+een+ontspannen+wandeling+met+je+collega%27s.%0A%0ATeam:+Dev+Team%0ALocatie:+Molendijk+6,+6107+AA+Stevensweert&location=51.1333,5.8426">
-						Toevoegen aan agenda
-					</a>
-				</div>
-			</div>
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -90,7 +90,7 @@
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -104,7 +104,7 @@
 			<div class="card-body">
 				<div class="d-flex align-items-start justify-content-between mb-2">
 					<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-					<p class="card-text ps-3"><small class="text-muted">5 stemmen</small></p>
+					<p class="card-text ps-3"><small class="text-muted text-nowrap">5 stemmen</small></p>
 				</div>
 				<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
 				<p class="mb-0">Categorie: Buiten, Middag</p>
@@ -114,3 +114,5 @@
 		</div>
 	</div>
 </div>
+
+<script src="~/scripts/countdown.js"></script>

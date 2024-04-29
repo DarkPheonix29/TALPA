@@ -117,8 +117,7 @@ namespace TALPA.Controllers
 
             ActivityViewModel activityViewModel = new ActivityViewModel
             {
-                UserProfile = UserProfile,
-                Suggestions = suggestions
+
             };
 
             return View(activityViewModel);

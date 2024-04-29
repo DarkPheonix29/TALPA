@@ -4,25 +4,36 @@
 	ViewData["Page"] = "Uitje";
 }
 
+@model TALPA.Models.ActivityViewModel
+
 <h1 class="mb-3">Huidig uitje</h1>
-<p class="text-center">Op dit moment zijn er geen uitjes gepland.</p>
-<div class="card h-100">
-	<div class="card-header">
-		<div class="d-flex align-items-center justify-content-between">
-			<div>
-				<a class="text-btn" target="_blank" href="https://maps.google.com/?q=Molendijk 6, 6107 AA Stevensweert">Molendijk 6, 6107 AA Stevensweert</a>
-				<br />
-				<p class="mb-0">10 april 2024 17:00 tot 19:30</p>
+
+@if (Model.ActivityPlanned)
+{
+	<div class="card h-100">
+		<div class="card-header">
+			<div class="d-md-flex align-items-center justify-content-between">
+				<div>
+					<a class="text-btn" target="_blank" href="https://maps.google.com/?q=@Model.ActivityLocation">@Model.ActivityLocation</a>
+					<br />
+					<p class="mb-md-0">@Model.ActivityStartDate tot @Model.ActivityEndDate</p>
+				</div>
+				<a class="btn" target="_blank" href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Bedrijfs+uitje:+@System.Web.HttpUtility.UrlEncode(Model.ActivityName)&dates=@DateTime.ParseExact(Model.ActivityStartDate, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyyMMddTHHmmss")/@DateTime.ParseExact(Model.ActivityEndDate, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyyMMddTHHmmss")&location=@System.Web.HttpUtility.UrlEncode(Model.ActivityLocation)&details=@System.Web.HttpUtility.UrlEncode(Model.ActivityDescription)%0A%0ATeam:+@System.Web.HttpUtility.UrlEncode(ViewBag.Employee.Team)%0ALocatie:+@System.Web.HttpUtility.UrlEncode(Model.ActivityLocation)&location=@System.Web.HttpUtility.UrlEncode(Model.ActivityLocation)">
+					Toevoegen aan agenda
+				</a>
 			</div>
-			<a class="btn" target="_blank" href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Bedrijfs+uitje:+Stadswandeling&dates=20240430T160000/20240430T173000&location=Molendijk+6,+6107+AA+Stevensweert&details=Verken+de+bezienswaardigheden+en+verborgen+juweeltjes+van+de+stad+tijdens+een+ontspannen+wandeling+met+je+collega%27s.%0A%0ATeam:+Dev+Team%0ALocatie:+Molendijk+6,+6107+AA+Stevensweert&location=51.1333,5.8426">
-				Toevoegen aan agenda
-			</a>
+		</div>
+		<div class="card-body">
+			<h5 class="card-title overflow-hidden mb-0">@Model.ActivityName</h5>
+			<p class="card-text">@Model.ActivityDescription</p>
+			<p class="mb-0">Categorie: @string.Join(", ", Model.ActivityCategories)</p>
+			<p class="mb-0">Beperkingen: @string.Join(", ", Model.ActivityLimitation)</p>
 		</div>
 	</div>
-	<div class="card-body">
-		<h5 class="card-title overflow-hidden mb-0">Stadswandeling</h5>
-		<p class="card-text">Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.</p>
-		<p class="mb-0">Categorie: Buiten, Middag</p>
-		<p>Beperkingen: Tijd, Alcohol</p>
-	</div>
-</div>
+} 
+else
+{
+	<p class="text-center">Op dit moment zijn er geen uitjes gepland.</p>
+}
+
+<div id="datepicker" class="d-flex justify-content-center text-center" name="dates"></div>

@@ -9,13 +9,6 @@ namespace TALPA.Controllers
 {
 	public class AccountController : Controller
     {
-        private readonly EmployeeManager employeeManager;
-
-        public AccountController()
-        {
-            employeeManager = new EmployeeManager();
-        }
-
         public async Task Login()
         {
 			var authenticationProperties = new LoginAuthenticationPropertiesBuilder().WithRedirectUri("/").Build();

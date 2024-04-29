@@ -10,10 +10,16 @@ using BLL;
 
 namespace TALPA
 {
-	public static class EmployeeUtility
+	public class EmployeeUtility
     {
- 
-        public static Employee GetEmployee(ClaimsPrincipal User)
+		private readonly EmployeeManager employeeManager;
+
+		public EmployeeUtility()
+		{
+			employeeManager = new EmployeeManager();
+		}
+
+		public static Employee GetEmployee(ClaimsPrincipal User)
         {
             string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             string team = User.Claims.FirstOrDefault(c => c.Type == "TALPA/groups")?.Value;
