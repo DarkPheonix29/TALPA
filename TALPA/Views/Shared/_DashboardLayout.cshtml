@@ -14,7 +14,9 @@
 <body>
     <header class="navbar navbar-expand-sm navbar-light bg-white sticky-top">
         <div class="container-xxl">
-            <a class="navbar-brand fw-bold" href="/uitje">TALPA</a>
+            <a class="navbar-brand my-3" href="/uitje">
+                <img src="~/images/talpa.png" alt="TALPA" height="30">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,15 +34,15 @@
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-capitalize" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                             @ViewBag.Employee.Name
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li class="dropdown-item text-capitalize">Naam: @ViewBag.Employee.Name</li>
-                            <li class="dropdown-item">Email: @ViewBag.Employee.Email</li>
-                            <li class="dropdown-item">Punten: @ViewBag.Employee.Points</li>
-                            <li class="dropdown-item">Team: @ViewBag.Employee.Team</li>
-                            <li class="dropdown-item">Rol: @ViewBag.Employee.Role</li>
+                            <li class="dropdown-item disabled text-capitalize">Naam: @ViewBag.Employee.Name</li>
+                            <li class="dropdown-item disabled">Email: @ViewBag.Employee.Email</li>
+                            <li class="dropdown-item disabled">Punten: @ViewBag.Employee.Points</li>
+                            <li class="dropdown-item disabled text-capitalize">Team: @ViewBag.Employee.Team</li>
+                            <li class="dropdown-item disabled text-capitalize">Rol: @ViewBag.Employee.Role</li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/logout">Uitloggen</a></li>
                         </ul>

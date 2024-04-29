@@ -1,4 +1,5 @@
-@font-face {
+/*
+    @font-face {
     font-family: sourceSansPro;
     src: url(../fonts/source-sans-pro.regular.ttf);
 }
@@ -101,25 +102,64 @@ html, body {
 .r-0 {
     right: 0;
 }
-
+*/
 /**/
 body {
     background-color: #efefef !important;
 }
 
+.text-btn {
+    text-decoration: none !important;
+    color: #5236AB !important;
+}
+
+.text-btn:hover {
+    color: #734eeb !important;
+}
+
 .btn {
-    padding: 0.7rem !important;
     border: none !important;
     color: #fff !important;
     background-color: #5236AB !important;
-    border-radius: 10px !important;
 }
 
 .btn:hover {
     background-color: #734eeb !important;
 }
 
-.btn:focus, .btn:active {
+.btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active {
     outline: none !important;
     box-shadow: none !important;
-    }
+    border-color: #5236AB !important;
+}
+
+.form-check-input {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.form-check-input:focus, .form-check-input:active {
+    border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.accordion-item {
+    border: none !important;
+}
+
+.accordion-button, .accordion-button:focus, .accordion-button:active {
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #fff !important;
+    color: #5236AB !important;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235236AB'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
+}
+
+.form-check-input:checked {
+    border-color: rgba(0, 0, 0, 0.25) !important;
+    background-color: #5236AB !important;
+}
