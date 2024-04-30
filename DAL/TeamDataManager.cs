@@ -105,7 +105,7 @@ namespace DAL
 		{
 			RemoveAllMembersFromTeam(teamId);
 			PollDataManager pdm = new();
-			pdm.DeletePoll(teamId);
+			//pdm.DeletePoll(teamId);
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
 				string query = $"DELETE FROM team WHERE id = @Id";
