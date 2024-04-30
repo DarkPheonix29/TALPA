@@ -1,175 +1,73 @@
-﻿using DAL;
-
+﻿using BLL.Models;
+using System.Globalization;
 namespace BLL
 {
-	internal class PollManager
+    public class PollManager
 	{
-		private void Splitactivitiess(Poll poll)
+		public bool PollActive(string team)
 		{
-			if (poll.Activity_Id.Count == 3)
-			{
-				poll.ActivityVotes1 = poll.Activity_Id[0];
-				poll.ActivityVotes2 = poll.Activity_Id[1];
-				poll.ActivityVotes3 = poll.Activity_Id[2];
-			}
-		}
-		public void ActivityVoted(int VotedActivity, Poll poll)
-		{
-			switch (VotedActivity)
-			{
-				case 1:
-					poll.ActivityVotes1++;
-					break;
-				case 2:
-					poll.ActivityVotes2++;
-					break;
-				case 3:
-					poll.ActivityVotes3++;
-					break;
-			}
+			// team is de team naam, deze is uniek"
+
+			bool pollActive = true; // is stemming actief voor team?
+
+			return pollActive;
 		}
 
-		public void DeadlineCheck(Poll poll)
+		public bool PollChosen(string user)
 		{
-			if (DateTime.Now >= poll.Deadline)
-			{
-				DecideWinner(poll);
-				GivePointsToWinner();
-			}
+			// user is de user id, auth0|...
+
+			bool pollChosen = true; // heeft de persoon al gestemd?
+
+			return pollChosen;
 		}
 
-		private void DecideWinner(Poll poll)
-		{
-			if (poll.ActivityVotes1 > poll.ActivityVotes2 && poll.ActivityVotes1 > poll.ActivityVotes3)
+		public Poll GetPoll(string team)
+        {
+			// team is de team naam, deze is uniek"
+
+			List<Suggestion>  suggestions = new List<Suggestion>(); // vull deze lijst de 3 suggesties in de poll
+			int chosenSuggestion = 3; // id van de gekozen suggestie, als niks gekozen is, dan 0
+			List<string> availability = new List<string> { "10-04-2024", "13-04-2024", "17-04-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
+			string deadline = "2024-04-30 15:30"; // Belangrijk tijd in formaar [yyy-mm-dd hh:mm]
+
+			suggestions.Add(new Suggestion
 			{
-				// verwijst naar de activity die gewonnen heeft en zet won op true
-				poll.Won = true;
-			}
-
-			else if (poll.ActivityVotes2 > poll.ActivityVotes1 && poll.ActivityVotes2 > poll.ActivityVotes3)
+				Id = 1,
+				Name = "Stadswandeling 1",
+				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
+				Categories = new List<string> { "Buiten", "Middag" },
+				Limitations = new List<string> { "Tijd", "Alcohol" },
+				Votes = 5 // Hoeveel stemmen heeft deze suggestie in deze poll?
+			});
+			suggestions.Add(new Suggestion
 			{
-				// verwijst naar de activity die gewonnen heeft en zet won op true
-				poll.Won = true;
-			}
-
-			else if (poll.ActivityVotes3 > poll.ActivityVotes1 && poll.ActivityVotes3 > poll.ActivityVotes2)
+				Id = 2,
+				Name = "Stadswandeling 2",
+				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
+				Categories = new List<string> { "Buiten", "Middag" },
+				Limitations = new List<string> { "Tijd", "Alcohol" },
+				Votes = 7 // Hoeveel stemmen heeft deze suggestie in deze poll?
+			});
+			suggestions.Add(new Suggestion
 			{
-				// verwijst naar de activity die gewonnen heeft en zet won op true
-				poll.Won = true;
-			}
+				Id = 3,
+				Name = "Stadswandeling 3",
+				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
+				Categories = new List<string> { "Buiten", "Middag" },
+				Limitations = new List<string> { "Tijd", "Alcohol" },
+				Votes = 1 // Hoeveel stemmen heeft deze suggestie in deze poll?
+			});
 
-			else
+			Poll poll = new Poll
 			{
-				TieBreaker(poll);
-			}
-		}
+				ChosenSuggestion = chosenSuggestion,
+				Suggestions = suggestions,
+				Availability = availability,
+				Deadline = deadline
+			};
 
-		private void TieBreaker(Poll poll)
-		{
-			if (poll.ActivityVotes1 == poll.ActivityVotes2 && poll.ActivityVotes1 == poll.ActivityVotes3)
-			{
-				GetTripleRandom(poll);
-				if (poll.TieBreakerNumber == 0)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-
-				else if (poll.TieBreakerNumber == 1)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-
-				else if (poll.TieBreakerNumber == 2)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-			}
-
-			else if (poll.ActivityVotes1 == poll.ActivityVotes2)
-			{
-				GetDoubleRandom(poll);
-				if (poll.TieBreakerNumber == 0)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-
-				else if (poll.TieBreakerNumber == 1)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-			}
-
-			else if (poll.ActivityVotes1 == poll.ActivityVotes3)
-			{
-				GetDoubleRandom(poll);
-				if (poll.TieBreakerNumber == 0)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-
-				else if (poll.TieBreakerNumber == 1)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-			}
-
-			else if (poll.ActivityVotes2 == poll.ActivityVotes3)
-			{
-				GetDoubleRandom(poll);
-				if (poll.TieBreakerNumber == 0)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-
-				else if (poll.TieBreakerNumber == 1)
-				{
-					// verwijst naar de activity die gewonnen heeft en zet won op true
-					poll.Won = true;
-				}
-			}
-		}
-
-		private void GetDoubleRandom(Poll poll)
-		{
-			Random rnd = new Random();
-			poll.TieBreakerNumber = rnd.Next(1);
-		}
-
-		private void GetTripleRandom(Poll poll)
-		{
-			Random rnd = new Random();
-			poll.TripleTieBreakerNumber = rnd.Next(2);
-		}
-
-		private void GivePointsToWinner()
-		{
-
-		}
-
-		public void SubmitPollToDatabase(Poll poll, int teamId)
-		{
-			PollDataManager pdm = new PollDataManager();
-			pdm.PollSubmit(teamId, poll.Deadline, poll.Activity_Id);
-		}
-
-		public void UpdatePollVotesInDatabase(int activityId, int pollId)
-		{
-			PollDataManager pdm = new PollDataManager();
-			pdm.UpdateVotes(activityId, pollId);
-		}
-
-		public void DeletePollFromDatabase(int teamId)
-		{
-			PollDataManager pdm = new PollDataManager();
-			pdm.DeletePoll(teamId);
-		}
-	}
+			return poll;
+        }
+    }
 }

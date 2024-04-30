@@ -1,60 +1,33 @@
-﻿using DAL;
-using Microsoft.IdentityModel.Tokens;
-using System.Data;
-
+﻿using BLL.Models;
 namespace BLL
 {
     public class ActivityManager
-    {
-        public void SubmitToDatabase(Activity activity)
-        {
-            List<string> VoterId = new();
-            List<int> limitationIDs = new();
-            if (!activity.VotedUsers.IsNullOrEmpty())
-                foreach (User user in activity.VotedUsers)
-                {
-                    VoterId.Add(user.UserId);
-                }
-            if (!activity.Limitations.IsNullOrEmpty())
-                foreach (LimitationTypes limit in activity.Limitations)
-                {
-                    limitationIDs.Add((int)limit);
-                }
-            ActivityDataManager adm = new();
-            adm.ActivitySubmit(activity.Name, activity.Description, activity.DateAdded, limitationIDs, activity.ProposingUserId, activity.Dates);
-        }
-        public Activity constructActivityFromDB(int id)
-        {
-            List<LimitationTypes> limitations = new();
-            List<DateTime> dates = new();
+	{
+		public bool ActivityPlanned(string team)
+		{
+			// team is de team naam, deze is uniek"
 
-            ActivityDataManager adm = new();
-            DataTable adt = adm.GetActivity(id);
-            DataTable ldt = adm.GetLimitations(id);
-            DataTable ddt = adm.GetDates(id);
-            DataRow row = adt.Rows[0];
+			bool activityPlanned = true; // is uitje gepland voor team?
 
-            foreach (DataRow lrow in ldt.Rows)
+			return activityPlanned;
+		}
+
+		public Activity GetActivity(string team)
+        {
+            // team is de team naam, deze is uniek"
+
+            Activity activity = new Activity
             {
-                int limitationId = (int)lrow["limitation_id"];
-                limitations.Add((LimitationTypes)limitationId);
-            }
+				Name = "Stadswandeling",
+				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
+				Categories = new List<string> { "Buiten", "Middag" },
+				Limitations = new List<string> { "Tijd", "Alcohol" },
+				Location = "Molendijk 6, 6107 AA Stevensweert",
+				StartDate = "10-04-2024 17:00", // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
+				EndDate = "10-04-2024 19:30" // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
+			};
 
-            foreach (DataRow drow in ddt.Rows)
-            {
-				dates.Add(Convert.ToDateTime(drow));
-			}
-
-            UserManager proposingUser = new();
-            Activity activity = new(Convert.ToString(row["name"]), Convert.ToString(row["description"]), limitations, proposingUser.ConstructUserFromDB(Convert.ToString(row["proposing_user"])).UserId, Convert.ToDateTime(row["date_added"]));
-            activity.Dates = dates;
-            return activity;
-        }
-
-        public void chooseActivity(int id)
-        {
-	        ActivityDataManager adm = new();
-	        adm.ChooseActivity(id);
+			return activity;
         }
     }
 }

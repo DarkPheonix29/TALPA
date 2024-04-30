@@ -14,7 +14,9 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 
 // Expose Connection String for Database
 string connectionString = builder.Configuration.GetConnectionString("TALPADB");
+string connectionStringMySQL = builder.Configuration.GetConnectionString("LocalMySQL");
 DAL.ConnectionManager.Initialize(connectionString);
+DAL.SQLConnectionManager.Initialize(connectionStringMySQL);
 
 //build the app
 var app = builder.Build();
@@ -22,8 +24,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -40,40 +40,27 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
-    name: "dashboard",
-    pattern: "dashboard",
-    defaults: new { controller = "Account", action = "Dashboard" }
+    name: "uitje",
+    pattern: "uitje",
+    defaults: new { controller = "App", action = "Activity" }
 );
 
 app.MapControllerRoute(
-    name: "dashboard/0",
-    pattern: "dashboard/0",
-    defaults: new { controller = "Employee", action = "Dashboard" }
+    name: "suggesties",
+    pattern: "suggesties",
+    defaults: new { controller = "App", action = "Suggestions" }
 );
 
 app.MapControllerRoute(
-    name: "dashboard/1",
-    pattern: "dashboard/1",
-    defaults: new { controller = "Manager", action = "Dashboard" }
+    name: "stemmen",
+    pattern: "stemmen",
+    defaults: new { controller = "App", action = "Poll" }
 );
 
 app.MapControllerRoute(
-    name: "dashboard/2",
-    pattern: "dashboard/2",
-    defaults: new { controller = "Admin", action = "Dashboard" }
+    name: "uitloggen",
+    pattern: "uitloggen",
+    defaults: new { controller = "Account", action = "Logout" }
 );
-
-app.MapControllerRoute(
-    name: "dashboard/medewerkers",
-    pattern: "dashboard/medewerkers",
-    defaults: new { controller = "Manager", action = "Employees" }
-);
-
-app.MapControllerRoute(
-    name: "dashboard/uitje",
-    pattern: "dashboard/uitje",
-    defaults: new { controller = "Manager", action = "CreatePoll" }
-);
-
 
 app.Run();

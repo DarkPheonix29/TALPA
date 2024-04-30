@@ -1,23 +1,12 @@
-﻿
-namespace BLL.Models
+﻿namespace BLL.Models
 {
     public class Employee
     {
-        public string Name { get; set; }
+		public string Id { get; set; }
+		public string Name { get; set; }
         public string Email { get; set; }
-        public int Points { get; set; }
-        public int SuggestionsSelected { get; set; }
-        public int SuggestionVoted { get; set; }
-        public int SuggestionChosen { get; set; }
-
-        public Employee(string name, string email, int points, int suggestionsSelected, int suggestionVoted, int suggestionChosen)
-        {
-            Name = name;
-            Email = email;
-            Points = points;
-            SuggestionsSelected = suggestionsSelected;
-            SuggestionVoted = suggestionVoted;
-            SuggestionChosen = suggestionChosen;
-        }
+		public string Team { get; set; }
+		public string Role { get; set; }
+		public int Points { get; set; }
     }
 }
