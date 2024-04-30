@@ -1,0 +1,95 @@
+﻿@{
+	Layout = "_DashboardLayout";
+	ViewData["Title"] = "Suggesties";
+	ViewData["Page"] = "Suggesties";
+}
+
+@model TALPA.Models.SuggestionsViewModel
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+	<h1>Uitjesuggesties</h1>
+	<a class="btn">Nieuwe suggestie</a>
+</div>
+<div class="row">
+	<div class="col-lg-3 mb-3">
+		<div class="accordion accordion-flush" id="filterAccordion">
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter1">
+						Zoeken
+					</button>
+				</h2>
+				<div id="filter1" class="accordion-collapse collapse show">
+					<div class="accordion-body">
+						<input type="text" class="form-control" placeholder="Zoek uitje">
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter2">
+						Categorie
+					</button>
+				</h2>
+				<div id="filter2" class="accordion-collapse collapse show">
+					<div class="accordion-body">
+						@foreach (var category in Model.Categories)
+						{
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="@category">
+								<label class="form-check-label text-capitalize" for="@category">@category</label>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter3">
+						Beperkingen
+					</button>
+				</h2>
+				<div id="filter3" class="accordion-collapse collapse show">
+					<div class="accordion-body">
+						@foreach (var limitation in Model.Limitations)
+						{
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="@limitation">
+								<label class="form-check-label text-capitalize" for="@limitation">@limitation</label>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-9">
+		<div class="d-flex align-items-end justify-content-between">
+			<p class="m-0">5 resultaten</p>
+			<select class="form-select ms-auto w-auto">
+				<option value="trending" selected>Trending</option>
+				<option value="popular">Meest populair</option>
+				<option value="latest">Nieuwste</option>
+			</select>
+		</div>
+		<hr />
+		<div class="row">
+			@foreach (var suggestion in Model.Suggestions)
+			{
+				<div class="col-md-6 mb-4">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="d-flex align-items-start justify-content-between mb-2">
+								<h5 class="card-title mb-0">@suggestion.Name</h5>
+								<p class="card-text ps-3"><small class="text-muted text-nowrap">@suggestion.Votes stemmen</small></p>
+							</div>
+							<p class="card-text">@suggestion.Description</p>
+							<p class="mb-0">Categorie: @string.Join(", ", @suggestion.Categories)</p>
+							<p>Beperkingen: @string.Join(", ", @suggestion.Limitations)</p>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</div>

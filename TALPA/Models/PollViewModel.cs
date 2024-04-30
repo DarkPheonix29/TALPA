@@ -1,11 +1,10 @@
-﻿
-
-using BLL.Models;
+﻿using BLL.Models;
 namespace TALPA.Models
 {
     public class PollViewModel
 	{
         public bool PollActive { get; set; }
 		public bool PollChosen { get; set; }
+		public Poll Poll { get; set; }
 	}
 }

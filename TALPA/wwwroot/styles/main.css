@@ -21,7 +21,7 @@ body {
     background-color: #734eeb !important;
 }
 
-.btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active {
+.btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active, .form-control:focus, .form-control:active {
     outline: none !important;
     box-shadow: none !important;
     border-color: #5236AB !important;

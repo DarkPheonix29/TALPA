@@ -42,31 +42,25 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "uitje",
     pattern: "uitje",
-    defaults: new { controller = "App", action = "Uitje" }
+    defaults: new { controller = "App", action = "Activity" }
 );
 
 app.MapControllerRoute(
     name: "suggesties",
     pattern: "suggesties",
-    defaults: new { controller = "App", action = "Suggesties" }
+    defaults: new { controller = "App", action = "Suggestions" }
 );
 
 app.MapControllerRoute(
     name: "stemmen",
     pattern: "stemmen",
-    defaults: new { controller = "App", action = "Stemmen" }
+    defaults: new { controller = "App", action = "Poll" }
 );
 
 app.MapControllerRoute(
-    name: "logout",
-    pattern: "logout",
+    name: "uitloggen",
+    pattern: "uitloggen",
     defaults: new { controller = "Account", action = "Logout" }
-);
-
-app.MapControllerRoute(
-	name: "BevestigEmail",
-	pattern: "BevestigEmail",
-	defaults: new { controller = "Account", action = "VerifyEmail" }
 );
 
 app.Run();

@@ -19,19 +19,17 @@ namespace TALPA
 			employeeManager = new EmployeeManager();
 		}
 
-		public static Employee GetEmployee(ClaimsPrincipal User)
+		public Employee GetEmployee(ClaimsPrincipal User)
         {
-            string user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            string team = User.Claims.FirstOrDefault(c => c.Type == "TALPA/groups")?.Value;
-            int points = 0;
-
-            var employee = new Employee
+            string id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+			var employee = new Employee
             {
-                Name = User.Claims.FirstOrDefault(c => c.Type == "TALPA/username")?.Value,
+                Id = id,
+				Name = User.Claims.FirstOrDefault(c => c.Type == "TALPA/username")?.Value,
                 Email = User.Identity.Name,
-                Team = team,
+                Team = User.Claims.FirstOrDefault(c => c.Type == "TALPA/groups")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
-                Points = points,
+                Points = employeeManager.GetPoints(id)
             };
 
             return employee;
