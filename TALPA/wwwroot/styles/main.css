@@ -57,3 +57,14 @@ body {
     border-color: rgba(0, 0, 0, 0.25) !important;
     background-color: #5236AB !important;
 }
+
+.dropdown .btn {
+    background-color: #fff !important;
+    color: #000f !important;
+    border: 1px solid #ced4da !important;
+}
+
+.dropdown-item.active {
+    background-color: #fff !important;
+    color: #5236AB !important;
+}

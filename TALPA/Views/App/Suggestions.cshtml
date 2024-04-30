@@ -6,6 +6,10 @@
 
 @model TALPA.Models.SuggestionsViewModel
 
+@{
+	string sort = (Model.Sort == "trending") ? "Trending" : (Model.Sort == "latest") ? "Nieuwste" : (Model.Sort == "popular") ? "Meest populair" : "";
+}
+
 <div class="d-flex align-items-center justify-content-between mb-3">
 	<h1>Uitjesuggesties</h1>
 	<a class="btn">Nieuwe suggestie</a>
@@ -21,7 +25,8 @@
 				</h2>
 				<div id="filter1" class="accordion-collapse collapse show">
 					<div class="accordion-body">
-						<input type="text" class="form-control" placeholder="Zoek uitje">
+						<input type="text" class="form-control mb-2" placeholder="Zoek uitje" value="@Model.Search" id="searchInput">
+						<a class="btn w-100" id="searchButton">Zoek</a>
 					</div>
 				</div>
 			</div>
@@ -65,12 +70,17 @@
 	</div>
 	<div class="col-lg-9">
 		<div class="d-flex align-items-end justify-content-between">
-			<p class="m-0">5 resultaten</p>
-			<select class="form-select ms-auto w-auto">
-				<option value="trending" selected>Trending</option>
-				<option value="popular">Meest populair</option>
-				<option value="latest">Nieuwste</option>
-			</select>
+			<p class="m-0">@Model.Results resultaten</p>
+			<div class="dropdown ms-auto">
+				<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					@sort
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a class="dropdown-item @(Model.Sort == "trending" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=trending">Trending</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "popular" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=popular">Meest populair</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "latest" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=latest">Nieuwste</a></li>
+				</ul>
+			</div>
 		</div>
 		<hr />
 		<div class="row">
@@ -93,3 +103,5 @@
 		</div>
 	</div>
 </div>
+
+<script src="~/scripts/search.js"></script>

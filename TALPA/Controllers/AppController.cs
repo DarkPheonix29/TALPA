@@ -5,6 +5,7 @@ using TALPA.Models;
 using BLL.Models;
 using System.Linq.Expressions;
 using BLL;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TALPA.Controllers
 {
@@ -48,11 +49,20 @@ namespace TALPA.Controllers
         {
             ViewBag.Employee = employeeUtility.GetEmployee(User);
 
-			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
+            string  search = Request.Query["search"];
+            string sort = Request.Query["sort"];
+
+            search = string.IsNullOrEmpty(search) ? "" : search;
+            sort = string.IsNullOrEmpty(sort) ? "trending" : sort;
+
+            SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
 			{
 				Suggestions = suggestionManager.GetSuggestions(),
 				Categories = suggestionManager.GetCategories(),
-				Limitations = suggestionManager.GetLimitations()
+				Limitations = suggestionManager.GetLimitations(),
+				Search = search,
+				Sort = sort,
+				Results = 5,
 			};
             return View(suggestionsViewModel);
         }
