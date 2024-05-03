@@ -51,18 +51,24 @@ namespace TALPA.Controllers
 
             string  search = Request.Query["search"];
             string sort = Request.Query["sort"];
+			string filter = Request.Query["filter"];
 
-            search = string.IsNullOrEmpty(search) ? "" : search;
+			search = string.IsNullOrEmpty(search) ? "" : search;
             sort = string.IsNullOrEmpty(sort) ? "trending" : sort;
+			filter = string.IsNullOrEmpty(filter) ? "" : filter;
 
-            SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
+			List<string> filterList = filter.Split(' ').ToList();
+
+			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(search, sort, filterList);
+			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
 			{
-				Suggestions = suggestionManager.GetSuggestions(),
+				Suggestions = suggestionResults,
 				Categories = suggestionManager.GetCategories(),
 				Limitations = suggestionManager.GetLimitations(),
 				Search = search,
 				Sort = sort,
-				Results = 5,
+				Filter = filterList,
+				Results = suggestionResults.Count,
 			};
             return View(suggestionsViewModel);
         }
@@ -80,5 +86,5 @@ namespace TALPA.Controllers
 			};
             return View(pollViewModel);
         }
-    }
+	}
 }

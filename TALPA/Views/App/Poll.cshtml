@@ -10,7 +10,7 @@
 	<h1>Stem op je favoriete uitje</h1>
 	@if (Model.PollActive)
 	{
-		<p class="mb-0"><small class="text-muted">Resterende tijd: <span id="countdown">...</span></small></p>
+		<p class="mb-0"><small class="text-muted">Einddatum: @Model.Poll.Deadline</small></p>
 	}
 </div>
 
@@ -58,8 +58,3 @@ else
 {
 	<p class="text-center">Op dit moment is er geen stemming bezig.</p>
 }
-
-<script>
-	deadline = "@Model.Poll.Deadline"
-</script>
-<script src="~/scripts/countdown.js"></script>

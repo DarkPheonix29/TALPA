@@ -8,5 +8,6 @@
 		public List<string> Categories { get; set; }
 		public List<string> Limitations { get; set; }
 		public int Votes { get; set; }
+		public string Date { get; set; }
 	}
 }

@@ -29,7 +29,7 @@ namespace BLL
 			List<Suggestion>  suggestions = new List<Suggestion>(); // vull deze lijst de 3 suggesties in de poll
 			int chosenSuggestion = 3; // id van de gekozen suggestie, als niks gekozen is, dan 0
 			List<string> availability = new List<string> { "10-04-2024", "13-04-2024", "17-04-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
-			string deadline = "2024-04-30 15:30"; // Belangrijk tijd in formaar [yyy-mm-dd hh:mm]
+			string deadline = "10-04-2024 15:30"; // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
 
 			suggestions.Add(new Suggestion
 			{

@@ -7,12 +7,12 @@
 @model TALPA.Models.SuggestionsViewModel
 
 @{
-	string sort = (Model.Sort == "trending") ? "Trending" : (Model.Sort == "latest") ? "Nieuwste" : (Model.Sort == "popular") ? "Meest populair" : "";
+	string sort = (Model.Sort == "trending") ? "Trending" : (Model.Sort == "latest") ? "Nieuwste" : (Model.Sort == "popular") ? "Meest populair" : (Model.Sort == "least-popular") ? "Minst populair" : (Model.Sort == "oldest") ? "Oudste" : "";
 }
 
 <div class="d-flex align-items-center justify-content-between mb-3">
 	<h1>Uitjesuggesties</h1>
-	<a class="btn">Nieuwe suggestie</a>
+	<a class="btn" data-bs-toggle="modal" data-bs-target="#newSuggestionModal">Nieuwe suggestie</a>
 </div>
 <div class="row">
 	<div class="col-lg-3 mb-3">
@@ -41,7 +41,7 @@
 						@foreach (var category in Model.Categories)
 						{
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="@category">
+								<input class="form-check-input" type="checkbox" id="@category" value="@category" @(Model.Filter.Contains(category) ? "checked" : "")>
 								<label class="form-check-label text-capitalize" for="@category">@category</label>
 							</div>
 						}
@@ -59,7 +59,7 @@
 						@foreach (var limitation in Model.Limitations)
 						{
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="@limitation">
+								<input class="form-check-input" type="checkbox" id="@limitation" value="@limitation" @(Model.Filter.Contains(limitation) ? "checked" : "")>
 								<label class="form-check-label text-capitalize" for="@limitation">@limitation</label>
 							</div>
 						}
@@ -70,30 +70,32 @@
 	</div>
 	<div class="col-lg-9">
 		<div class="d-flex align-items-end justify-content-between">
-			<p class="m-0">@Model.Results resultaten</p>
+			<p class="m-0">@Model.Results @(Model.Results == 1 ? "resultaat" : "resultaten")</p>
 			<div class="dropdown ms-auto">
 				<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					@sort
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item @(Model.Sort == "trending" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=trending">Trending</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "popular" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=popular">Meest populair</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "latest" ? "active" : "")" href="?search=@System.Web.HttpUtility.UrlEncode(Model.Search)&sort=latest">Nieuwste</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "trending" ? "active" : "")" value="trending">Trending</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "popular" ? "active" : "")" value="popular">Meest populair</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "least-popular" ? "active" : "")" value="least-popular">Minst populair</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "latest" ? "active" : "")" value="latest">Nieuwste</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "oldest" ? "active" : "")" value="oldest">Oudste</a></li>
 				</ul>
 			</div>
 		</div>
 		<hr />
-		<div class="row">
+		<div class="row" id="suggestions">
 			@foreach (var suggestion in Model.Suggestions)
 			{
-				<div class="col-md-6 mb-4">
+				<div class="col-md-6 mb-4 d-none loader">
 					<div class="card h-100">
 						<div class="card-body">
 							<div class="d-flex align-items-start justify-content-between mb-2">
-								<h5 class="card-title mb-0">@suggestion.Name</h5>
+								<h5 class="card-title mb-0" id="suggestion-title">@suggestion.Name</h5>
 								<p class="card-text ps-3"><small class="text-muted text-nowrap">@suggestion.Votes stemmen</small></p>
 							</div>
-							<p class="card-text">@suggestion.Description</p>
+							<p class="card-text" id="suggestion-description">@suggestion.Description</p>
 							<p class="mb-0">Categorie: @string.Join(", ", @suggestion.Categories)</p>
 							<p>Beperkingen: @string.Join(", ", @suggestion.Limitations)</p>
 						</div>
@@ -104,4 +106,60 @@
 	</div>
 </div>
 
+<div class="modal fade" id="newSuggestionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newSuggestionModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="newSuggestionModalLabel">Nieuwe suggestie</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form asp-controller="App" asp-action="SubmitSuggestion" method="post" id="form">
+					@Html.AntiForgeryToken()
+					<div class="mb-3">
+						<label class="form-label">Suggestie</label>
+						<input type="text" class="form-control" placeholder="Jou suggestie" id="suggestionInput">
+						<div id="suggestionFeedback" class="invalid-feedback d-block"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Beschrijving</label>
+						<textarea class="form-control" rows="5" placeholder="Beschrijf jou suggestie duidelijk" id="descriptionInput"></textarea>
+						<div class="form-text" id="descriptionFeedback2">
+							Minimaal 30 tekens, 0/30
+						</div>
+						<div id="descriptionFeedback" class="invalid-feedback d-block"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Categorie</label>
+						<input type="text" class="form-control" placeholder="Categorie van jou suggestie">
+						<div class="form-text">
+							categorie1, categorie2, categorie3, ...
+						</div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Beperkingen</label>
+						<input type="text" class="form-control" placeholder="Beperkingen van jou suggestie">
+						<div class="form-text">
+							beperking1, beperking2, beperking3, ...
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-sec" data-bs-dismiss="modal">Terug</a>
+				<a class="btn" id="submitButton">Suggestie maken</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/scripts/suggestionForm.js"></script>
 <script src="~/scripts/search.js"></script>
+<script src="~/scripts/filter.js"></script>
+<script src="~/scripts/sort.js"></script>
+<script src="~/scripts/reload.js"></script>
+<script src="~/scripts/scroll.js"></script>
+<script src="~/scripts/highlight.js"></script>
+<script>
+	highlightSubstring("@Model.Search")
+</script>

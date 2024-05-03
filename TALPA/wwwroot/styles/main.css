@@ -21,6 +21,14 @@ body {
     background-color: #734eeb !important;
 }
 
+.btn-sec {
+    background-color: #6e6e6e !important;
+}
+
+.btn-sec:hover {
+    background-color: #878787 !important;
+}
+
 .btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active, .form-control:focus, .form-control:active {
     outline: none !important;
     box-shadow: none !important;
@@ -67,4 +75,17 @@ body {
 .dropdown-item.active {
     background-color: #fff !important;
     color: #5236AB !important;
+}
+
+.highlighted {
+    background-color: #5236ab5f !important;
+}
+
+.loader p, .loader h5, .loader small {
+    color: transparent !important;
+    background-color: #b6b6b6 !important;
+}
+
+.loader span {
+    visibility: hidden !important;
 }
