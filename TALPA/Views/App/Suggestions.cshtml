@@ -70,17 +70,33 @@
 	</div>
 	<div class="col-lg-9">
 		<div class="d-flex align-items-end justify-content-between">
-			<p class="m-0">@Model.Results @(Model.Results == 1 ? "resultaat" : "resultaten")</p>
+			<p class="m-0"></p>
+			@if (Model.Search != "" || Model.Filter.Any())
+			{
+				<span>@Model.Results @(Model.Results == 1 ? "resultaat" : "resultaten")</span>
+			} 
+			else
+			{
+				<span>Alle suggesties</span>
+			}
+			@if (Model.Search != "")
+			{
+				<span>&nbspvoor "@Model.Search"</span>
+			} 
+			@if (Model.Filter.Any())
+			{
+				<span> &nbspmet filter "@string.Join(", ", Model.Filter)"</span>
+			}
 			<div class="dropdown ms-auto">
 				<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					@sort
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item @(Model.Sort == "trending" ? "active" : "")" value="trending">Trending</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "popular" ? "active" : "")" value="popular">Meest populair</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "least-popular" ? "active" : "")" value="least-popular">Minst populair</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "latest" ? "active" : "")" value="latest">Nieuwste</a></li>
-					<li><a class="dropdown-item @(Model.Sort == "oldest" ? "active" : "")" value="oldest">Oudste</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "trending" ? "active" : "")" id="dropdown-item-sort" value="trending">Trending</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "popular" ? "active" : "")"  id="dropdown-item-sort" value="popular">Meest populair</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "least-popular" ? "active" : "")"  id="dropdown-item-sort" value="least-popular">Minst populair</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "latest" ? "active" : "")"  id="dropdown-item-sort" value="latest">Nieuwste</a></li>
+					<li><a class="dropdown-item @(Model.Sort == "oldest" ? "active" : "")" id="dropdown-item-sort" value="oldest">Oudste</a></li>
 				</ul>
 			</div>
 		</div>
@@ -124,24 +140,29 @@
 					<div class="mb-3">
 						<label class="form-label">Beschrijving</label>
 						<textarea class="form-control" rows="5" placeholder="Beschrijf jou suggestie duidelijk" id="descriptionInput"></textarea>
-						<div class="form-text" id="descriptionFeedback2">
-							Minimaal 30 tekens, 0/30
-						</div>
 						<div id="descriptionFeedback" class="invalid-feedback d-block"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Categorie</label>
-						<input type="text" class="form-control" placeholder="Categorie van jou suggestie">
-						<div class="form-text">
-							categorie1, categorie2, categorie3, ...
-						</div>
+						<select class="form-select" id="categoryInput" multiple data-allow-clear="true" multiple multiple data-max="3" data-allow-new="true" multiple>
+							<option selected disabled hidden value="">Categorie van jou suggestie</option>
+							@foreach (var category in Model.Categories)
+							{
+								<option value="@category">@category</option>
+							}
+						</select>
+						<div id="categoryFeedback" class="invalid-feedback d-block"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Beperkingen</label>
-						<input type="text" class="form-control" placeholder="Beperkingen van jou suggestie">
-						<div class="form-text">
-							beperking1, beperking2, beperking3, ...
-						</div>
+						<select class="form-select" id="limitationInput" multiple data-allow-clear="true" multiple data-max="3" data-allow-new="true" multiple>
+							<option selected disabled hidden value="">Beperkingen van jou suggestie</option>
+							@foreach (var limitation in Model.Limitations)
+							{
+								<option value="@limitation">@limitation</option>
+							}
+						</select>
+						<div id="limitationFeedback" class="invalid-feedback d-block"></div>
 					</div>
 				</form>
 			</div>
@@ -153,6 +174,7 @@
 	</div>
 </div>
 
+<script src="~/scripts/tags/module.js" type="module"></script>
 <script src="~/scripts/suggestionForm.js"></script>
 <script src="~/scripts/search.js"></script>
 <script src="~/scripts/filter.js"></script>

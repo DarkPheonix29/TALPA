@@ -57,7 +57,7 @@ namespace TALPA.Controllers
             sort = string.IsNullOrEmpty(sort) ? "trending" : sort;
 			filter = string.IsNullOrEmpty(filter) ? "" : filter;
 
-			List<string> filterList = filter.Split(' ').ToList();
+			List<string> filterList = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 
 			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(search, sort, filterList);
 			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel

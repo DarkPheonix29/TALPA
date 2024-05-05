@@ -1,25 +1,32 @@
 ﻿var valid1 = false;
 var valid2 = false;
+var valid3 = false;
+var valid4 = false;
 
 const suggestionInput = document.getElementById('suggestionInput');
 const suggestionFeedback = document.getElementById('suggestionFeedback');
 
 const descriptionInput = document.getElementById('descriptionInput');
 const descriptionFeedback = document.getElementById('descriptionFeedback');
-const descriptionFeedback2 = document.getElementById('descriptionFeedback2');
+
+const categoryInput = document.getElementById('categoryInput');
+const categoryFeedback = document.getElementById('categoryFeedback');
+
+const limitationInputInput = document.getElementById('limitationInput');
+const limitationInputFeedback = document.getElementById('limitationInputFeedback');
 
 const form = document.getElementById('form');
 const submitButton = document.getElementById('submitButton');
 
 suggestionInput.addEventListener("input", function () {
-    const suggestionLength = this.value.length;
-    console.log(suggestionLength)
-    if (suggestionLength > 30) {
+    const length = this.value.length;
+    if (length > 30) {
         suggestionInput.classList.add("is-invalid")
-        suggestionFeedback.textContent = `Maximaal 30 tekens, ${suggestionLength}/30`;
+        suggestionFeedback.textContent = `Maximaal 30 tekens, ${length}/30`;
         valid1 = false;
-    } else if(suggestionLength < 5) {
+    } else if(length < 5) {
         suggestionInput.classList.add("is-invalid")
+        suggestionFeedback.textContent = `Minimaal 5 tekens, ${length}/30`;
         valid1 = false;
     } else {
         suggestionInput.classList.remove("is-invalid")
@@ -29,14 +36,14 @@ suggestionInput.addEventListener("input", function () {
 });
 
 descriptionInput.addEventListener("input", function () {
-    const suggestionLength = this.value.length;
-    console.log(suggestionLength)
-    if (suggestionLength > 150) {
+    const length = this.value.length;
+    if (length > 150) {
         descriptionInput.classList.add("is-invalid")
-        descriptionFeedback.textContent = `Maximaal 150 tekens, ${suggestionLength}/150`;
+        descriptionFeedback.textContent = `Maximaal 150 tekens, ${length}/150`;
         valid2 = false;
-    } else if (suggestionLength < 30) {
+    } else if (length < 30) {
         descriptionInput.classList.add("is-invalid")
+        descriptionFeedback.textContent = `Minimaal 30 tekens, ${length}/30`;
         valid2 = false;
     }
     else {
@@ -44,15 +51,42 @@ descriptionInput.addEventListener("input", function () {
         descriptionFeedback.textContent = "";
         valid2 = true;
     }
-    descriptionFeedback2.textContent = `Minimaal 30 tekens, ${suggestionLength}/30`;
+});
+
+categoryInput.addEventListener("change", function () {
+    const length = this.selectedOptions.length;
+    if (length < 1) {
+        this.previousElementSibling.classList.add("is-invalid")
+        categoryFeedback.textContent = `Minimaal 1`;
+        valid3 = false;
+    } else {
+        this.previousElementSibling.classList.remove("is-invalid")
+        categoryFeedback.textContent = "";
+        valid3 = true;
+    }
+});
+
+limitationInputInput.addEventListener("change", function () {
+    const length = this.selectedOptions.length;
+    if (length < 1) {
+        this.previousElementSibling.classList.add("is-invalid")
+        limitationInputFeedback.textContent = `Minimaal 1`;
+        valid4 = false;
+    } else {
+        this.previousElementSibling.classList.remove("is-invalid")
+        limitationInputFeedback.textContent = "";
+        valid4 = true;
+    }
 });
 
 submitButton.addEventListener('click', function () {
-    if (valid1 && valid2) {
+    if (valid1 && valid2 && valid3 && valid4) {
         console.log("submit")
         form.submit();
     } else {
         suggestionInput.dispatchEvent(new Event('input'));
         descriptionInput.dispatchEvent(new Event('input'));
+        categoryInput.dispatchEvent(new Event('change'));
+        limitationInput.dispatchEvent(new Event('change'));
     }
 });

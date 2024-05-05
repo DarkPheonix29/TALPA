@@ -89,3 +89,11 @@ body {
 .loader span {
     visibility: hidden !important;
 }
+
+.form-control.is-invalid:focus, .form-control.is-invalid:active {
+    border-color: #dc3545 !important;
+}
+
+.badge, .bg-primary {
+    background-color: #5236abff !important;
+}

@@ -23,10 +23,7 @@ namespace BLL
 			}
 
 			suggestions = SearchSuggestions(search, suggestions);
-			if (!string.IsNullOrWhiteSpace(filter[0]))
-			{
-				suggestions = FilterSuggestions(filter, suggestions);
-			}
+			suggestions = FilterSuggestions(filter, suggestions);
 			suggestions = SortSuggestions(sort, suggestions);
 
 			return suggestions;
@@ -67,10 +64,31 @@ namespace BLL
 
 		private List<Suggestion> FilterSuggestions(List<string> filters, List<Suggestion> suggestions)
 		{
-			suggestions = suggestions.Where(
-				suggestion => suggestion.Limitations.Any(limitation => filters.Contains(limitation)) ||
-				suggestion.Categories.Any(category => filters.Contains(category))
-			).ToList();
+			if (filters.Count > 0)
+			{
+				List<Suggestion> filtered = new List<Suggestion>();
+				foreach(Suggestion suggestion in suggestions)
+				{
+					bool match = false;
+					List<string> suggestionContents = suggestion.Categories.Concat(suggestion.Limitations).ToList();
+
+					foreach(string filter in filters)
+					{
+						if (suggestionContents.Contains(filter))
+						{
+							match = true;
+						}
+						else
+						{
+							match = false;
+							break;
+						}
+					}
+
+					if (match) filtered.Add(suggestion);
+				}
+				suggestions = filtered;
+			}
 			return suggestions;
 		}
 

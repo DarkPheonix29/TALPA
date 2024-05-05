@@ -1,4 +1,4 @@
-﻿document.querySelectorAll('.dropdown-item').forEach(function (item) {
+﻿document.querySelectorAll('#dropdown-item-sort').forEach(function (item) {
     item.addEventListener('click', function (event) {
         event.preventDefault();
         var value = this.getAttribute('value'); 
