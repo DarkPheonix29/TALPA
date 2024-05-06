@@ -33,7 +33,11 @@
 } 
 else
 {
-	<p class="text-center">Op dit moment zijn er geen uitjes gepland.</p>
+	<div class="text-center">
+		<p>Op dit moment zijn er geen uitjes gepland.</p>
+		@if (ViewBag.Employee.Role == "Manager")
+		{
+			<a class="btn" href="/suggesties">Nieuw stemming starten</a>
+		}
+	</div>
 }
-
-<div id="datepicker" class="d-flex justify-content-center text-center" name="dates"></div>

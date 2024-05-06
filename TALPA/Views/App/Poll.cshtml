@@ -35,7 +35,7 @@
 						<p>Beperkingen: @string.Join(", ", @suggestion.Limitations)</p>
 						@if (!Model.PollChosen)
 						{
-							<a class="btn mt-auto">Uitje Kiezen</a>
+							<a class="btn mt-auto" data-bs-toggle="modal" data-bs-target="#pollModal" data-bs-suggestion-id="@suggestion.Id" data-bs-suggestion-name="@suggestion.Name">Uitje Kiezen</a>
 						}
 					</div>
 					@if (Model.PollChosen)
@@ -57,4 +57,52 @@
 else
 {
 	<p class="text-center">Op dit moment is er geen stemming bezig.</p>
+}
+
+<div class="modal fade" id="pollModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="pollModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="pollModalLabel">Keuze maken</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form asp-controller="App" asp-action="SubmitPoll" method="post" id="form">
+					@Html.AntiForgeryToken()
+					<div class="mb-3">
+						<label class="form-label">Uitje</label>
+						<input type="text" class="form-control" id="suggestionInput" disabled>
+						<input type="hidden" id="suggestionId" name="suggestion">
+						<div id="suggestionFeedback" class="invalid-feedback d-block"></div>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Beschikbaarheid</label>
+						<textarea type="text" rows="1" class="form-control dateInput" id="dateInput" placeholder="Selecteer beschikbare dagen" disabled></textarea>
+						<div id="dateFeedback" class="invalid-feedback d-block mb-2"></div>
+						<div id="datepicker" class="d-flex justify-content-center text-center"></div>
+						<select id="dateInputHidden" name="availability" multiple hidden></select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-sec" data-bs-dismiss="modal">Terug</a>
+				<a class="btn" id="submitButton">Keuze bevestigen</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@if (Model.PollActive)
+{
+	@if (!Model.PollChosen)
+	{
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" asp-append-version="true" />
+		<link rel="stylesheet" href="~/styles/calender.css" asp-append-version="true" />
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+		<script asp-append-version="true">
+			var availableDates = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Poll.PossibleDates));
+		</script>
+		<script src="~/scripts/pollForm.js"></script>
+	}
 }

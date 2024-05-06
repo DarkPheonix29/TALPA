@@ -47,7 +47,10 @@ namespace TALPA.Controllers
 		[Authorize]
 		public IActionResult Suggestions()
         {
-            ViewBag.Employee = employeeUtility.GetEmployee(User);
+			Employee employee = employeeUtility.GetEmployee(User);
+			ViewBag.Employee = employee;
+			ViewBag.message = TempData["message"] ?? "";
+            ViewBag.errorMessage = TempData["errorMessage"] ?? "";
 
             string  search = Request.Query["search"];
             string sort = Request.Query["sort"];
@@ -59,7 +62,7 @@ namespace TALPA.Controllers
 
 			List<string> filterList = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 
-			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(search, sort, filterList);
+			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(employee.Id, search, sort, filterList);
 			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
 			{
 				Suggestions = suggestionResults,
@@ -77,8 +80,10 @@ namespace TALPA.Controllers
 		public IActionResult Poll()
         {
 			ViewBag.Employee = employeeUtility.GetEmployee(User);
+			ViewBag.message = TempData["message"] ?? "";
+            ViewBag.errorMessage = TempData["errorMessage"] ?? "";
 
-			PollViewModel pollViewModel = new PollViewModel
+            PollViewModel pollViewModel = new PollViewModel
             {
                 PollActive = pollManager.PollActive(ViewBag.Employee.Team),
                 PollChosen = pollManager.PollChosen(ViewBag.Employee.Id),
@@ -86,5 +91,79 @@ namespace TALPA.Controllers
 			};
             return View(pollViewModel);
         }
+
+		[Authorize]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult SubmitSuggestion(string name, string description, List<string> categories, List<string> limitations)
+		{
+			if (
+				!string.IsNullOrWhiteSpace(name) && 
+				!string.IsNullOrWhiteSpace(description) &&
+				categories.Any() &&
+				limitations.Any() &&
+				name.Length >= 5 &&
+				name.Length <= 30 &&
+				description.Length >= 30 &&
+				description.Length <= 150 &&
+				categories.Count >= 1 &&
+				limitations.Count >= 1
+			)
+			{
+				Employee employee = employeeUtility.GetEmployee(User);
+				suggestionManager.SubmitSuggestion(employee.Id, name, description, categories, limitations);
+				TempData["message"] = "We hebben je suggestie ontvangen!";
+				return Redirect("/suggesties");
+			}
+			return Content("Invalid");
+		}
+
+		[Authorize]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult SubmitPoll(string suggestion, List<string> availability)
+		{
+			if (
+				!string.IsNullOrWhiteSpace(suggestion) &&
+				availability.Any()
+			)
+			{
+				Employee employee = employeeUtility.GetEmployee(User);
+				int suggestionInt = Convert.ToInt32(suggestion);
+				pollManager.SubmitPoll(employee.Id, employee.Team, suggestionInt, availability);
+				TempData["message"] = "We hebben je Keuze ontvangen!";
+				return Redirect("/stemmen");
+			}
+			return Content("Invalid");
+		}
+
+		[Authorize]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult CreatePoll(List<string> activities, string deadline, string time)
+		{
+			if (
+				!string.IsNullOrWhiteSpace(deadline) &&
+				!string.IsNullOrWhiteSpace(time) &&
+				activities.Count == 3
+			)
+			{
+				Employee employee = employeeUtility.GetEmployee(User);
+				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
+				string date = deadline + " " + time;
+				bool created = pollManager.CreatePoll(employee.Id, employee.Team, activities, date);
+				if (created)
+				{
+					TempData["message"] = "Stemming is aangemaakt!";
+                    return Redirect("/stemmen");
+                }
+				else
+				{
+					TempData["errorMessage"] = "Er is al een stemming bezig!";
+                    return Redirect("/suggesties");
+                }
+			}
+			return Content("Invalid");
+		}
 	}
 }

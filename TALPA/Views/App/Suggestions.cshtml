@@ -17,14 +17,37 @@
 <div class="row">
 	<div class="col-lg-3 mb-3">
 		<div class="accordion accordion-flush" id="filterAccordion">
+			@if (ViewBag.Employee.Role == "Manager")
+			{
+				<div class="accordion-item">
+					<h2 class="accordion-header">
+						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter1">
+							Uitje plannen
+						</button>
+					</h2>
+					<div id="filter1" class="accordion-collapse collapse show">
+						<div class="accordion-body">
+							<input type="text" class="form-control mb-2" placeholder="Activiteit 1" id="activity1" disabled>
+							<input type="text" class="form-control mb-2" placeholder="Activiteit 2" id="activity2" disabled>
+							<input type="text" class="form-control" placeholder="Activiteit 3" id="activity3" disabled>
+							<div id="activityFeedback" class="invalid-feedback d-block mb-2"></div>
+							<a class="btn w-100" id="planButton">Stemming starten</a>
+						</div>
+					</div>
+				</div>
+			}
 			<div class="accordion-item">
 				<h2 class="accordion-header">
-					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter1">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#filter4">
 						Zoeken
 					</button>
 				</h2>
-				<div id="filter1" class="accordion-collapse collapse show">
+				<div id="filter4" class="accordion-collapse collapse show">
 					<div class="accordion-body">
+						<div class="form-check mb-2">
+							<input class="form-check-input" type="checkbox" id="my-suggestions" value="Mijn suggesties" @(Model.Filter.Contains("Mijn-suggesties") ? "checked" : "")>
+							<label class="form-check-label text-capitalize" for="my-suggestions">Mijn suggesties</label>
+						</div>
 						<input type="text" class="form-control mb-2" placeholder="Zoek uitje" value="@Model.Search" id="searchInput">
 						<a class="btn w-100" id="searchButton">Zoek</a>
 					</div>
@@ -85,7 +108,7 @@
 			} 
 			@if (Model.Filter.Any())
 			{
-				<span> &nbspmet filter "@string.Join(", ", Model.Filter)"</span>
+				<span> &nbspmet filter "@string.Join(", ", Model.Filter).Replace("-", " ")"</span>
 			}
 			<div class="dropdown ms-auto">
 				<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -105,7 +128,7 @@
 			@foreach (var suggestion in Model.Suggestions)
 			{
 				<div class="col-md-6 mb-4 d-none loader">
-					<div class="card h-100">
+					<div class="card h-100" id="@suggestion.Id">
 						<div class="card-body">
 							<div class="d-flex align-items-start justify-content-between mb-2">
 								<h5 class="card-title mb-0" id="suggestion-title">@suggestion.Name</h5>
@@ -114,6 +137,11 @@
 							<p class="card-text" id="suggestion-description">@suggestion.Description</p>
 							<p class="mb-0">Categorie: @string.Join(", ", @suggestion.Categories)</p>
 							<p>Beperkingen: @string.Join(", ", @suggestion.Limitations)</p>
+						</div>
+						<div class="d-flex justify-content-center align-items-center position-absolute w-100 h-100 bg-light bg-opacity-75 rounded hidden card-select">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="#5236AB" class="bi bi-check h-50" viewBox="0 0 16 16">
+								<path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+							</svg>
 						</div>
 					</div>
 				</div>
@@ -134,17 +162,17 @@
 					@Html.AntiForgeryToken()
 					<div class="mb-3">
 						<label class="form-label">Suggestie</label>
-						<input type="text" class="form-control" placeholder="Jou suggestie" id="suggestionInput">
+						<input type="text" class="form-control" placeholder="Jou suggestie" id="suggestionInput" name="name">
 						<div id="suggestionFeedback" class="invalid-feedback d-block"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Beschrijving</label>
-						<textarea class="form-control" rows="5" placeholder="Beschrijf jou suggestie duidelijk" id="descriptionInput"></textarea>
+						<textarea class="form-control" rows="5" placeholder="Beschrijf jou suggestie duidelijk" id="descriptionInput" name="description"></textarea>
 						<div id="descriptionFeedback" class="invalid-feedback d-block"></div>
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Categorie</label>
-						<select class="form-select" id="categoryInput" multiple data-allow-clear="true" multiple multiple data-max="3" data-allow-new="true" multiple>
+						<select class="form-select" id="categoryInput" multiple data-allow-clear="true" multiple tags multiple data-max="3" data-allow-new="true" name="categories" multiple>
 							<option selected disabled hidden value="">Categorie van jou suggestie</option>
 							@foreach (var category in Model.Categories)
 							{
@@ -155,7 +183,7 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label">Beperkingen</label>
-						<select class="form-select" id="limitationInput" multiple data-allow-clear="true" multiple data-max="3" data-allow-new="true" multiple>
+						<select class="form-select" id="limitationInput" multiple data-allow-clear="true" multiple tags data-max="3" data-allow-new="true" name="limitations" multiple>
 							<option selected disabled hidden value="">Beperkingen van jou suggestie</option>
 							@foreach (var limitation in Model.Limitations)
 							{
@@ -174,6 +202,64 @@
 	</div>
 </div>
 
+@if (ViewBag.Employee.Role == "Manager")
+{
+	<div class="modal fade" id="pollModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="pollModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="pollModalLabel">Nieuwe stemming</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form asp-controller="App" asp-action="CreatePoll" method="post" id="planForm">
+						@Html.AntiForgeryToken()
+						<select id="activitiesHiddenInput" name="activities" multiple hidden></select>
+						<div class="mb-3">
+							<label class="form-label">Einddatum stemming</label>
+							<div class="d-md-flex align-items-center justify-content-between mb-3 mb-md-0">
+								<input type="text" class="form-control dateInput me-md-2" id="dateInput" placeholder="Selecteer een einddatum" disabled>
+								<div id="dateFeedback" class="invalid-feedback d-block mb-3 d-block d-md-none"></div>
+								<input type="text" id="timeInput" name="time" hidden>
+								<div class="input-group ms-md-2 border rounded timeGroup">
+									<button class="form-control border-0" type="button" id="hourInput" data-bs-toggle="dropdown" aria-expanded="false">
+										00
+									</button>
+									<ul class="dropdown-menu dropdown-menu-end time-dropdown" id="hour-dropdown">
+										@for (int hour = 0; hour <= 23; hour++)
+										{
+											string newHour = hour.ToString("D2");
+											<li><a class="dropdown-item" value="@newHour">@newHour</a></li>
+										}
+									</ul>
+									<span class="input-group-text bg-white border-0">:</span>
+									<button class="form-control border-0" type="button" id="minInput" data-bs-toggle="dropdown" aria-expanded="false">
+										00
+									</button>
+									<ul class="dropdown-menu time-dropdown" id="min-dropdown">
+										@for (int min = 0; min <= 59; min++)
+										{
+											string newMin = min.ToString("D2");
+											<li><a class="dropdown-item" value="@newMin">@newMin</a></li>
+										}
+									</ul>
+								</div>
+							</div>
+							<div id="dateFeedback2" class="invalid-feedback d-block mb-3 d-md-block d-none"></div>
+							<div id="datepicker" class="d-flex justify-content-center text-center"></div>
+							<input type="text" id="dateHiddenInput" name="deadline" hidden>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-sec" data-bs-dismiss="modal">Terug</a>
+					<a class="btn" id="submitPollButton">Stemming starten</a>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
 <script src="~/scripts/tags/module.js" type="module"></script>
 <script src="~/scripts/suggestionForm.js"></script>
 <script src="~/scripts/search.js"></script>
@@ -185,3 +271,12 @@
 <script>
 	highlightSubstring("@Model.Search")
 </script>
+
+@if (ViewBag.Employee.Role == "Manager")
+{
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/styles/calender.css" asp-append-version="true" />
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+	<script src="~/scripts/createPollForm.js"></script>
+}

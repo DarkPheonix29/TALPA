@@ -29,7 +29,7 @@ body {
     background-color: #878787 !important;
 }
 
-.btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active, .form-control:focus, .form-control:active {
+.btn:focus, .btn:active, .form-select:focus, .form-select:active, .accordion-button:focus, .accordion-button:active, .form-control:focus, .form-control:active, .btn-close:focus, .btn-close:active {
     outline: none !important;
     box-shadow: none !important;
     border-color: #5236AB !important;
@@ -75,6 +75,11 @@ body {
 .dropdown-item.active {
     background-color: #fff !important;
     color: #5236AB !important;
+    font-weight: bold !important;
+}
+
+.dropdown-item:focus, .dropdown-item:active {
+    background-color: #fff !important;
 }
 
 .highlighted {
@@ -96,4 +101,32 @@ body {
 
 .badge, .bg-primary {
     background-color: #5236abff !important;
+}
+
+.alert  {
+    z-index: 1040 !important;
+    min-width: 300px !important;
+}
+
+.dateInput {
+    resize: none !important;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.time-dropdown {
+    max-height: 300px !important;
+    overflow: auto !important;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+.time-dropdown::-webkit-scrollbar {
+    display: none !important;
+}
+
+.timeGroup.focused {
+    border: 1px solid #5236AB !important;
 }

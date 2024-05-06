@@ -13,10 +13,13 @@ const categoryInput = document.getElementById('categoryInput');
 const categoryFeedback = document.getElementById('categoryFeedback');
 
 const limitationInputInput = document.getElementById('limitationInput');
-const limitationInputFeedback = document.getElementById('limitationInputFeedback');
+const limitationInputFeedback = document.getElementById('limitationFeedback');
 
 const form = document.getElementById('form');
 const submitButton = document.getElementById('submitButton');
+
+var modalBody = document.querySelector('.modal-content');
+var tagMenus = document.querySelectorAll('.tags-menu');
 
 suggestionInput.addEventListener("input", function () {
     const length = this.value.length;

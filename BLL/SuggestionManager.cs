@@ -3,9 +3,17 @@ namespace BLL
 {
     public class SuggestionManager
     {
-        public List<Suggestion> GetSuggestions(string search, string sort, List<string> filter)
+        public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter)
         {
-            List<Suggestion> suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties
+			List<Suggestion> suggestions;
+			if (filter.Contains("Mijn-suggesties"))
+			{
+				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties gemaakt door user
+			} 
+			else
+			{
+				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties
+			}
 
 			for (int i = 1; i <= 55; i++)
 			{
@@ -64,7 +72,7 @@ namespace BLL
 
 		private List<Suggestion> FilterSuggestions(List<string> filters, List<Suggestion> suggestions)
 		{
-			if (filters.Count > 0)
+			if (filters.Count > 0 && !(filters.Count == 1 && filters.Contains("Mijn-suggesties")))
 			{
 				List<Suggestion> filtered = new List<Suggestion>();
 				foreach(Suggestion suggestion in suggestions)
@@ -74,14 +82,17 @@ namespace BLL
 
 					foreach(string filter in filters)
 					{
-						if (suggestionContents.Contains(filter))
+						if (filter != "Mijn-suggesties")
 						{
-							match = true;
-						}
-						else
-						{
-							match = false;
-							break;
+							if (suggestionContents.Contains(filter))
+							{
+								match = true;
+							}
+							else
+							{
+								match = false;
+								break;
+							}
 						}
 					}
 
@@ -115,6 +126,13 @@ namespace BLL
 				suggestions = suggestions.OrderBy(suggestion => DateTime.Parse(suggestion.Date)).ToList();
 			}
 			return suggestions;
+		}
+
+		public bool SubmitSuggestion(string user, string name, string description, List<string> categories, List<string> limitations)
+		{
+			// Sla uitje op
+			Console.WriteLine($"{user}: {name} | {description} | {String.Join(", ", categories)} | {String.Join(", ", limitations)}");
+			return true;
 		}
 	}
 }

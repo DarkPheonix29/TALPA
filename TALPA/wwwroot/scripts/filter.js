@@ -10,7 +10,7 @@
         var checkedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         var filterValues = [];
         checkedCheckboxes.forEach(function (checkbox) {
-            filterValues.push(checkbox.value);
+            filterValues.push(checkbox.value.replace(" ", "-"));
         });
         var url = new URL(window.location.href);
         if (filterValues.length != 0) {

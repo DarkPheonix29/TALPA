@@ -6,5 +6,6 @@
 		public int ChosenSuggestion { get; set; }
 		public List<Suggestion> Suggestions { get; set; }
 		public List<string> Availability { get; set; }
+		public List<string> PossibleDates { get; set; }
 	}
 }

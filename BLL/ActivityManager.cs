@@ -7,7 +7,7 @@ namespace BLL
 		{
 			// team is de team naam, deze is uniek"
 
-			bool activityPlanned = true; // is uitje gepland voor team?
+			bool activityPlanned = false; // is uitje gepland voor team?
 
 			return activityPlanned;
 		}

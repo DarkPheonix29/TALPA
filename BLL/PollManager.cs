@@ -1,5 +1,6 @@
 ﻿using BLL.Models;
 using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace BLL
 {
     public class PollManager
@@ -17,7 +18,7 @@ namespace BLL
 		{
 			// user is de user id, auth0|...
 
-			bool pollChosen = true; // heeft de persoon al gestemd?
+			bool pollChosen = false; // heeft de persoon al gestemd?
 
 			return pollChosen;
 		}
@@ -29,6 +30,7 @@ namespace BLL
 			List<Suggestion>  suggestions = new List<Suggestion>(); // vull deze lijst de 3 suggesties in de poll
 			int chosenSuggestion = 3; // id van de gekozen suggestie, als niks gekozen is, dan 0
 			List<string> availability = new List<string> { "10-04-2024", "13-04-2024", "17-04-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
+			List<string> possibleDates = new List<string> {  "11-5-2024", "18-5-2024", "25-5-2024", "1-6-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
 			string deadline = "10-04-2024 15:30"; // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
 
 			suggestions.Add(new Suggestion
@@ -64,10 +66,25 @@ namespace BLL
 				ChosenSuggestion = chosenSuggestion,
 				Suggestions = suggestions,
 				Availability = availability,
+				PossibleDates = possibleDates,
 				Deadline = deadline
 			};
 
 			return poll;
         }
-    }
+
+		public bool SubmitPoll(string user, string team, int suggestion, List<string> availability)
+		{
+			// Sla keuze op
+			Console.WriteLine($"{user} van {team}: {suggestion} | {string.Join(", ", availability)}");
+			return true;
+		}
+
+		public bool CreatePoll(string user, string team, List<string> activities, string date)
+		{
+			// Maak poll aan
+			Console.WriteLine($"{user} van {team}: {date} | {string.Join(",", activities)}");
+			return false; // Return true als poll aangemaakt is en false als poll al bestaat voor team
+		}
+	}
 }
