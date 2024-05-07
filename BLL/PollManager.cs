@@ -39,7 +39,7 @@ namespace BLL
 			}
 		}
 
-		public Poll GetPoll(string team)
+		public Poll GetPoll(string user, string team)
         {
 			ActivityDataManager adm = new();
 			TeamDataManager tdm = new();
