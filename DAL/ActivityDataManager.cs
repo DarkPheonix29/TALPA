@@ -5,6 +5,7 @@ namespace DAL
 {
     public class ActivityDataManager
     {
+		//Not working rn heeft categories nodig en nieuwe activity values, limitations table bestaat niet meer
         public void ActivitySubmit(string name, string description, DateTime dateAdded, List<int> limitationsId, string proposingUserId, List<DateTime> dates)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
@@ -114,7 +115,7 @@ namespace DAL
                 }
             }
         }
-        public DataTable GetActivity(int id)
+        public DataRow GetActivity(int id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
@@ -132,7 +133,9 @@ namespace DAL
 					        da.Fill(dt);
 				        }
 
-				        return dt;
+						DataRow dr = dt.Rows[0];
+
+						return dr;
 			        }
 			        catch (Exception ex)
 			        {
@@ -167,6 +170,35 @@ namespace DAL
 			        {
 				        // Handle exceptions appropriately (e.g., logging)
 				        throw new Exception("Error getting limitation.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public DataTable GetCategories(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT * FROM activity_category WHERE activity_id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+				        DataTable dt = new();
+				        using (SqlDataAdapter da = new(command))
+				        {
+					        da.Fill(dt);
+				        }
+
+				        return dt;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error getting categories.", ex);
 			        }
 		        }
 	        }
@@ -323,5 +355,43 @@ namespace DAL
 		        }
 	        }
 		}
+
+        public List<string> GetVotedUsers(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        List<string> UserId = new List<string>();
+		        string query = "SELECT voted_user_id FROM activity_user WHERE activity_id = @ActivityId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@ActivityId", id);
+
+				        connection.Open();
+
+				        using (SqlDataReader reader = command.ExecuteReader())
+				        {
+					        while (reader.Read())
+					        {
+						        UserId.Add(reader.GetString(0));
+					        }
+				        }
+
+				        return UserId;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error getting activities the user voted on.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public int getVoteId(int id)
+        {
+
+        }
 	}
 }

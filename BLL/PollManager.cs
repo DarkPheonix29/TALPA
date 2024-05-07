@@ -1,5 +1,7 @@
-﻿using BLL.Models;
+﻿using System.Data;
+using BLL.Models;
 using System.Globalization;
+using DAL;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace BLL
 {
@@ -7,59 +9,84 @@ namespace BLL
 	{
 		public bool PollActive(string team)
 		{
-			// team is de team naam, deze is uniek"
+			TeamDataManager tdm = new TeamDataManager();
+			PollDataManager pdm = new PollDataManager();
+			int pollId = pdm.GetPollIdOfTeam(tdm.GetTeamId(team));
 
-			bool pollActive = true; // is stemming actief voor team?
-
-			return pollActive;
+			if (pollId == 0 )
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		public bool PollChosen(string user)
 		{
-			// user is de user id, auth0|...
+			UserDataManager udm = new UserDataManager();
 
-			bool pollChosen = false; // heeft de persoon al gestemd?
+			List<int> id = udm.GetVotedActivities(user);
 
-			return pollChosen;
+			if (id.Count == 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		public Poll GetPoll(string team)
         {
-			// team is de team naam, deze is uniek"
+			ActivityDataManager adm = new();
+			TeamDataManager tdm = new();
+			PollDataManager pdm = new();
 
-			List<Suggestion>  suggestions = new List<Suggestion>(); // vull deze lijst de 3 suggesties in de poll
-			int chosenSuggestion = 3; // id van de gekozen suggestie, als niks gekozen is, dan 0
+			DataRow pollId = pdm.GetPollOfTeam(tdm.GetTeamId(team));
+			DataTable selection = pdm.GetSelection(Convert.ToInt32(pollId["id"]));
+
+			int chosenSuggestion = 0;
+			List<Suggestion> suggestions = new();
+			foreach (DataRow row in selection.Rows)
+			{
+				if (Convert.ToInt32(row["has_been_chosen"]) == 1)
+				{
+					chosenSuggestion = Convert.ToInt32(row["activity_id"]);
+				}
+				List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["activity_id"]));
+				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
+
+				DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["activity_id"]));
+				List<string> limitations = new();
+				DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["activity_id"]));
+				List<string> categories = new();
+				foreach (DataRow lrow in limitationsData.Rows)
+				{
+					limitations.Add(lrow["limitation"].ToString());
+				}
+
+				foreach (DataRow crow in categoriesData.Rows)
+				{
+					categories.Add(crow["category"].ToString());
+				}
+
+				Suggestion suggestion = new Suggestion
+				{
+					Id = Convert.ToInt32(row["activity_id"]),
+					Name = activity["name"].ToString(),
+					Description = activity["description"].ToString(),
+					Categories = categories,
+					Limitations = limitations,
+					Votes = votedUsers.Count
+				};
+				suggestions.Add(suggestion);
+			}
+
 			List<string> availability = new List<string> { "10-04-2024", "13-04-2024", "17-04-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
 			List<string> possibleDates = new List<string> {  "11-5-2024", "18-5-2024", "25-5-2024", "1-6-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
-			string deadline = "10-04-2024 15:30"; // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
-
-			suggestions.Add(new Suggestion
-			{
-				Id = 1,
-				Name = "Stadswandeling 1",
-				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
-				Categories = new List<string> { "Buiten", "Middag" },
-				Limitations = new List<string> { "Tijd", "Alcohol" },
-				Votes = 5 // Hoeveel stemmen heeft deze suggestie in deze poll?
-			});
-			suggestions.Add(new Suggestion
-			{
-				Id = 2,
-				Name = "Stadswandeling 2",
-				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
-				Categories = new List<string> { "Buiten", "Middag" },
-				Limitations = new List<string> { "Tijd", "Alcohol" },
-				Votes = 7 // Hoeveel stemmen heeft deze suggestie in deze poll?
-			});
-			suggestions.Add(new Suggestion
-			{
-				Id = 3,
-				Name = "Stadswandeling 3",
-				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
-				Categories = new List<string> { "Buiten", "Middag" },
-				Limitations = new List<string> { "Tijd", "Alcohol" },
-				Votes = 1 // Hoeveel stemmen heeft deze suggestie in deze poll?
-			});
 
 			Poll poll = new Poll
 			{
@@ -67,7 +94,7 @@ namespace BLL
 				Suggestions = suggestions,
 				Availability = availability,
 				PossibleDates = possibleDates,
-				Deadline = deadline
+				Deadline = pollId["deadline"].ToString()
 			};
 
 			return poll;

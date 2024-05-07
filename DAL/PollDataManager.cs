@@ -1,41 +1,181 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class PollDataManager
-    {
-        private DataAccess dataAccess;
+	public class PollDataManager
+	{
+		public void PollSubmit(string TeamId, DateTime deadline, List<int> activitys)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"INSERT INTO poll (team_id, deadline) OUTPUT INSERTED.id VALUES (@TeamId, @Deadline)";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@TeamId", TeamId);
+						command.Parameters.AddWithValue("@Deadline", deadline);
 
-        public PollDataManager()
-        {
-            dataAccess = new DataAccess();
-        }
+						connection.Open();
 
-        public int CreatePoll(int team, int activity1, int activity2, int activity3)
-        {
-            object id = dataAccess.ExecuteScalarQuery($"INSERT IGNORE INTO polls (team, activity_1, activity_2, activity_3) VALUES ({team}, {activity1}, {activity2}, {activity3}); SELECT LAST_INSERT_ID();");
-            return Convert.ToInt32(id);
-        }
+						int PollId = Convert.ToInt32(command.ExecuteScalar());
+						CreateSelection(activitys, PollId);
 
-        public int SubmitDate(int team, string date)
-        {
-            int rowsAffected = dataAccess.ExecuteNonQuery($"INSERT INTO poll_date (team, date) VALUES ({team}, '{date}');");
-            return rowsAffected;
-        }
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error submitting poll.", ex);
+					}
+				}
+			}
+		}
 
-        public DataTable GetPoll(int team)
-        {
-            DataTable data = dataAccess.ExecuteQuery($"SELECT * FROM polls WHERE team = {team};");
-            return data;
-        }
+		public void CreateSelection(List<int> activityId, int pollId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"INSERT INTO poll_activity (activity_id, poll_id) VALUES (@ActivityId, @PollId)";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					connection.Open();
+					foreach (int id in activityId)
+					{
+						try
+						{
+							command.Parameters.Clear();
+							command.Parameters.AddWithValue("@ActivityId", id);
+							command.Parameters.AddWithValue("@PollId", pollId);
 
-        public string GetPollName(int poll)
-        {
-            DataTable data = dataAccess.ExecuteQuery($"SELECT * FROM suggestions WHERE id = {poll};");
-            string name = data.Rows[0]["suggestion"].ToString();
-            return name;
-        }
-    }
+							command.ExecuteNonQuery();
+
+						}
+						catch (Exception ex)
+						{
+							// Handle exceptions appropriately (e.g., logging)
+							throw new Exception("Error creating selection.", ex);
+						}
+					}
+				}
+			}
+		}
+
+		public void UpdateVotes(int activityId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"UPATE poll_activity SET votes = votes + 1 WHERE activity = @ActivityId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@ActivityId", activityId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error updating votes.", ex);
+					}
+				}
+			}
+		}
+
+		public void DeletePoll(int teamId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "DELETE * FROM Poll WHERE team_id = @TeamId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@TeamId", teamId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error deleting poll.", ex);
+					}
+				}
+			}
+		}
+
+		public DataRow GetPollOfTeam(int teamId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "SELECT id FROM poll WHERE team_id = @TeamId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@TeamId", teamId);
+
+						connection.Open();
+
+						DataTable dt = new();
+						using (SqlDataAdapter da = new(command))
+						{
+							da.Fill(dt);
+						}
+
+						DataRow dr = dt.Rows[0];
+
+						return dr;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting poll id.", ex);
+					}
+				}
+			}
+		}
+
+		public DataTable GetSelection(int pollId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "SELECT activity_id, activity_votes FROM activity_poll WHERE poll_id = @PollId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@PollId", pollId);
+
+						connection.Open();
+
+						DataTable dt = new();
+						using (SqlDataAdapter da = new(command))
+						{
+							da.Fill(dt);
+						}
+
+						return dt;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting selection.", ex);
+					}
+				}
+			}
+		}
+	}
 }
