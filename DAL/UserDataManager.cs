@@ -117,7 +117,7 @@ namespace DAL
 		        }
 	        }
 		}
-        public int getVoteId(int id)
+        public int getVoteId(string id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
@@ -130,14 +130,41 @@ namespace DAL
 
 				        connection.Open();
 
+				        return Convert.ToInt32(command.ExecuteScalar());
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error getting vote id.", ex);
+			        }
+		        }
+	        }
+		}
+
+        public List<string> getVoteDates(int id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        List<string> dates = new();
+		        string query = "SELECT date FROM activity_user_date WHERE vote_id = @VoteId";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@VoteId", id);
+
+				        connection.Open();
+
 				        using (SqlDataReader reader = command.ExecuteReader())
 				        {
 					        while (reader.Read())
 					        {
-								return reader.GetInt32(0);
-							}
-						}
-			        }
+						        dates.Add(reader.GetString(0));
+					        }
+				        }
+
+						return dates;
+					}
 			        catch (Exception ex)
 			        {
 				        // Handle exceptions appropriately (e.g., logging)

@@ -11,7 +11,7 @@ namespace DAL
 {
 	public class PollDataManager
 	{
-		public void PollSubmit(string TeamId, DateTime deadline, List<int> activitys)
+		public void PollSubmit(int TeamId, string deadline, List<int> activitys)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
@@ -42,7 +42,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"INSERT INTO poll_activity (activity_id, poll_id) VALUES (@ActivityId, @PollId)";
+				string query = $"INSERT INTO activity_poll (activity_id, poll_id) VALUES (@ActivityId, @PollId)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					connection.Open();
@@ -67,26 +67,57 @@ namespace DAL
 			}
 		}
 
-		public void UpdateVotes(int activityId)
+		public void CreateVote(int activityId, string userId, List<string> dates)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"UPATE poll_activity SET votes = votes + 1 WHERE activity = @ActivityId";
+				string query = $"INSERT INTO activity_user (activity_id, voted_user_id) OUTPUT INSERTED.id VALUES (@ActivityId, @UserId)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
 					{
 						command.Parameters.AddWithValue("@ActivityId", activityId);
+						command.Parameters.AddWithValue("@UserId", userId);
 
 						connection.Open();
 
-						command.ExecuteNonQuery();
+						int id = Convert.ToInt32(command.ExecuteScalar());
+						addDatesToVote(dates, id);
 
 					}
 					catch (Exception ex)
 					{
 						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error updating votes.", ex);
+						throw new Exception("Error creating vote.", ex);
+					}
+				}
+			}
+		}
+
+		public void addDatesToVote(List<string> dates, int voteId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"INSERT INTO activity_user_date (date, vote_id) VALUES (@Date, @VoteId)";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					connection.Open();
+					foreach (string date in dates)
+					{
+						try
+						{
+							command.Parameters.Clear();
+							command.Parameters.AddWithValue("@Date", date);
+							command.Parameters.AddWithValue("@VoteId", voteId);
+
+							command.ExecuteNonQuery();
+
+						}
+						catch (Exception ex)
+						{
+							// Handle exceptions appropriately (e.g., logging)
+							throw new Exception("Error adding dates to vote.", ex);
+						}
 					}
 				}
 			}
@@ -173,6 +204,39 @@ namespace DAL
 					{
 						// Handle exceptions appropriately (e.g., logging)
 						throw new Exception("Error getting selection.", ex);
+					}
+				}
+			}
+		}
+
+		public List<string> getPollDates(int id)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				List<string> dates = new();
+				string query = "SELECT date FROM poll_date WHERE poll_id = @PollId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@PollId", id);
+
+						connection.Open();
+
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								dates.Add(reader.GetString(0));
+							}
+						}
+
+						return dates;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting vote id.", ex);
 					}
 				}
 			}

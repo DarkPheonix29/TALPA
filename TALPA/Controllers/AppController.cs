@@ -154,7 +154,7 @@ namespace TALPA.Controllers
 				Employee employee = employeeUtility.GetEmployee(User);
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
 				string date = deadline + " " + time;
-				bool created = pollManager.CreatePoll(employee.Id, employee.Team, activities, date);
+				bool created = pollManager.CreatePoll( employee.Team, activities, date);
 				if (created)
 				{
 					TempData["message"] = "Stemming is aangemaakt!";

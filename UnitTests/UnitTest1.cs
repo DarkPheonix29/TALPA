@@ -63,7 +63,7 @@ namespace UnitTests
             activitys.Add(1);
 
 			//Act
-			pdm.PollSubmit("auth0|66052e2b423e9ac1d787cb32", DateTime.Now, activitys);
+			pdm.PollSubmit(1, DateTime.Now, activitys);
 			//Assert
         }
 

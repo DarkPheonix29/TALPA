@@ -11,9 +11,9 @@ namespace BLL
 		{
 			TeamDataManager tdm = new TeamDataManager();
 			PollDataManager pdm = new PollDataManager();
-			int pollId = pdm.GetPollIdOfTeam(tdm.GetTeamId(team));
+			DataRow poll = pdm.GetPollOfTeam(tdm.GetTeamId(team));
 
-			if (pollId == 0 )
+			if (Convert.ToInt32(poll["id"]) == 0)
 			{
 				return false;
 			}
@@ -44,6 +44,7 @@ namespace BLL
 			ActivityDataManager adm = new();
 			TeamDataManager tdm = new();
 			PollDataManager pdm = new();
+			UserDataManager udm = new();
 
 			DataRow pollId = pdm.GetPollOfTeam(tdm.GetTeamId(team));
 			DataTable selection = pdm.GetSelection(Convert.ToInt32(pollId["id"]));
@@ -85,33 +86,42 @@ namespace BLL
 				suggestions.Add(suggestion);
 			}
 
-			List<string> availability = new List<string> { "10-04-2024", "13-04-2024", "17-04-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
-			List<string> possibleDates = new List<string> {  "11-5-2024", "18-5-2024", "25-5-2024", "1-6-2024" }; // Belangrijk tijd in formaar [dd-mm-yy]
-
 			Poll poll = new Poll
 			{
 				ChosenSuggestion = chosenSuggestion,
 				Suggestions = suggestions,
-				Availability = availability,
-				PossibleDates = possibleDates,
+				Availability = udm.getVoteDates(udm.getVoteId(user)),
+				PossibleDates = pdm.getPollDates(Convert.ToInt32(pollId["id"])),
 				Deadline = pollId["deadline"].ToString()
 			};
 
 			return poll;
         }
 
-		public bool SubmitPoll(string user, string team, int suggestion, List<string> availability)
+		public bool SubmitPoll(string user, int suggestion, List<string> availability)
 		{
-			// Sla keuze op
-			Console.WriteLine($"{user} van {team}: {suggestion} | {string.Join(", ", availability)}");
+			PollDataManager pdm = new();
+
+			pdm.CreateVote(suggestion, user, availability);
+
 			return true;
 		}
 
-		public bool CreatePoll(string user, string team, List<string> activities, string date)
+		public bool CreatePoll(string team, List<int> activities, string date)
 		{
-			// Maak poll aan
-			Console.WriteLine($"{user} van {team}: {date} | {string.Join(",", activities)}");
-			return false; // Return true als poll aangemaakt is en false als poll al bestaat voor team
+			// activities needs to be a list of the id's, this could be done on this side if that is more convenient(I don't know if you already have it in the frond end).
+			TeamDataManager tdm = new();
+			PollDataManager pdm = new();
+
+			try
+			{
+				pdm.PollSubmit(tdm.GetTeamId(team), date, activities);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 	}
 }
