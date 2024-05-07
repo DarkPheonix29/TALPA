@@ -55,12 +55,18 @@ namespace TALPA.Controllers
             string  search = Request.Query["search"];
             string sort = Request.Query["sort"];
 			string filter = Request.Query["filter"];
+			string selected = Request.Query["selected"];
+			string selectedIds = Request.Query["ids"];
 
 			search = string.IsNullOrEmpty(search) ? "" : search;
             sort = string.IsNullOrEmpty(sort) ? "trending" : sort;
 			filter = string.IsNullOrEmpty(filter) ? "" : filter;
+			selected = string.IsNullOrEmpty(selected) ? "" : selected;
+			selectedIds = string.IsNullOrEmpty(selectedIds) ? "" : selectedIds;
 
 			List<string> filterList = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+			List<string> selectedList = selected.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Replace("-", " ")).ToList();
+			List<int> selectedIdsList = selectedIds.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
 			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(employee.Id, search, sort, filterList);
 			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
@@ -71,6 +77,8 @@ namespace TALPA.Controllers
 				Search = search,
 				Sort = sort,
 				Filter = filterList,
+				Selected = selectedList,
+				SelectedIds =  selectedIdsList,
 				Results = suggestionResults.Count,
 			};
             return View(suggestionsViewModel);

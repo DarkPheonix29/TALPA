@@ -3,9 +3,6 @@ var valid2 = false;
 var valid3 = false;
 var valid4 = false;
 
-activities = [];
-activityIds = [];
-
 const activity1Input = document.getElementById('activity1');
 const activity2Input = document.getElementById('activity2');
 const activity3Input = document.getElementById('activity3');
@@ -24,12 +21,12 @@ suggestions.addEventListener("click", function (event) {
     if (cardSelect.classList.contains('hidden')) {
         if (activities.length < 3) {
             activities.push(card.querySelector('.card-title').textContent)
-            activityIds.push(card.id)
+            activityIds.push(parseInt(card.id))
             cardSelect.classList.remove('hidden');
         }
     } else {
         removeFromList(activities, card.querySelector('.card-title').textContent)
-        removeFromList(activityIds, card.id)
+        removeFromList(activityIds, parseInt(card.id))
         cardSelect.classList.add('hidden');
     }   
     activity1Input.value = ""
@@ -58,6 +55,20 @@ suggestions.addEventListener("click", function (event) {
     activity1Input.dispatchEvent(new Event('change'));
     activity2Input.dispatchEvent(new Event('change'));
     activity3Input.dispatchEvent(new Event('change'));
+
+    var url = new URL(window.location.href);
+    if (activities.length != 0) {
+        var activitiesFormated = []
+        for (var activity = 0; activity < activities.length; activity++) {
+            activitiesFormated[activity] = activities[activity].replace(" ", "-");
+        }
+        url.searchParams.set('selected', activitiesFormated.join(' '));
+        url.searchParams.set('ids', activityIds.join(' '));
+    } else {
+        url.searchParams.delete('selected');
+        url.searchParams.delete('ids');
+    }
+    window.history.replaceState({}, '', url);
 });
 
 activity1Input.addEventListener("change", function () {
@@ -204,6 +215,8 @@ $(document).ready(function () {
     });
 
     updateTimeInput()
+    $('#hour-dropdown').find(".dropdown-item").eq(0).addClass('active');
+    $('#min-dropdown').find(".dropdown-item").eq(0).addClass('active');
 });
 
 function updateTimeInput() {

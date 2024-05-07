@@ -3,7 +3,7 @@ namespace BLL
 {
     public class SuggestionManager
     {
-        public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter)
+        public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter, List<int> selected)
         {
 			List<Suggestion> suggestions;
 			if (filter.Contains("Mijn-suggesties"))
@@ -33,6 +33,7 @@ namespace BLL
 			suggestions = SearchSuggestions(search, suggestions);
 			suggestions = FilterSuggestions(filter, suggestions);
 			suggestions = SortSuggestions(sort, suggestions);
+			suggestions = suggestions.OrderBy(suggestion => selected.Contains(suggestion.Id) ? 0 : 1).ToList();
 
 			return suggestions;
         }
@@ -44,8 +45,8 @@ namespace BLL
 			categories.Add("Buiten");
 			categories.Add("Binnen");
 			categories.Add("Middag");
-			categories.Add("Avond");
-			categories.Add("Water");
+			categories.Add("Avond test");
+			categories.Add("Water test");
 
 			return categories;
 		}
