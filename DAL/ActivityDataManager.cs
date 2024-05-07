@@ -388,10 +388,5 @@ namespace DAL
 		        }
 	        }
 		}
-
-        public int getVoteId(int id)
-        {
-
-        }
 	}
 }
