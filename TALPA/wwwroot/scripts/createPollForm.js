@@ -235,6 +235,10 @@ $(function () {
 })
 
 $(document).ready(function () {
+
+    activity1Input.dispatchEvent(new Event('change'));
+    activity2Input.dispatchEvent(new Event('change'));
+    activity3Input.dispatchEvent(new Event('change'));
     $('#hour-dropdown').on('click', ".dropdown-item", function () {
         $('#hour-dropdown').find(".dropdown-item").removeClass('active');
         $(this).addClass('active');
