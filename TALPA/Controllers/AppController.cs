@@ -6,6 +6,7 @@ using BLL.Models;
 using System.Linq.Expressions;
 using BLL;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.RegularExpressions;
 
 namespace TALPA.Controllers
 {
@@ -57,18 +58,21 @@ namespace TALPA.Controllers
 			string filter = Request.Query["filter"];
 			string selected = Request.Query["selected"];
 			string selectedIds = Request.Query["ids"];
+			string closed = Request.Query["closed"];
 
 			search = string.IsNullOrEmpty(search) ? "" : search;
             sort = string.IsNullOrEmpty(sort) ? "trending" : sort;
 			filter = string.IsNullOrEmpty(filter) ? "" : filter;
 			selected = string.IsNullOrEmpty(selected) ? "" : selected;
 			selectedIds = string.IsNullOrEmpty(selectedIds) ? "" : selectedIds;
+			closed = string.IsNullOrEmpty(closed) ? "" : closed;
 
 			List<string> filterList = filter.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+			List<string> closedList = closed.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 			List<string> selectedList = selected.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Replace("-", " ")).ToList();
 			List<int> selectedIdsList = selectedIds.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
-			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(employee.Id, search, sort, filterList);
+			List<Suggestion> suggestionResults = suggestionManager.GetSuggestions(employee.Id, search, sort, filterList, selectedIdsList);
 			SuggestionsViewModel suggestionsViewModel = new SuggestionsViewModel
 			{
 				Suggestions = suggestionResults,
@@ -80,6 +84,7 @@ namespace TALPA.Controllers
 				Selected = selectedList,
 				SelectedIds =  selectedIdsList,
 				Results = suggestionResults.Count,
+				Closed = closedList
 			};
             return View(suggestionsViewModel);
         }
@@ -148,18 +153,20 @@ namespace TALPA.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult CreatePoll(List<string> activities, string deadline, string time)
+		public IActionResult CreatePoll(List<string> activities, List<string> availability, string deadline, string time)
 		{
 			if (
 				!string.IsNullOrWhiteSpace(deadline) &&
 				!string.IsNullOrWhiteSpace(time) &&
-				activities.Count == 3
+				activities.Count == 3 &&
+				availability.Count >= 1
 			)
 			{
 				Employee employee = employeeUtility.GetEmployee(User);
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
-				string date = deadline + " " + time;
-				bool created = pollManager.CreatePoll(employee.Id, employee.Team, activities, date);
+				string date = deadline + " " + time.Replace(" ", "");
+				date = Regex.Replace(date, @"\s+", " ");
+				bool created = pollManager.CreatePoll(employee.Id, employee.Team, activities, date, availability);
 				if (created)
 				{
 					TempData["message"] = "Stemming is aangemaakt!";

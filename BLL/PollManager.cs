@@ -76,14 +76,25 @@ namespace BLL
 		public bool SubmitPoll(string user, string team, int suggestion, List<string> availability)
 		{
 			// Sla keuze op
-			Console.WriteLine($"{user} van {team}: {suggestion} | {string.Join(", ", availability)}");
+			Console.WriteLine($@"
+				user: {user} 
+				team: {team}
+				suggestions:{string.Join(",", suggestion)}
+				availability: {string.Join(",", availability)} 
+			");
 			return true;
 		}
 
-		public bool CreatePoll(string user, string team, List<string> activities, string date)
+		public bool CreatePoll(string user, string team, List<string> activities, string deadline, List<string> availability)
 		{
 			// Maak poll aan
-			Console.WriteLine($"{user} van {team}: {date} | {string.Join(",", activities)}");
+			Console.WriteLine($@"
+				user: {user} 
+				team: {team}
+				deadline: {deadline}
+				suggestions:{string.Join(",", activities)}
+				availability: {string.Join(",", availability)} 
+			");
 			return false; // Return true als poll aangemaakt is en false als poll al bestaat voor team
 		}
 	}

@@ -2,6 +2,7 @@
 var valid2 = false;
 var valid3 = false;
 var valid4 = false;
+var valid5 = false;
 
 const activity1Input = document.getElementById('activity1');
 const activity2Input = document.getElementById('activity2');
@@ -112,6 +113,14 @@ planButton.addEventListener('click', function () {
     if (valid1 && valid2 && valid3) {
         var myModal = new bootstrap.Modal(document.getElementById('pollModal'));
         myModal.show();
+        for (var i = 0; i < activityIds.length; i++) {
+            var option = document.createElement("option");
+            option.value = activityIds[i];
+            option.textContent = activityIds[i];
+            activitiesHiddenInput.appendChild(option);
+            option.selected = true;
+        }
+
     } else {
         activity1Input.dispatchEvent(new Event('change'));
         activity2Input.dispatchEvent(new Event('change'));
@@ -120,13 +129,14 @@ planButton.addEventListener('click', function () {
 });
 
 submitPollButton.addEventListener('click', function () {
-    if (valid1 && valid2 && valid3 && valid4) {
+    if (valid1 && valid2 && valid3 && valid4 && valid5) {
         planForm.submit()
     } else {
         activity1Input.dispatchEvent(new Event('change'));
         activity2Input.dispatchEvent(new Event('change'));
         activity3Input.dispatchEvent(new Event('change'));
         document.getElementById("datepicker").dispatchEvent(new Event('changeDate'));
+        document.getElementById("datepicker2").dispatchEvent(new Event('changeDate'));
     }
 });
 
@@ -158,6 +168,15 @@ $(function () {
         startDate: getStartDate()
     });
 
+    $('#datepicker2').datepicker({
+        language: "nl",
+        multidate: true,
+        todayHighlight: true,
+        format: 'dd-mm-yyyy',
+        multidateSeparator: ', ',
+        startDate: getStartDate(),
+    });
+
     $('#datepicker').on('changeDate', function () {
         $('#dateInput').val(
             $('#datepicker').datepicker('getFormattedDate')
@@ -175,6 +194,30 @@ $(function () {
             $("#dateFeedback2").text("Selecteer datum")
             valid4 = false
         }
+    });
+
+    $('#datepicker2').on('changeDate', function () {
+        $('#availabilityInput').val(
+            $('#datepicker2').datepicker('getFormattedDate')
+        ).change();
+        resizeTextarea()
+
+        var valuesArray = $('#datepicker2').datepicker('getFormattedDate').split(', ');
+        if ($('#datepicker2').datepicker('getFormattedDate') != "") {
+            $("#availabilityInput").removeClass("is-invalid")
+            $("#dateFeedback3").text("")
+            valid5 = true
+        } else {
+            $("#availabilityInput").addClass("is-invalid")
+            $("#dateFeedback3").text("Selecteer minimaal 1 datum")
+            valid5 = false
+        }
+        $('#dateInputHidden').empty();
+        $.each(valuesArray, function (index, value) {
+            var trimmedValue = value.trim();
+            $('#dateInputHidden').append('<option value="' + trimmedValue + '">' + trimmedValue + '</option>');
+            $('#dateInputHidden option[value="' + trimmedValue + '"]').prop('selected', true);
+        });
     });
 
     $("#pollModal").on('hide.bs.modal', function () {
@@ -221,4 +264,11 @@ $(document).ready(function () {
 
 function updateTimeInput() {
     $("#timeInput").val($('#hourInput').text() + ":" + $('#minInput').text())
+}
+
+function resizeTextarea() {
+    var textarea = document.getElementById("availabilityInput");
+    textarea.style.height = "auto";
+
+    textarea.style.height = textarea.scrollHeight + 2 + "px";
 }

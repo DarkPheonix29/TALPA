@@ -30,9 +30,14 @@ namespace BLL
                 suggestions.Add(suggestion);
 			}
 
+			List<Suggestion> selectedSuggestions = suggestions.Where(suggestion => selected.Contains(suggestion.Id)).ToList();
+			suggestions.RemoveAll(suggestion => selected.Contains(suggestion.Id));
+
 			suggestions = SearchSuggestions(search, suggestions);
 			suggestions = FilterSuggestions(filter, suggestions);
 			suggestions = SortSuggestions(sort, suggestions);
+
+			suggestions.AddRange(selectedSuggestions);
 			suggestions = suggestions.OrderBy(suggestion => selected.Contains(suggestion.Id) ? 0 : 1).ToList();
 
 			return suggestions;
@@ -132,7 +137,13 @@ namespace BLL
 		public bool SubmitSuggestion(string user, string name, string description, List<string> categories, List<string> limitations)
 		{
 			// Sla uitje op
-			Console.WriteLine($"{user}: {name} | {description} | {String.Join(", ", categories)} | {String.Join(", ", limitations)}");
+			Console.WriteLine($@"
+				user: {user} 
+				suggestion: {name}
+				description: {description}
+				categories:{string.Join(",", categories)}
+				limitations: {string.Join(",", limitations)} 
+			");
 			return true;
 		}
 	}
