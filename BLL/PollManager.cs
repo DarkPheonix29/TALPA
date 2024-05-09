@@ -109,7 +109,7 @@ namespace BLL
 
 		public bool CreatePoll(string team, List<int> activities, string date)
 		{
-			// activities needs to be a list of the id's, this could be done on this side if that is more convenient(I don't know if you already have it in the frond end).
+			// activities needs to be a list of the id's, this could be done on this side if that is more convenient(I don't know if you already have the id's in the frond end).
 			TeamDataManager tdm = new();
 			PollDataManager pdm = new();
 

@@ -1,18 +1,84 @@
-﻿using BLL.Models;
+﻿using System.Data;
+using BLL.Models;
+using DAL;
+
 namespace BLL
 {
     public class SuggestionManager
     {
         public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter)
         {
-			List<Suggestion> suggestions;
+	        ActivityDataManager adm = new();
+			List<Suggestion> suggestions = new();
 			if (filter.Contains("Mijn-suggesties"))
 			{
-				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties gemaakt door user
+				DataTable dt = adm.GetActivityFromUser(user);
+				foreach (DataRow row in dt.Rows)
+				{
+					List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["activity_id"]));
+
+					DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["activity_id"]));
+					List<string> limitations = new();
+					DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["activity_id"]));
+					List<string> categories = new();
+					foreach (DataRow lrow in limitationsData.Rows)
+					{
+						limitations.Add(lrow["limitation"].ToString());
+					}
+
+					foreach (DataRow crow in categoriesData.Rows)
+					{
+						categories.Add(crow["category"].ToString());
+					}
+
+					Suggestion suggestion = new Suggestion
+					{
+						Id = Convert.ToInt32(row["activity_id"]),
+						Name = row["name"].ToString(),
+						Description = row["description"].ToString(),
+						Categories = categories,
+						Limitations = limitations,
+						Date = row["date_added"].ToString(),
+						Votes = votedUsers.Count
+					};
+
+					suggestions.Add(suggestion);
+				}
 			} 
 			else
 			{
-				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties
+				DataTable dt = adm.GetAllActivity();
+				foreach (DataRow row in dt.Rows)
+				{
+					List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["activity_id"]));
+
+					DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["activity_id"]));
+					List<string> limitations = new();
+					DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["activity_id"]));
+					List<string> categories = new();
+					foreach (DataRow lrow in limitationsData.Rows)
+					{
+						limitations.Add(lrow["limitation"].ToString());
+					}
+
+					foreach (DataRow crow in categoriesData.Rows)
+					{
+						categories.Add(crow["category"].ToString());
+					}
+
+					Suggestion suggestion = new Suggestion
+					{
+						Id = Convert.ToInt32(row["activity_id"]),
+						Name = row["name"].ToString(),
+						Description = row["description"].ToString(),
+						Categories = categories,
+						Limitations = limitations,
+						Date = row["date_added"].ToString(),
+						Votes = votedUsers.Count
+					};
+
+					suggestions.Add(suggestion);
+				}
 			}
 
 			for (int i = 1; i <= 55; i++)
@@ -39,24 +105,28 @@ namespace BLL
 
 		public List<string> GetCategories()
 		{
-			List<string> categories = new List<string>(); // Vul lijst met alle catagorien elk 1x
+			ActivityDataManager adm = new();
+			DataTable categoriesData = adm.GetAllUniqueCategories();
+			List<string> categories = new();
 
-			categories.Add("Buiten");
-			categories.Add("Binnen");
-			categories.Add("Middag");
-			categories.Add("Avond");
-			categories.Add("Water");
+			foreach (DataRow row in categoriesData.Rows)
+			{
+				categories.Add(row["category"].ToString());
+			}
 
 			return categories;
 		}
 
 		public List<string> GetLimitations()
 		{
-			List<string> limitations = new List<string>(); // Vul lijst met alle catagorien elk 1x
+			ActivityDataManager adm = new();
+			DataTable limitationData = adm.GetAllUniqueLimitations();
+			List<string> limitations = new();
 
-			limitations.Add("Toegankelijkheid");
-			limitations.Add("Tijd");
-			limitations.Add("Alcohol");
+			foreach (DataRow row in limitationData.Rows)
+			{
+				limitations.Add(row["limitation"].ToString());
+			}
 
 			return limitations;
 		}
@@ -128,10 +198,10 @@ namespace BLL
 			return suggestions;
 		}
 
-		public bool SubmitSuggestion(string user, string name, string description, List<string> categories, List<string> limitations)
+		public bool SubmitSuggestion(string user, string name, string description, string date, List<string> categories, List<string> limitations, string location)
 		{
-			// Sla uitje op
-			Console.WriteLine($"{user}: {name} | {description} | {String.Join(", ", categories)} | {String.Join(", ", limitations)}");
+			ActivityDataManager adm = new();
+			adm.ActivitySubmit(name, description, date, limitations, categories, user, location);
 			return true;
 		}
 	}
