@@ -6,7 +6,7 @@ namespace BLL
 {
     public class SuggestionManager
     {
-        public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter)
+        public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter, List<int> selected)
         {
 	        ActivityDataManager adm = new();
 			List<Suggestion> suggestions = new();
@@ -87,9 +87,15 @@ namespace BLL
 				}
 			}
 
+			List<Suggestion> selectedSuggestions = suggestions.Where(suggestion => selected.Contains(suggestion.Id)).ToList();
+			suggestions.RemoveAll(suggestion => selected.Contains(suggestion.Id));
+
 			suggestions = SearchSuggestions(search, suggestions);
 			suggestions = FilterSuggestions(filter, suggestions);
 			suggestions = SortSuggestions(sort, suggestions);
+
+			suggestions.AddRange(selectedSuggestions);
+			suggestions = suggestions.OrderBy(suggestion => selected.Contains(suggestion.Id) ? 0 : 1).ToList();
 
 			return suggestions;
         }

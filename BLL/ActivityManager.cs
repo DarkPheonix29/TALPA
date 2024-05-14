@@ -11,7 +11,6 @@ namespace BLL
 		{
 			TeamDataManager tdm = new TeamDataManager();
 			bool activityPlanned = tdm.CheckPlannedActivity(tdm.GetTeamId(team));
-
 			return activityPlanned;
 		}
 

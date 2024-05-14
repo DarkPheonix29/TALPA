@@ -3,6 +3,20 @@
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
             updateUrlParameter();
+            reloadWithoutScroll()
+        });
+    });
+
+    var accordionButtons = document.querySelectorAll('.accordion-button');
+    accordionButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var buttonId = this.id;
+            if (!closedMen.includes(buttonId)) {
+                closedMen.push(buttonId)
+            } else {
+                removeFromList(closedMen, buttonId)
+            }   
+            updateUrlParameter();
         });
     });
 
@@ -18,7 +32,11 @@
         } else {
             url.searchParams.delete('filter');
         }
+        if (closedMen.length != 0) {
+            url.searchParams.set('closed', closedMen.join(' '));
+        } else {
+            url.searchParams.delete('closed');
+        }
         window.history.replaceState({}, '', url);
-        reloadWithoutScroll()
     }
 });

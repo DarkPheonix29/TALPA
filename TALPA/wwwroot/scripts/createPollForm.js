@@ -2,9 +2,7 @@
 var valid2 = false;
 var valid3 = false;
 var valid4 = false;
-
-activities = [];
-activityIds = [];
+var valid5 = false;
 
 const activity1Input = document.getElementById('activity1');
 const activity2Input = document.getElementById('activity2');
@@ -24,12 +22,12 @@ suggestions.addEventListener("click", function (event) {
     if (cardSelect.classList.contains('hidden')) {
         if (activities.length < 3) {
             activities.push(card.querySelector('.card-title').textContent)
-            activityIds.push(card.id)
+            activityIds.push(parseInt(card.id))
             cardSelect.classList.remove('hidden');
         }
     } else {
         removeFromList(activities, card.querySelector('.card-title').textContent)
-        removeFromList(activityIds, card.id)
+        removeFromList(activityIds, parseInt(card.id))
         cardSelect.classList.add('hidden');
     }   
     activity1Input.value = ""
@@ -58,6 +56,20 @@ suggestions.addEventListener("click", function (event) {
     activity1Input.dispatchEvent(new Event('change'));
     activity2Input.dispatchEvent(new Event('change'));
     activity3Input.dispatchEvent(new Event('change'));
+
+    var url = new URL(window.location.href);
+    if (activities.length != 0) {
+        var activitiesFormated = []
+        for (var activity = 0; activity < activities.length; activity++) {
+            activitiesFormated[activity] = activities[activity].replace(" ", "-");
+        }
+        url.searchParams.set('selected', activitiesFormated.join(' '));
+        url.searchParams.set('ids', activityIds.join(' '));
+    } else {
+        url.searchParams.delete('selected');
+        url.searchParams.delete('ids');
+    }
+    window.history.replaceState({}, '', url);
 });
 
 activity1Input.addEventListener("change", function () {
@@ -101,6 +113,14 @@ planButton.addEventListener('click', function () {
     if (valid1 && valid2 && valid3) {
         var myModal = new bootstrap.Modal(document.getElementById('pollModal'));
         myModal.show();
+        for (var i = 0; i < activityIds.length; i++) {
+            var option = document.createElement("option");
+            option.value = activityIds[i];
+            option.textContent = activityIds[i];
+            activitiesHiddenInput.appendChild(option);
+            option.selected = true;
+        }
+
     } else {
         activity1Input.dispatchEvent(new Event('change'));
         activity2Input.dispatchEvent(new Event('change'));
@@ -109,13 +129,14 @@ planButton.addEventListener('click', function () {
 });
 
 submitPollButton.addEventListener('click', function () {
-    if (valid1 && valid2 && valid3 && valid4) {
+    if (valid1 && valid2 && valid3 && valid4 && valid5) {
         planForm.submit()
     } else {
         activity1Input.dispatchEvent(new Event('change'));
         activity2Input.dispatchEvent(new Event('change'));
         activity3Input.dispatchEvent(new Event('change'));
         document.getElementById("datepicker").dispatchEvent(new Event('changeDate'));
+        document.getElementById("datepicker2").dispatchEvent(new Event('changeDate'));
     }
 });
 
@@ -147,6 +168,15 @@ $(function () {
         startDate: getStartDate()
     });
 
+    $('#datepicker2').datepicker({
+        language: "nl",
+        multidate: true,
+        todayHighlight: true,
+        format: 'dd-mm-yyyy',
+        multidateSeparator: ', ',
+        startDate: getStartDate(),
+    });
+
     $('#datepicker').on('changeDate', function () {
         $('#dateInput').val(
             $('#datepicker').datepicker('getFormattedDate')
@@ -166,6 +196,30 @@ $(function () {
         }
     });
 
+    $('#datepicker2').on('changeDate', function () {
+        $('#availabilityInput').val(
+            $('#datepicker2').datepicker('getFormattedDate')
+        ).change();
+        resizeTextarea()
+
+        var valuesArray = $('#datepicker2').datepicker('getFormattedDate').split(', ');
+        if ($('#datepicker2').datepicker('getFormattedDate') != "") {
+            $("#availabilityInput").removeClass("is-invalid")
+            $("#dateFeedback3").text("")
+            valid5 = true
+        } else {
+            $("#availabilityInput").addClass("is-invalid")
+            $("#dateFeedback3").text("Selecteer minimaal 1 datum")
+            valid5 = false
+        }
+        $('#dateInputHidden').empty();
+        $.each(valuesArray, function (index, value) {
+            var trimmedValue = value.trim();
+            $('#dateInputHidden').append('<option value="' + trimmedValue + '">' + trimmedValue + '</option>');
+            $('#dateInputHidden option[value="' + trimmedValue + '"]').prop('selected', true);
+        });
+    });
+
     $("#pollModal").on('hide.bs.modal', function () {
         $('#dateInput').val(null).trigger("change")
         $('#datepicker').val("").datepicker("update");
@@ -181,6 +235,10 @@ $(function () {
 })
 
 $(document).ready(function () {
+
+    activity1Input.dispatchEvent(new Event('change'));
+    activity2Input.dispatchEvent(new Event('change'));
+    activity3Input.dispatchEvent(new Event('change'));
     $('#hour-dropdown').on('click', ".dropdown-item", function () {
         $('#hour-dropdown').find(".dropdown-item").removeClass('active');
         $(this).addClass('active');
@@ -204,8 +262,17 @@ $(document).ready(function () {
     });
 
     updateTimeInput()
+    $('#hour-dropdown').find(".dropdown-item").eq(0).addClass('active');
+    $('#min-dropdown').find(".dropdown-item").eq(0).addClass('active');
 });
 
 function updateTimeInput() {
     $("#timeInput").val($('#hourInput').text() + ":" + $('#minInput').text())
+}
+
+function resizeTextarea() {
+    var textarea = document.getElementById("availabilityInput");
+    textarea.style.height = "auto";
+
+    textarea.style.height = textarea.scrollHeight + 2 + "px";
 }
