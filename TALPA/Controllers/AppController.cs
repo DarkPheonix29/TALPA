@@ -133,7 +133,7 @@ namespace TALPA.Controllers
 			{
 				Employee employee = employeeUtility.GetEmployee(User);
 				int suggestionInt = Convert.ToInt32(suggestion);
-				pollManager.SubmitPoll(employee.Id, employee.Team, suggestionInt, availability);
+				pollManager.SubmitPoll(employee.Id, suggestionInt, availability);
 				TempData["message"] = "We hebben je Keuze ontvangen!";
 				return Redirect("/stemmen");
 			}
@@ -154,7 +154,7 @@ namespace TALPA.Controllers
 				Employee employee = employeeUtility.GetEmployee(User);
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
 				string date = deadline + " " + time;
-				bool created = pollManager.CreatePoll( employee.Team, activities, date);
+				bool created = pollManager.CreatePoll( employee.Team, activitiesInt, date);
 				if (created)
 				{
 					TempData["message"] = "Stemming is aangemaakt!";

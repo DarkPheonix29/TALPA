@@ -5,11 +5,11 @@ namespace DAL
 {
     public class ActivityDataManager
     {
-        public void ActivitySubmit(string name, string description, string dateAdded, List<string> limitations, List<string> categories, string proposingUserId, string location)
+        public void ActivitySubmit(string name, string description, List<string> limitations, List<string> categories, string proposingUserId)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = $"INSERT INTO activity (name, description, proposing_user, date_added, location) OUTPUT INSERTED.id VALUES (@Name, @Description, @Proposing_user, @Date_added, @Location)";
+                string query = $"INSERT INTO activity (name, description, proposing_user) OUTPUT INSERTED.id VALUES (@Name, @Description, @Proposing_user)";
                 using (SqlCommand command = new SqlCommand(query, connection)) 
                 {
                     try
@@ -17,8 +17,6 @@ namespace DAL
                         command.Parameters.AddWithValue("@Name", name);
                         command.Parameters.AddWithValue("@Description", description);
                         command.Parameters.AddWithValue("@Proposing_user", proposingUserId);
-                        command.Parameters.AddWithValue("@Date_added", dateAdded);
-                        command.Parameters.AddWithValue("@Location", location);
 
                         connection.Open();
 

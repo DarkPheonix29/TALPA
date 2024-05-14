@@ -31,35 +31,6 @@ namespace DAL
             }
         }
 
-        public DataTable GetUser(string id)
-        {
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = "SELECT * FROM [user] WHERE id = @UserId";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@UserId", id);
-
-						connection.Open();
-						DataTable dt = new();
-						using (SqlDataAdapter da = new(command))
-						{
-							da.Fill(dt);
-						}
-
-						return dt;
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error getting user.", ex);
-					}
-				}
-			}
-		}
-
         public int GetPoints(string id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)

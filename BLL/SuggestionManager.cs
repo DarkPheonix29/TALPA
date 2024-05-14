@@ -198,10 +198,10 @@ namespace BLL
 			return suggestions;
 		}
 
-		public bool SubmitSuggestion(string user, string name, string description, string date, List<string> categories, List<string> limitations, string location)
+		public bool SubmitSuggestion(string user, string name, string description, List<string> categories, List<string> limitations)
 		{
 			ActivityDataManager adm = new();
-			adm.ActivitySubmit(name, description, date, limitations, categories, user, location);
+			adm.ActivitySubmit(name, description,limitations, categories, user);
 			return true;
 		}
 	}
