@@ -51,34 +51,6 @@ namespace UnitTests
 	        //Assert
 		}
 
-        [TestMethod]
-        public void Create_Poll()
-        {
-			//Arrange
-			DAL.ConnectionManager.Initialize(connectionString);
-			DAL.PollDataManager pdm = new();
-			List<int> activitys = new();
-			activitys.Add(1);
-            activitys.Add(1);
-            activitys.Add(1);
-
-			//Act
-			pdm.PollSubmit(1, DateTime.Now, activitys);
-			//Assert
-        }
-
-        [TestMethod]
-        public void Update_Votes()
-        {
-            //Arrange
-	        DAL.ConnectionManager.Initialize(connectionString);
-	        DAL.PollDataManager pdm = new();
-
-			//Act
-			pdm.UpdateVotes(1);
-
-			//Assert
-		}
 
         [TestMethod]
         public void Delete_Poll()

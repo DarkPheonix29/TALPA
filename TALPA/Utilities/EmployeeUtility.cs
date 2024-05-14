@@ -7,6 +7,7 @@ using System.Security.Claims;
 using TALPA.Models;
 using BLL.Models;
 using BLL;
+using DAL;
 
 namespace TALPA
 {

@@ -31,6 +31,30 @@ namespace DAL
             }
         }
 
+        public bool UserExists(string id)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = "SELECT CASE WHEN EXISTS ( SELECT * FROM [user] WHERE id = @UserId ) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@UserId", id);
+
+				        connection.Open();
+				        bool existence = Convert.ToBoolean(command.ExecuteScalar());
+
+				        return existence;
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error checking if user exists.", ex);
+			        }
+		        }
+	        }
+		}
         public int GetPoints(string id)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
