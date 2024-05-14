@@ -40,7 +40,7 @@ namespace BLL
 							Description = row["description"].ToString(),
 							Categories = categories,
 							Limitations = limitations,
-							Date = row["date_added"].ToString(),
+							Date = Convert.ToDateTime(row["date_added"]),
 							Votes = votedUsers.Count
 						};
 
@@ -78,7 +78,7 @@ namespace BLL
 							Description = row["description"].ToString(),
 							Categories = categories,
 							Limitations = limitations,
-							Date = row["date_added"].ToString(),
+							Date = Convert.ToDateTime(row["date_added"]),
 							Votes = votedUsers.Count
 						};
 
@@ -186,11 +186,11 @@ namespace BLL
 			}
 			else if (method == "latest")
 			{
-				suggestions = suggestions.OrderByDescending(suggestion => DateTime.Parse(suggestion.Date)).ToList();
+				suggestions = suggestions.OrderByDescending(suggestion => suggestion.Date).ToList();
 			}
 			else if (method == "oldest")
 			{
-				suggestions = suggestions.OrderBy(suggestion => DateTime.Parse(suggestion.Date)).ToList();
+				suggestions = suggestions.OrderBy(suggestion => suggestion.Date).ToList();
 			}
 			return suggestions;
 		}
