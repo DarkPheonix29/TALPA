@@ -1,12 +1,19 @@
-﻿namespace BLL
+﻿using DAL;
+
+namespace BLL
 {
     public class EmployeeManager
     {
         public int GetPoints(string user)
         {
-			// user is de user id, auth0|...
+            UserDataManager udm = new UserDataManager();
+	        int points = udm.GetPoints(user);
 
-			int points = 73; // aantal punten van persoon
+	        bool userExists = udm.UserExists(user);
+	        if (!userExists)
+	        {
+				udm.UserSubmit(user);
+	        }
 
 			return points;
 		}

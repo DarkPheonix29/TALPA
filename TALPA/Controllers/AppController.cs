@@ -28,9 +28,11 @@ namespace TALPA.Controllers
 		[Authorize]
 		public IActionResult Activity()
         {
-            ViewBag.Employee = employeeUtility.GetEmployee(User);
+			Employee employee = employeeUtility.GetEmployee(User);
+			ViewBag.Employee = employee;
 
-            bool ActivityPlanned = activityManager.ActivityPlanned(ViewBag.Employee.Team);
+
+			bool ActivityPlanned = activityManager.ActivityPlanned(employee.Team);
 
 			ActivityViewModel activityViewModel = new ActivityViewModel
             {
@@ -39,7 +41,7 @@ namespace TALPA.Controllers
 
             if (ActivityPlanned)
             {
-                activityViewModel.Activity = activityManager.GetActivity(ViewBag.Employee.Team);
+                activityViewModel.Activity = activityManager.GetActivity(employee.Team);
 
 			}
             return View(activityViewModel);
@@ -92,17 +94,30 @@ namespace TALPA.Controllers
 		[Authorize]
 		public IActionResult Poll()
         {
-			ViewBag.Employee = employeeUtility.GetEmployee(User);
+			Employee employee = employeeUtility.GetEmployee(User);
+			ViewBag.Employee = employee;
 			ViewBag.message = TempData["message"] ?? "";
             ViewBag.errorMessage = TempData["errorMessage"] ?? "";
+            bool pollactive = pollManager.PollActive(employee.Team);
 
-            PollViewModel pollViewModel = new PollViewModel
+            if (pollactive)
             {
-                PollActive = pollManager.PollActive(ViewBag.Employee.Team),
-                PollChosen = pollManager.PollChosen(ViewBag.Employee.Id),
-                Poll = pollManager.GetPoll(ViewBag.Employee.Team)
-			};
-            return View(pollViewModel);
+	            PollViewModel pollViewModel = new PollViewModel
+	            {
+		            PollActive = pollactive,
+		            PollChosen = pollManager.PollChosen(employee.Id),
+		            Poll = pollManager.GetPoll(employee.Id, employee.Team)
+	            };
+	            return View(pollViewModel);
+			}
+            else
+            {
+	            PollViewModel pollViewModel = new PollViewModel
+	            {
+		            PollActive = pollactive,
+	            };
+	            return View(pollViewModel);
+			}
         }
 
 		[Authorize]
@@ -143,7 +158,7 @@ namespace TALPA.Controllers
 			{
 				Employee employee = employeeUtility.GetEmployee(User);
 				int suggestionInt = Convert.ToInt32(suggestion);
-				pollManager.SubmitPoll(employee.Id, employee.Team, suggestionInt, availability);
+				pollManager.SubmitPoll(employee.Id, suggestionInt, availability);
 				TempData["message"] = "We hebben je Keuze ontvangen!";
 				return Redirect("/stemmen");
 			}
@@ -166,7 +181,7 @@ namespace TALPA.Controllers
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
 				string date = deadline + " " + time.Replace(" ", "");
 				date = Regex.Replace(date, @"\s+", " ");
-				bool created = pollManager.CreatePoll(employee.Id, employee.Team, activities, date, availability);
+				bool created = pollManager.CreatePoll( employee.Team, activities, date);
 				if (created)
 				{
 					TempData["message"] = "Stemming is aangemaakt!";

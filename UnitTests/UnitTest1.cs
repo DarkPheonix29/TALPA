@@ -2,7 +2,7 @@ using System.Data;
 using System.Diagnostics;
 using BLL;
 using DAL;
-using Activity = BLL.Activity;
+using Activity = BLL.Models.Activity;
 
 
 namespace UnitTests
@@ -22,29 +22,6 @@ namespace UnitTests
             udm.UserSubmit("auth0|66052e2b423e9ac1d787cb32");
             //Assert
         }
-        [TestMethod]
-        public void Activity_submit()
-        {
-			//Arrange
-
-			DAL.ConnectionManager.Initialize(connectionString);
-
-            List<LimitationTypes> limitations = new();
-            limitations.Add((LimitationTypes)1);
-            limitations.Add((LimitationTypes)1);
-            limitations.Add((LimitationTypes)1);
-            List<DateTime> dates = new();
-            dates.Add(DateTime.Now);
-            dates.Add(DateTime.Now);
-            BLL.Activity activity = new Activity("Test", "Dit is een test activity om te kijken of het submitten werkt",limitations, "auth0|66052e2b423e9ac1d787cb32", DateTime.Now);
-            activity.Dates = dates;
-            ActivityManager AM = new();
-            //Act
-
-            AM.SubmitToDatabase(activity);
-
-            //Assert
-        }
 
         [TestMethod]
         public void Get_Activity()
@@ -54,14 +31,10 @@ namespace UnitTests
 			ActivityDataManager adm = new();
 
 			//Act
-			DataTable dt = adm.GetActivity(9);
+			DataRow row = adm.GetActivity(9);
 
-			DataRow row = dt.Rows[0];
-            foreach (DataColumn column in dt.Columns)
-            {
-	            Console.WriteLine($"{column.ColumnName}: {row[column]}");
-            }
 			//Assert
+			Console.WriteLine(row.ToString());
 		}
 
         [TestMethod]
@@ -78,34 +51,6 @@ namespace UnitTests
 	        //Assert
 		}
 
-        [TestMethod]
-        public void Create_Poll()
-        {
-			//Arrange
-			DAL.ConnectionManager.Initialize(connectionString);
-			DAL.PollDataManager pdm = new();
-			List<int> activitys = new();
-			activitys.Add(1);
-            activitys.Add(1);
-            activitys.Add(1);
-
-			//Act
-			pdm.PollSubmit(1, DateTime.Now, activitys);
-			//Assert
-        }
-
-        [TestMethod]
-        public void Update_Votes()
-        {
-            //Arrange
-	        DAL.ConnectionManager.Initialize(connectionString);
-	        DAL.PollDataManager pdm = new();
-
-			//Act
-			pdm.UpdateVotes(1, 1);
-
-			//Assert
-		}
 
         [TestMethod]
         public void Delete_Poll()
@@ -128,7 +73,7 @@ namespace UnitTests
 			DAL.TeamDataManager tdm = new();
 
 			//Act
-            tdm.CreateTeam("auth0|66052e2b423e9ac1d787cb32");
+            tdm.CreateTeam("auth0|66052e2b423e9ac1d787cb32", "testTeam");
 
 			//Assert
 		}
@@ -214,6 +159,74 @@ namespace UnitTests
 	        adm.VotedUserUpdate("auth0|66052e2b423e9ac1d787cb32", 1);
 
 	        //Assert
+		}
+
+        [TestMethod]
+        public void Get_points_of_user()
+        {
+	        //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.UserDataManager udm = new();
+
+	        //Act
+	        udm.GetPoints("auth0|66052e2b423e9ac1d787cb32");
+
+	        //Assert
+		}
+
+        [TestMethod]
+		public void Check_team_activity()
+        {
+	        //Arrange
+	        DAL.ConnectionManager.Initialize(connectionString);
+	        DAL.TeamDataManager tdm = new();
+
+	        //Act
+	        tdm.CheckPlannedActivity(tdm.GetTeamId("testTeam"));
+
+	        //Assert
+		}
+
+		[TestMethod]
+		public void Get_team_activity()
+		{
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			BLL.ActivityManager am = new();
+
+			//Act
+			Activity activity = am.GetActivity("testTeam");
+
+			//Assert
+			Console.WriteLine($"{activity.Name}, {activity.Description}, {activity.Location}");
+		}
+
+		[TestMethod]
+		public void Check_team_poll()
+		{
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			BLL.PollManager pm = new();
+
+			//Act
+			bool result = pm.PollActive("testTeam");
+
+			//Assert
+			Console.WriteLine(result);
+		}
+
+		[TestMethod]
+		public void Check_of_user_voted()
+		{
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			BLL.PollManager pm = new();
+
+			//Act
+			bool result = pm.PollChosen("auth0|66052e2b423e9ac1d787cb32");
+
+			//Assert
+			Console.WriteLine(result);
 		}
 	}
 }

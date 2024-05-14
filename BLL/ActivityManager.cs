@@ -1,30 +1,49 @@
-﻿using BLL.Models;
+﻿using System.Data;
+using System.Diagnostics;
+using BLL.Models;
+using DAL;
+
 namespace BLL
 {
     public class ActivityManager
 	{
 		public bool ActivityPlanned(string team)
 		{
-			// team is de team naam, deze is uniek"
-
-			bool activityPlanned = true; // is uitje gepland voor team?
-
+			TeamDataManager tdm = new TeamDataManager();
+			bool activityPlanned = tdm.CheckPlannedActivity(tdm.GetTeamId(team));
 			return activityPlanned;
 		}
 
-		public Activity GetActivity(string team)
+		public BLL.Models.Activity GetActivity(string team)
         {
-            // team is de team naam, deze is uniek"
+	        TeamDataManager tdm = new TeamDataManager();
+			ActivityDataManager adm = new ActivityDataManager();
+			int teamId = tdm.getPlannedActivityId(tdm.GetTeamId(team));
+			DataRow activityData  = adm.GetActivity(teamId);
+			DataTable limitationsData = adm.GetLimitations(teamId);
+			DataTable categoriesData = adm.GetCategories(teamId);
+			List<string> limitations = new List<string>();
+			List<string> categories = new List<string>();
 
-            Activity activity = new Activity
-            {
-				Name = "Stadswandeling",
-				Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
-				Categories = new List<string> { "Buiten", "Middag" },
-				Limitations = new List<string> { "Tijd", "Alcohol" },
-				Location = "Molendijk 6, 6107 AA Stevensweert",
-				StartDate = "10-04-2024 17:00", // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
-				EndDate = "10-04-2024 19:30" // Belangrijk tijd in formaar [dd-mm-yy hh:mm]
+			foreach (DataRow row in limitationsData.Rows)
+			{
+				limitations.Add(row["limitation"].ToString());
+			}
+
+			foreach (DataRow row in categoriesData.Rows)
+			{
+				categories.Add(row["category"].ToString());
+			}
+
+			BLL.Models.Activity activity = new BLL.Models.Activity
+			{
+				Name = activityData["name"].ToString(),
+				Description = activityData["description"].ToString(),
+				Categories = categories,
+				Limitations = limitations,
+				Location = activityData["location"].ToString(),
+				StartDate = activityData["start_date"].ToString(),
+				EndDate = activityData["end_date"].ToString()
 			};
 
 			return activity;

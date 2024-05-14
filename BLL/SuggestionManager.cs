@@ -1,33 +1,90 @@
-﻿using BLL.Models;
+﻿using System.Data;
+using BLL.Models;
+using DAL;
+
 namespace BLL
 {
     public class SuggestionManager
     {
         public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter, List<int> selected)
         {
-			List<Suggestion> suggestions;
+	        ActivityDataManager adm = new();
+			List<Suggestion> suggestions = new();
 			if (filter.Contains("Mijn-suggesties"))
 			{
-				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties gemaakt door user
+				DataTable dt = adm.GetActivityFromUser(user);
+				foreach (DataRow row in dt.Rows)
+				{
+					if (!Convert.ToBoolean(row["has_been_chosen"]))
+					{
+						List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["id"]));
+
+						DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["id"]));
+						List<string> limitations = new();
+						DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["id"]));
+						List<string> categories = new();
+						foreach (DataRow lrow in limitationsData.Rows)
+						{
+							limitations.Add(lrow["limitation"].ToString());
+						}
+
+						foreach (DataRow crow in categoriesData.Rows)
+						{
+							categories.Add(crow["category"].ToString());
+						}
+
+						Suggestion suggestion = new Suggestion
+						{
+							Id = Convert.ToInt32(row["id"]),
+							Name = row["name"].ToString(),
+							Description = row["description"].ToString(),
+							Categories = categories,
+							Limitations = limitations,
+							Date = row["date_added"].ToString(),
+							Votes = votedUsers.Count
+						};
+
+						suggestions.Add(suggestion);
+					}
+				}
 			} 
 			else
 			{
-				suggestions = new List<Suggestion>(); // Vul lijst met alle suggesties
-			}
+				DataTable dt = adm.GetAllActivity();
+				foreach (DataRow row in dt.Rows)
+				{
+					if (!Convert.ToBoolean(row["has_been_chosen"]))
+					{
+						List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["id"]));
 
-			for (int i = 1; i <= 55; i++)
-			{
-                Suggestion suggestion = new Suggestion
-                {
-					Id = i,
-					Name = "Stadswandeling "+i,
-					Description = "Verken de bezienswaardigheden en verborgen juweeltjes van de stad tijdens een ontspannen wandeling met je collega's.",
-					Categories = new List<string> { "Buiten", "Middag" },
-					Limitations = new List<string> { "Tijd", "Alcohol" },
-					Votes = 3*i, // Hoeveel stemmen heeft deze suggestie in totaal?
-					Date = DateTime.Now.Add(TimeSpan.FromDays(new Random().Next(0, DateTime.IsLeapYear(DateTime.Now.Year) ? 366 : 365))).ToString("yyyy-MM-dd HH:mm:ss") // Aanmaak datum, DateTime formaat van mysql.
-			};
-                suggestions.Add(suggestion);
+						DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["id"]));
+						List<string> limitations = new();
+						DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["id"]));
+						List<string> categories = new();
+						foreach (DataRow lrow in limitationsData.Rows)
+						{
+							limitations.Add(lrow["limitation"].ToString());
+						}
+
+						foreach (DataRow crow in categoriesData.Rows)
+						{
+							categories.Add(crow["category"].ToString());
+						}
+
+						Suggestion suggestion = new Suggestion
+						{
+							Id = Convert.ToInt32(row["id"]),
+							Name = row["name"].ToString(),
+							Description = row["description"].ToString(),
+							Categories = categories,
+							Limitations = limitations,
+							Date = row["date_added"].ToString(),
+							Votes = votedUsers.Count
+						};
+
+						suggestions.Add(suggestion);
+					}
+				}
 			}
 
 			List<Suggestion> selectedSuggestions = suggestions.Where(suggestion => selected.Contains(suggestion.Id)).ToList();
@@ -45,24 +102,28 @@ namespace BLL
 
 		public List<string> GetCategories()
 		{
-			List<string> categories = new List<string>(); // Vul lijst met alle catagorien elk 1x
+			ActivityDataManager adm = new();
+			DataTable categoriesData = adm.GetAllUniqueCategories();
+			List<string> categories = new();
 
-			categories.Add("Buiten");
-			categories.Add("Binnen");
-			categories.Add("Middag");
-			categories.Add("Avond test");
-			categories.Add("Water test");
+			foreach (DataRow row in categoriesData.Rows)
+			{
+				categories.Add(row["category"].ToString());
+			}
 
 			return categories;
 		}
 
 		public List<string> GetLimitations()
 		{
-			List<string> limitations = new List<string>(); // Vul lijst met alle catagorien elk 1x
+			ActivityDataManager adm = new();
+			DataTable limitationData = adm.GetAllUniqueLimitations();
+			List<string> limitations = new();
 
-			limitations.Add("Toegankelijkheid");
-			limitations.Add("Tijd");
-			limitations.Add("Alcohol");
+			foreach (DataRow row in limitationData.Rows)
+			{
+				limitations.Add(row["limitation"].ToString());
+			}
 
 			return limitations;
 		}
@@ -136,14 +197,8 @@ namespace BLL
 
 		public bool SubmitSuggestion(string user, string name, string description, List<string> categories, List<string> limitations)
 		{
-			// Sla uitje op
-			Console.WriteLine($@"
-				user: {user} 
-				suggestion: {name}
-				description: {description}
-				categories:{string.Join(",", categories)}
-				limitations: {string.Join(",", limitations)} 
-			");
+			ActivityDataManager adm = new();
+			adm.ActivitySubmit(name, description,limitations, categories, user);
 			return true;
 		}
 	}
