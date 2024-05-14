@@ -85,14 +85,26 @@ namespace TALPA.Controllers
 			ViewBag.Employee = employee;
 			ViewBag.message = TempData["message"] ?? "";
             ViewBag.errorMessage = TempData["errorMessage"] ?? "";
+            bool pollactive = pollManager.PollActive(employee.Team);
 
-            PollViewModel pollViewModel = new PollViewModel
+            if (pollactive)
             {
-                PollActive = pollManager.PollActive(employee.Team),
-                PollChosen = pollManager.PollChosen(employee.Id),
-                Poll = pollManager.GetPoll(employee.Id, employee.Team)
-			};
-            return View(pollViewModel);
+	            PollViewModel pollViewModel = new PollViewModel
+	            {
+		            PollActive = pollactive,
+		            PollChosen = pollManager.PollChosen(employee.Id),
+		            Poll = pollManager.GetPoll(employee.Id, employee.Team)
+	            };
+	            return View(pollViewModel);
+			}
+            else
+            {
+	            PollViewModel pollViewModel = new PollViewModel
+	            {
+		            PollActive = pollactive,
+	            };
+	            return View(pollViewModel);
+			}
         }
 
 		[Authorize]

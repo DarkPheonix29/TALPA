@@ -11,15 +11,22 @@ namespace BLL
 		{
 			TeamDataManager tdm = new TeamDataManager();
 			PollDataManager pdm = new PollDataManager();
-			DataRow poll = pdm.GetPollOfTeam(tdm.GetTeamId(team));
-
-			if (Convert.ToInt32(poll["id"]) == 0)
+			if (team != null)
 			{
-				return false;
+				DataRow poll = pdm.GetPollOfTeam(tdm.GetTeamId(team));
+
+				if (poll == null)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
 			}
 			else
 			{
-				return true;
+				return false;
 			}
 		}
 

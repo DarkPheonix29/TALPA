@@ -166,9 +166,16 @@ namespace DAL
 							da.Fill(dt);
 						}
 
-						DataRow dr = dt.Rows[0];
+						if (dt.Rows.Count > 0)
+						{
+							DataRow dr = dt.Rows[0];
 
-						return dr;
+							return dr;
+						}
+						else
+						{
+							return null;
+						}
 					}
 					catch (Exception ex)
 					{
