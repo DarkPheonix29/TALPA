@@ -151,7 +151,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "SELECT id FROM poll WHERE team_id = @TeamId";
+				string query = "SELECT id, deadline FROM poll WHERE team_id = @TeamId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
@@ -190,7 +190,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "SELECT activity_id, activity_votes FROM activity_poll WHERE poll_id = @PollId";
+				string query = "SELECT activity_id FROM activity_poll WHERE poll_id = @PollId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try

@@ -4,15 +4,20 @@ namespace BLL
 {
     public class EmployeeManager
     {
-        public int GetPoints(string user)
+        public int GetPoints(string user, string team)
         {
-            UserDataManager udm = new UserDataManager();
+            UserDataManager udm = new();
+            TeamDataManager tdm = new();
 	        int points = udm.GetPoints(user);
 
-	        bool userExists = udm.UserExists(user);
-	        if (!userExists)
+	        if (!udm.UserExists(user))
 	        {
 				udm.UserSubmit(user);
+	        }
+
+	        if (!tdm.TeamExists(team))
+	        {
+				tdm.CreateTeam(team);
 	        }
 
 			return points;

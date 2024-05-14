@@ -60,12 +60,12 @@ namespace BLL
 			List<Suggestion> suggestions = new();
 			foreach (DataRow row in selection.Rows)
 			{
-				if (Convert.ToInt32(row["has_been_chosen"]) == 1)
+				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
+				if (Convert.ToBoolean(activity["has_been_chosen"]))
 				{
 					chosenSuggestion = Convert.ToInt32(row["activity_id"]);
 				}
 				List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["activity_id"]));
-				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
 
 				DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["activity_id"]));
 				List<string> limitations = new();
@@ -116,7 +116,6 @@ namespace BLL
 
 		public bool CreatePoll(string team, List<int> activities, string date)
 		{
-			// activities needs to be a list of the id's, this could be done on this side if that is more convenient(I don't know if you already have the id's in the frond end).
 			TeamDataManager tdm = new();
 			PollDataManager pdm = new();
 

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using BLL;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace TALPA.Controllers
 {
@@ -173,12 +174,13 @@ namespace TALPA.Controllers
 			if (
 				!string.IsNullOrWhiteSpace(deadline) &&
 				!string.IsNullOrWhiteSpace(time) &&
-				activities.Count == 3 &&
+				activities.Count >= 3 &&
 				availability.Count >= 1
 			)
 			{
 				Employee employee = employeeUtility.GetEmployee(User);
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
+				activitiesInt = activitiesInt.Take(3).ToList();
 				string date = deadline + " " + time.Replace(" ", "");
 				date = Regex.Replace(date, @"\s+", " ");
 				bool created = pollManager.CreatePoll( employee.Team, activitiesInt, date);

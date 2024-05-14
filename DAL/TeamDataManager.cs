@@ -4,16 +4,15 @@ namespace DAL
 {
 	public class TeamDataManager
 	{
-		public void CreateTeam(string managerId, string name)
+		public void CreateTeam( string name)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"INSERT INTO team (manager_id, name) VALUES (@managerId, @Name)";
+				string query = $"INSERT INTO team (name) VALUES (@Name)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
 					{
-						command.Parameters.AddWithValue("@ManagerId", managerId);
 						command.Parameters.AddWithValue("@Name", name);
 
 						connection.Open();
@@ -24,6 +23,31 @@ namespace DAL
 					{
 						// Handle exceptions appropriately (e.g., logging)
 						throw new Exception("Error creating team.", ex);
+					}
+				}
+			}
+		}
+
+		public bool TeamExists(string name)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "SELECT CASE WHEN EXISTS ( SELECT * FROM [team] WHERE name = @Name ) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@Name", name);
+
+						connection.Open();
+						bool existence = Convert.ToBoolean(command.ExecuteScalar());
+
+						return existence;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error checking if team exists.", ex);
 					}
 				}
 			}

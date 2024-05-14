@@ -23,14 +23,15 @@ namespace TALPA
 		public Employee GetEmployee(ClaimsPrincipal User)
         {
             string id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string team = User.Claims.FirstOrDefault(c => c.Type == "TALPA/groups")?.Value;
 			var employee = new Employee
             {
                 Id = id,
 				Name = User.Claims.FirstOrDefault(c => c.Type == "TALPA/username")?.Value,
                 Email = User.Identity.Name,
-                Team = User.Claims.FirstOrDefault(c => c.Type == "TALPA/groups")?.Value,
+                Team = team,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value,
-                Points = employeeManager.GetPoints(id)
+                Points = employeeManager.GetPoints(id, team)
             };
 
             return employee;
