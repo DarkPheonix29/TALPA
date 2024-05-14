@@ -181,7 +181,7 @@ namespace TALPA.Controllers
 				List<int> activitiesInt = activities.Select(activity => int.Parse(activity)).ToList();
 				string date = deadline + " " + time.Replace(" ", "");
 				date = Regex.Replace(date, @"\s+", " ");
-				bool created = pollManager.CreatePoll( employee.Team, activities, date);
+				bool created = pollManager.CreatePoll( employee.Team, activitiesInt, date);
 				if (created)
 				{
 					TempData["message"] = "Stemming is aangemaakt!";
