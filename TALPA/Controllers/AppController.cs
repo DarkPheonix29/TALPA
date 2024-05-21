@@ -8,6 +8,7 @@ using BLL;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using TALPA_ai_test;
 
 namespace TALPA.Controllers
 {
@@ -17,6 +18,7 @@ namespace TALPA.Controllers
 		private readonly ActivityManager activityManager;
 		private readonly SuggestionManager suggestionManager;
 		private readonly PollManager pollManager;
+		private readonly AiManager aiManager;
 
 		public AppController()
 		{
@@ -24,6 +26,7 @@ namespace TALPA.Controllers
 			activityManager = new ActivityManager();
 			suggestionManager = new SuggestionManager();
 			pollManager = new PollManager();
+			aiManager = new AiManager();
 		}
 
 		[Authorize]
@@ -194,6 +197,29 @@ namespace TALPA.Controllers
 					TempData["errorMessage"] = "Er is al een stemming bezig!";
                     return Redirect("/suggesties");
                 }
+			}
+			return Content("Invalid");
+		}
+
+		// TEST
+		[Authorize]
+		public async Task<IActionResult> GetSimilarSuggestions(string name, string description)
+		{
+			if (
+				!string.IsNullOrWhiteSpace(name) &&
+				!string.IsNullOrWhiteSpace(description)
+			)
+			{
+				Employee employee = employeeUtility.GetEmployee(User);
+				List<Suggestion> suggestions = suggestionManager.GetSuggestions(employee.Id, "", "popular", new List<string>(), new List<int>());
+				Suggestion suggestion = new Suggestion
+				{
+					Name = name,
+					Description = description
+				};
+
+				List<int> similars = await aiManager.GetSimilars(suggestions, suggestion);
+				return Json(similars);
 			}
 			return Content("Invalid");
 		}
