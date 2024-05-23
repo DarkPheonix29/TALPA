@@ -47,63 +47,99 @@ namespace BLL
 		}
 
 		public Poll GetPoll(string user, string team)
-        {
-			ActivityDataManager adm = new();
-			TeamDataManager tdm = new();
-			PollDataManager pdm = new();
-			UserDataManager udm = new();
+		{
+			var adm = new ActivityDataManager();
+			var tdm = new TeamDataManager();
+			var pdm = new PollDataManager();
+			var udm = new UserDataManager();
 
-			DataRow pollId = pdm.GetPollOfTeam(tdm.GetTeamId(team));
-			DataTable selection = pdm.GetSelection(Convert.ToInt32(pollId["id"]));
+			int teamId = tdm.GetTeamId(team);
+			DataRow pollId = pdm.GetPollOfTeam(teamId);
+			int pollIdInt = Convert.ToInt32(pollId["id"]);
+			DataTable selection = pdm.GetSelection(pollIdInt);
 
-			int chosenSuggestion = 0;
-			List<Suggestion> suggestions = new();
-			foreach (DataRow row in selection.Rows)
-			{
-				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
-				if (Convert.ToBoolean(activity["has_been_chosen"]))
-				{
-					chosenSuggestion = Convert.ToInt32(row["activity_id"]);
-				}
-				List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["activity_id"]));
-
-				DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(row["activity_id"]));
-				List<string> limitations = new();
-				DataTable categoriesData = adm.GetCategories(Convert.ToInt32(row["activity_id"]));
-				List<string> categories = new();
-				foreach (DataRow lrow in limitationsData.Rows)
-				{
-					limitations.Add(lrow["limitation"].ToString());
-				}
-
-				foreach (DataRow crow in categoriesData.Rows)
-				{
-					categories.Add(crow["category"].ToString());
-				}
-
-				Suggestion suggestion = new Suggestion
-				{
-					Id = Convert.ToInt32(row["activity_id"]),
-					Name = activity["name"].ToString(),
-					Description = activity["description"].ToString(),
-					Categories = categories,
-					Limitations = limitations,
-					Votes = votedUsers.Count
-				};
-				suggestions.Add(suggestion);
-			}
+			int chosenSuggestion = GetChosenSuggestion(adm, selection);
+			List<Suggestion> suggestions = GetSuggestions(adm, selection);
 
 			Poll poll = new Poll
 			{
 				ChosenSuggestion = chosenSuggestion,
 				Suggestions = suggestions,
 				Availability = udm.getVoteDates(udm.getVoteId(user)),
-				PossibleDates = pdm.getPollDates(Convert.ToInt32(pollId["id"])),
+				PossibleDates = pdm.getPollDates(pollIdInt),
 				Deadline = pollId["deadline"].ToString()
 			};
 
 			return poll;
-        }
+		}
+
+		private int GetChosenSuggestion(ActivityDataManager adm, DataTable selection)
+		{
+			foreach (DataRow row in selection.Rows)
+			{
+				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
+				if (Convert.ToBoolean(activity["has_been_chosen"]))
+				{
+					return Convert.ToInt32(row["activity_id"]);
+				}
+			}
+			return 0; // Default value if no chosen suggestion is found
+		}
+
+		private List<Suggestion> GetSuggestions(ActivityDataManager adm, DataTable selection)
+		{
+			var suggestions = new List<Suggestion>();
+
+			foreach (DataRow row in selection.Rows)
+			{
+				int activityId = Convert.ToInt32(row["activity_id"]);
+				DataRow activity = adm.GetActivity(activityId);
+
+				List<string> votedUsers = adm.GetVotedUsers(activityId);
+				List<string> limitations = GetLimitations(adm, activityId);
+				List<string> categories = GetCategories(adm, activityId);
+
+				var suggestion = new Suggestion
+				{
+					Id = activityId,
+					Name = activity["name"].ToString(),
+					Description = activity["description"].ToString(),
+					Categories = categories,
+					Limitations = limitations,
+					Votes = votedUsers.Count
+				};
+
+				suggestions.Add(suggestion);
+			}
+
+			return suggestions;
+		}
+
+		private List<string> GetLimitations(ActivityDataManager adm, int activityId)
+		{
+			DataTable limitationsData = adm.GetLimitations(activityId);
+			var limitations = new List<string>();
+
+			foreach (DataRow row in limitationsData.Rows)
+			{
+				limitations.Add(row["limitation"].ToString());
+			}
+
+			return limitations;
+		}
+
+		private List<string> GetCategories(ActivityDataManager adm, int activityId)
+		{
+			DataTable categoriesData = adm.GetCategories(activityId);
+			var categories = new List<string>();
+
+			foreach (DataRow row in categoriesData.Rows)
+			{
+				categories.Add(row["category"].ToString());
+			}
+
+			return categories;
+		}
 
 		public bool SubmitPoll(string user, int suggestion, List<string> availability)
 		{
