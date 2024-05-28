@@ -201,8 +201,8 @@ namespace TALPA.Controllers
 			return Content("Invalid");
 		}
 
-		// TEST
-		[Authorize]
+        [HttpPost]
+        [Authorize]
 		public async Task<IActionResult> GetSimilarSuggestions(string name, string description)
 		{
 			if (
@@ -219,6 +219,7 @@ namespace TALPA.Controllers
 				};
 
 				List<int> similars = await aiManager.GetSimilars(suggestions, suggestion);
+
 				return Json(similars);
 			}
 			return Content("Invalid");
