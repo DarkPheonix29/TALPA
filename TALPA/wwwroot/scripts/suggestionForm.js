@@ -84,8 +84,14 @@ limitationInputInput.addEventListener("change", function () {
 
 submitButton.addEventListener('click', function () {
     if (valid1 && valid2 && valid3 && valid4) {
-        ShowSimilarSuggestions()
-        //form.submit();
+        console.log(suggestionInput.textContent, descriptionInput.textContent)
+        var similarSuggestions = await GetSimilarSuggestions(suggestionInput.textContent, descriptionInput.textContent)
+        if (similarSuggestions.length > 0) {
+            $("#similarSuggestionModal").modal("show")
+
+        } else {
+            form.submit();
+        }
     } else {
         suggestionInput.dispatchEvent(new Event('input'));
         descriptionInput.dispatchEvent(new Event('input'));
@@ -93,12 +99,6 @@ submitButton.addEventListener('click', function () {
         limitationInput.dispatchEvent(new Event('change'));
     }
 });
-
-function ShowSimilarSuggestions() {
-    var similarSuggestions = await GetSimilarSuggestions(suggestionInput.textContent, descriptionInput.textContent)
-    alert(similarSuggestions.join(", "))
-    $("#similarSuggestionModal").modal("show")
-}
 
 async function GetSimilarSuggestions(name, description) {
     return new Promise((resolve, reject) => {
