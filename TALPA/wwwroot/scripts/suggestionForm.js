@@ -92,7 +92,7 @@ submitButton.addEventListener('click', async function () {
             var audio = document.getElementById('alertSound')
             audio.play().catch(error => { console.log("Audio not playing:", error)})
             alert("Nice try! Ik ga je kietelen!") 
-            window.open('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjh2dTBwdXdsemd1eWdsd3RrdnJiOGcyMjM5c2d0ems3MGJhcWgwbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cr9vIO7NsP5cY/giphy.gif', '_blank');
+            window.open('https://i.giphy.com/cr9vIO7NsP5cY.webp', '_blank');
         } else {
             $("#newSuggestionModal").modal("hide")
             $("#similarSuggestionWaitModal").modal("show")
