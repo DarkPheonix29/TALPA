@@ -18,6 +18,8 @@ const limitationInputFeedback = document.getElementById('limitationFeedback');
 const form = document.getElementById('form');
 const submitButton = document.getElementById('submitButton');
 
+const similarSuggestionModalCloseButton = document.getElementById('similarSuggestionModalClose');
+
 var modalBody = document.querySelector('.modal-content');
 var tagMenus = document.querySelectorAll('.tags-menu');
 
@@ -84,10 +86,10 @@ limitationInputInput.addEventListener("change", function () {
 
 submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
-        console.log(suggestionInput.textContent, descriptionInput.textContent)
         var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
         if (similarSuggestions.length > 0) {
             $("#similarSuggestionModal").modal("show")
+            $("#newSuggestionModal").modal("hide")
 
         } else {
             form.submit();
@@ -98,6 +100,11 @@ submitButton.addEventListener('click', async function () {
         categoryInput.dispatchEvent(new Event('change'));
         limitationInput.dispatchEvent(new Event('change'));
     }
+});
+
+similarSuggestionModalCloseButton.addEventListener('click',  function () {
+    $("#similarSuggestionModal").modal("hide")
+    $("#newSuggestionModal").modal("show")
 });
 
 async function GetSimilarSuggestions(name, description) {
