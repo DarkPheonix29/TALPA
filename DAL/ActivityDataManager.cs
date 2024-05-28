@@ -472,7 +472,7 @@ namespace DAL
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 		        List<string> UserId = new List<string>();
-		        string query = "SELECT voted_user_id FROM activity_user WHERE activity_id = @ActivityId";
+		        string query = "SELECT voted_user_id FROM vote WHERE activity_id = @ActivityId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try
