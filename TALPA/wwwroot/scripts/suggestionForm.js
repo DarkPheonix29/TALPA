@@ -85,7 +85,7 @@ limitationInputInput.addEventListener("change", function () {
 submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
         console.log(suggestionInput.textContent, descriptionInput.textContent)
-        var similarSuggestions = await GetSimilarSuggestions(suggestionInput.textContent, descriptionInput.textContent)
+        var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
         if (similarSuggestions.length > 0) {
             $("#similarSuggestionModal").modal("show")
 
