@@ -73,7 +73,7 @@ namespace UnitTests
 			DAL.TeamDataManager tdm = new();
 
 			//Act
-            tdm.CreateTeam("auth0|66052e2b423e9ac1d787cb32", "testTeam");
+            tdm.CreateTeam( "testTeam");
 
 			//Assert
 		}
@@ -227,6 +227,20 @@ namespace UnitTests
 
 			//Assert
 			Console.WriteLine(result);
+		}
+
+		[TestMethod]
+		public void Get_poll_id_with_team_id()
+		{
+			//Arrange
+			DAL.ConnectionManager.Initialize(connectionString);
+			DAL.PollDataManager pdm = new();
+
+			//Act
+			int pollId = pdm.GetPollIdWithTeamId(3);
+
+			//Assert
+			Assert.AreEqual(11, pollId);
 		}
 	}
 }

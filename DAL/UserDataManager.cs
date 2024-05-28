@@ -85,7 +85,7 @@ namespace DAL
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 				List<int> activityId = new List<int>();
-		        string query = "SELECT activity_id FROM activity_user WHERE voted_user_id = @UserId";
+		        string query = "SELECT activity_id FROM vote WHERE voted_user_id = @UserId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try
@@ -116,7 +116,7 @@ namespace DAL
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
-		        string query = "SELECT id FROM activity_user WHERE voted_user_id = @UserId";
+		        string query = "SELECT id FROM vote WHERE voted_user_id = @UserId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try
@@ -141,7 +141,7 @@ namespace DAL
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 		        List<string> dates = new();
-		        string query = "SELECT date FROM activity_user_date WHERE vote_id = @VoteId";
+		        string query = "SELECT date FROM vote_date WHERE vote_id = @VoteId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try
