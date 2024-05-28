@@ -11,7 +11,7 @@ namespace DAL
 {
 	public class PollDataManager
 	{
-		public void PollSubmit(int TeamId, string deadline, List<int> activitys)
+		public void PollSubmit(int TeamId, string deadline, List<int> activitys, List<string> dates)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
@@ -27,6 +27,7 @@ namespace DAL
 
 						int PollId = Convert.ToInt32(command.ExecuteScalar());
 						CreateSelection(activitys, PollId);
+						AddDatesToPoll(dates, PollId);
 
 					}
 					catch (Exception ex)
@@ -67,17 +68,47 @@ namespace DAL
 			}
 		}
 
-		public void CreateVote(int activityId, string userId, List<string> dates)
+		public void AddDatesToPoll(List<string> dates, int pollId)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"INSERT INTO activity_user (activity_id, voted_user_id) OUTPUT INSERTED.id VALUES (@ActivityId, @UserId)";
+				string query = $"INSERT INTO poll_date (date, poll_id) VALUES (@Date, @PollId)";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					connection.Open();
+					foreach (string date in dates)
+					{
+						try
+						{
+							command.Parameters.Clear();
+							command.Parameters.AddWithValue("@Date", date);
+							command.Parameters.AddWithValue("@PollId", pollId);
+
+							command.ExecuteNonQuery();
+
+						}
+						catch (Exception ex)
+						{
+							// Handle exceptions appropriately (e.g., logging)
+							throw new Exception("Error adding dates to poll.", ex);
+						}
+					}
+				}
+			}
+		}
+
+		public void CreateVote(int activityId, string userId, List<string> dates, int pollId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = $"INSERT INTO vote (activity_id, voted_user_id, poll_id) OUTPUT INSERTED.id VALUES (@ActivityId, @UserId, @PollId)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
 					{
 						command.Parameters.AddWithValue("@ActivityId", activityId);
 						command.Parameters.AddWithValue("@UserId", userId);
+						command.Parameters.AddWithValue("@PollId", pollId);
 
 						connection.Open();
 
@@ -98,7 +129,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = $"INSERT INTO activity_user_date (date, vote_id) VALUES (@Date, @VoteId)";
+				string query = $"INSERT INTO vote_date (date, vote_id) VALUES (@Date, @VoteId)";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					connection.Open();
@@ -127,7 +158,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "DELETE * FROM Poll WHERE team_id = @TeamId";
+				string query = "DELETE FROM Poll WHERE team_id = @TeamId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
@@ -239,6 +270,58 @@ namespace DAL
 						}
 
 						return dates;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting vote id.", ex);
+					}
+				}
+			}
+		}
+
+
+		public void DeleteAllVotesFromPoll(int pollId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "DELETE FROM vote WHERE poll_id = @PollId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@PollId", pollId);
+
+						connection.Open();
+
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error deleting votes.", ex);
+					}
+				}
+			}
+		}
+
+		public int GetPollIdWithTeamId(int teamId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				List<string> dates = new();
+				string query = "SELECT id FROM poll WHERE team_id = @teamId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@teamId", teamId);
+
+						connection.Open();
+
+						int pollId = Convert.ToInt32(command.ExecuteScalar());
+
+						return pollId;
 					}
 					catch (Exception ex)
 					{
