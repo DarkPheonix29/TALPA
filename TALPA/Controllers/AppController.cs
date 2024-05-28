@@ -217,7 +217,7 @@ namespace TALPA.Controllers
 				List<string> SqlInjections = new List<string> { "SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "--", ";", "/*", "*/", "XP_CMDShell" };
 				if (SqlInjections.Any(keyword => name.Contains(keyword) || description.Contains(keyword)))
 				{
-					return Redirect("https://www.youtube.com/watch?v=3KLf3xXqZc4");
+					return Content("Nice Try! Ik ga je kietelen.");
 				}
 
 				Employee employee = employeeUtility.GetEmployee(User);
