@@ -214,6 +214,12 @@ namespace TALPA.Controllers
 				!string.IsNullOrWhiteSpace(description)
 			)
 			{
+				string SqlInjectionPattern = @"\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC(?:UTE)?|ALTER|CREATE|REPLACE|MERGE|TRUNCATE)\b|--|'\w*'|;|\b(?:xp_|sp_)\w+\b";
+				if (!Regex.IsMatch(name, SqlInjectionPattern, RegexOptions.IgnoreCase) && !Regex.IsMatch(description, SqlInjectionPattern, RegexOptions.IgnoreCase))
+				{
+					return Redirect("https://www.youtube.com/watch?v=3KLf3xXqZc4");
+				}
+
 				Employee employee = employeeUtility.GetEmployee(User);
 				List<Suggestion> suggestions = suggestionManager.GetSuggestions(employee.Id, "", "popular", new List<string>(), new List<int>());
 				Suggestion suggestion = new Suggestion
@@ -223,7 +229,6 @@ namespace TALPA.Controllers
 				};
 
 				List<int> similars = await aiManager.GetSimilars(suggestions, suggestion);
-
 				return Json(similars);
 			}
 			return Content("Invalid");
