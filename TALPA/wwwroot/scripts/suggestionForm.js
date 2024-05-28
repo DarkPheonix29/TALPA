@@ -90,7 +90,7 @@ submitButton.addEventListener('click', async function () {
         var sqlInjections = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "/*", "*/", "XP_CMDShell"];
         if ($.grep(sqlInjections, function (keyword) { return inputString.toUpperCase().indexOf(keyword) !== -1; }).length > 0) {
             alert("Nice try! Ik ga je kietelen!")
-            window.open('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjh2dTBwdXdsemd1eWdsd3RrdnJiOGcyMjM5c2d0ems3MGJhcWgwbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cr9vIO7NsP5cY/giphy.gif', '_blank');
+            window.open('https://media4.giphy.com/media/cr9vIO7NsP5cY/200w.gif?cid=6c09b952tvuwg978upn4aqp1f4hc9i9y4qe9wdq9tg1djcuj&ep=v1_gifs_search&rid=200w.gif&ct=g', '_blank');
         } else {
             $("#newSuggestionModal").modal("hide")
             $("#similarSuggestionWaitModal").modal("show")
