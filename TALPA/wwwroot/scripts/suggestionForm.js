@@ -86,18 +86,20 @@ limitationInputInput.addEventListener("change", function () {
 
 submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
-        $("#newSuggestionModal").modal("hide")
-        $("#similarSuggestionWaitModal").modal("show")
-        var sqlInjections = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "--", ";", "/*", "*/", "XP_CMDShell"]
-        var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
-        if ($.grep(sqlInjections, function (keyword) { return (suggestionInput.value + " " + descriptionInput.value).toUpperCase().indexOf(keyword) !== -1; }).length > 0) {
-            $("#trollAudio").play()
-            alert("Nice Try! Ik ga je kietelen.")
-        } else if (similarSuggestions.length > 0) {
-            $("#similarSuggestionModalList").clear()
-            $.each(similarSuggestions, function (index, suggestionId) {
-                var suggestion = allSuggestions[suggestionId]
-                var listElement = `
+        inputString = suggestionInput.value + " " + descriptionInput.value;
+        var sqlInjections = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "/*", "*/", "XP_CMDShell"];
+        if ($.grep(sqlInjections, function (keyword) { return inputString.toUpperCase().indexOf(keyword) !== -1; }).length > 0) {
+            alert("Nice try! Ik ga je kietelen!")
+            window.open('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjh2dTBwdXdsemd1eWdsd3RrdnJiOGcyMjM5c2d0ems3MGJhcWgwbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cr9vIO7NsP5cY/giphy.gif', '_blank');
+        } else {
+            $("#newSuggestionModal").modal("hide")
+            $("#similarSuggestionWaitModal").modal("show")
+            var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
+            if (similarSuggestions.length > 0) {
+                $("#similarSuggestionModalList").clear()
+                $.each(similarSuggestions, function (index, suggestionId) {
+                    var suggestion = allSuggestions[suggestionId]
+                    var listElement = `
                     <div class="card h-100 mb-3" id = "@suggestion.Id" >
 						<div class="card-body">
 							<div class="d-flex align-items-start justify-content-between mb-2">
@@ -107,14 +109,15 @@ submitButton.addEventListener('click', async function () {
 						</div>
 					</div >
                `
-                $("#similarSuggestionModalList").append(listElement);
-            });
+                    $("#similarSuggestionModalList").append(listElement);
+                });
 
-            $("#similarSuggestionWaitModal").modal("hide")
-            $("#similarSuggestionModal").modal("show")
+                $("#similarSuggestionWaitModal").modal("hide")
+                $("#similarSuggestionModal").modal("show")
 
-        } else {
-            form.submit();
+            } else {
+                form.submit();
+            }
         }
     } else {
         suggestionInput.dispatchEvent(new Event('input'));
