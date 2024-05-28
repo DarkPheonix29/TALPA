@@ -88,8 +88,12 @@ submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
         $("#newSuggestionModal").modal("hide")
         $("#similarSuggestionWaitModal").modal("show")
+        var sqlInjections = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "--", ";", "/*", "*/", "XP_CMDShell"]
         var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
-        if (similarSuggestions.length > 0) {
+        if ($.grep(sqlInjections, function (keyword) { return (suggestionInput.value + " " + descriptionInput.value).toUpperCase().indexOf(keyword) !== -1; }).length > 0) {
+            $("#trollAudio").play()
+            alert("Nice Try! Ik ga je kietelen.")
+        } else if (similarSuggestions.length > 0) {
             $("#similarSuggestionModalList").clear()
             $.each(similarSuggestions, function (index, suggestionId) {
                 var suggestion = allSuggestions[suggestionId]
