@@ -524,7 +524,6 @@ namespace DAL
                 }
             }
         }
-    }
         public void TurnSuggestionInActivity(int id, string location, DateTime startDate, DateTime endDate)
         {
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
