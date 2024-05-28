@@ -3,6 +3,8 @@ using BLL.Models;
 using System.Globalization;
 using DAL;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Runtime.Intrinsics.Arm;
+using Microsoft.Data.SqlClient;
 namespace BLL
 {
     public class PollManager
@@ -129,5 +131,51 @@ namespace BLL
 				return false;
 			}
 		}
-	}
+
+        public void EndPoll(string team)
+        {
+            TeamDataManager tdm = new TeamDataManager();
+            PollDataManager pdm = new PollDataManager();
+            ActivityDataManager adm = new ActivityDataManager();
+            UserDataManager udm = new UserDataManager();
+
+            int teamId = tdm.GetTeamId(team);
+            DataRow poll = pdm.GetPollOfTeam(teamId);
+            if (poll != null)
+            {
+                DateTime deadline = DateTime.Parse(poll["deadline"].ToString());
+                if (DateTime.Now > deadline)
+                {
+                    int pollId = Convert.ToInt32(poll["id"]);
+                    DataTable selection = pdm.GetSelection(pollId);
+
+                    int maxVotes = 0;
+                    int selectedActivityId = 0;
+                    foreach (DataRow row in selection.Rows)
+                    {
+                        int activityId = Convert.ToInt32(row["activity_id"]);
+                        int votes = adm.GetVotedUsers(activityId).Count;
+                        if (votes > maxVotes)
+                        {
+                            maxVotes = votes;
+                            selectedActivityId = activityId;
+                        }
+                    }
+
+                    if (selectedActivityId > 0)
+                    {
+                        adm.ChooseActivity(selectedActivityId);
+
+                        // Retrieve the user who created the winning activity
+                        string creatorId = adm.GetActivityCreator(selectedActivityId);
+
+                        // Update the points of the creator
+                        udm.AddPointsToUser(creatorId, maxVotes);
+                    }
+
+                    pdm.DeletePoll(teamId);
+                }
+            }
+        }
+    }
 }

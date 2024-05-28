@@ -369,25 +369,28 @@ namespace DAL
 
         public void ChooseActivity(int id)
         {
-	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-	        {
-		        string query = "INSERT INTO activity (has_been_chosen) VALUES (@HasBeenChosen) WHERE id = @id";
-		        using (SqlCommand command = new SqlCommand(query, connection))
-		        {
-			        try
-			        {
-				        command.Parameters.AddWithValue("@HasBeenChosen", 1);
-				        command.Parameters.AddWithValue("@id", id);
-						connection.Open();
-			        }
-			        catch (Exception ex)
-			        {
-				        // Handle exceptions appropriately (e.g., logging)
-				        throw new Exception("Error choosing activity.", ex);
-			        }
-		        }
-	        }
-		}
+            using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+            {
+                string query = "UPDATE activity SET has_been_chosen = @HasBeenChosen WHERE id = @id";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        command.Parameters.AddWithValue("@HasBeenChosen", 1);
+                        command.Parameters.AddWithValue("@id", id);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions appropriately (e.g., logging)
+                        throw new Exception("Error choosing activity.", ex);
+                    }
+                }
+            }
+        }
+
 
         public DataTable GetDates(int id)
         {
@@ -499,5 +502,27 @@ namespace DAL
 		        }
 	        }
 		}
-	}
+        public string GetActivityCreator(int activityId)
+        {
+            using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+            {
+                string query = "SELECT proposing_user FROM activity WHERE id = @ActivityId";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        command.Parameters.AddWithValue("@ActivityId", activityId);
+
+                        connection.Open();
+                        return command.ExecuteScalar().ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions appropriately (e.g., logging)
+                        throw new Exception("Error getting activity creator.", ex);
+                    }
+                }
+            }
+        }
+    }
 }

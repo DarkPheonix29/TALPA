@@ -93,35 +93,39 @@ namespace TALPA.Controllers
         }
 
 		[Authorize]
-		public IActionResult Poll()
+        public IActionResult Poll()
         {
-			Employee employee = employeeUtility.GetEmployee(User);
-			ViewBag.Employee = employee;
-			ViewBag.message = TempData["message"] ?? "";
+            Employee employee = employeeUtility.GetEmployee(User);
+            ViewBag.Employee = employee;
+            ViewBag.message = TempData["message"] ?? "";
             ViewBag.errorMessage = TempData["errorMessage"] ?? "";
             bool pollactive = pollManager.PollActive(employee.Team);
 
             if (pollactive)
             {
-	            PollViewModel pollViewModel = new PollViewModel
-	            {
-		            PollActive = pollactive,
-		            PollChosen = pollManager.PollChosen(employee.Id),
-		            Poll = pollManager.GetPoll(employee.Id, employee.Team)
-	            };
-	            return View(pollViewModel);
-			}
+                PollViewModel pollViewModel = new PollViewModel
+                {
+                    PollActive = pollactive,
+                    PollChosen = pollManager.PollChosen(employee.Id),
+                    Poll = pollManager.GetPoll(employee.Id, employee.Team)
+                };
+
+                // Call EndPoll to finalize the poll if the deadline has passed
+                pollManager.EndPoll(employee.Team);
+
+                return View(pollViewModel);
+            }
             else
             {
-	            PollViewModel pollViewModel = new PollViewModel
-	            {
-		            PollActive = pollactive,
-	            };
-	            return View(pollViewModel);
-			}
+                PollViewModel pollViewModel = new PollViewModel
+                {
+                    PollActive = pollactive,
+                };
+                return View(pollViewModel);
+            }
         }
 
-		[Authorize]
+        [Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult SubmitSuggestion(string name, string description, List<string> categories, List<string> limitations)

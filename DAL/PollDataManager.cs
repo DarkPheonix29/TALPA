@@ -127,7 +127,7 @@ namespace DAL
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "DELETE * FROM Poll WHERE team_id = @TeamId";
+				string query = "DELETE FROM Poll WHERE team_id = @TeamId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try

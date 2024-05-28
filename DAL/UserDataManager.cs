@@ -168,5 +168,28 @@ namespace DAL
 		        }
 	        }
 		}
-	}
+        public void AddPointsToUser(string userId, int pointsToAdd)
+        {
+            using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+            {
+                string query = "UPDATE [user] SET points = points + @PointsToAdd WHERE id = @UserId";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        command.Parameters.AddWithValue("@PointsToAdd", pointsToAdd);
+                        command.Parameters.AddWithValue("@UserId", userId);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions appropriately (e.g., logging)
+                        throw new Exception("Error updating user points.", ex);
+                    }
+                }
+            }
+        }
+    }
 }
