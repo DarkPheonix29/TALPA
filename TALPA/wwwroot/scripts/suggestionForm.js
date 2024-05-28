@@ -88,6 +88,22 @@ submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
         var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
         if (similarSuggestions.length > 0) {
+            $("#similarSuggestionModalList").clear()
+            $.each(similarSuggestions, function (index, suggestionId) {
+                var suggestion = allSuggestions[suggestionId]
+                var listElement = `
+                    <div class="card h-100" id = "@suggestion.Id" >
+						<div class="card-body">
+							<div class="d-flex align-items-start justify-content-between mb-2">
+								<h5 class="card-title mb-0" id="suggestion-title">${suggestion.name}</h5>
+							</div>
+							<p class="card-text" id="suggestion-description">${suggestion.description}</p>
+						</div>
+					</div >
+               `
+                $("#similarSuggestionModalList").append(listElement);
+            });
+
             $("#similarSuggestionModal").modal("show")
             $("#newSuggestionModal").modal("hide")
 
