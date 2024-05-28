@@ -18,6 +18,8 @@ const limitationInputFeedback = document.getElementById('limitationFeedback');
 const form = document.getElementById('form');
 const submitButton = document.getElementById('submitButton');
 
+const similarSuggestionModalCloseButton = document.getElementById('similarSuggestionModalClose');
+
 var modalBody = document.querySelector('.modal-content');
 var tagMenus = document.querySelectorAll('.tags-menu');
 
@@ -82,10 +84,32 @@ limitationInputInput.addEventListener("change", function () {
     }
 });
 
-submitButton.addEventListener('click', function () {
+submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
-        console.log("submit")
-        form.submit();
+        var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
+        if (similarSuggestions.length > 0) {
+            $("#similarSuggestionModalList").clear()
+            $.each(similarSuggestions, function (index, suggestionId) {
+                var suggestion = allSuggestions[suggestionId]
+                var listElement = `
+                    <div class="card h-100" id = "@suggestion.Id" >
+						<div class="card-body">
+							<div class="d-flex align-items-start justify-content-between mb-2">
+								<h5 class="card-title mb-0" id="suggestion-title">${suggestion.name}</h5>
+							</div>
+							<p class="card-text" id="suggestion-description">${suggestion.description}</p>
+						</div>
+					</div >
+               `
+                $("#similarSuggestionModalList").append(listElement);
+            });
+
+            $("#similarSuggestionModal").modal("show")
+            $("#newSuggestionModal").modal("hide")
+
+        } else {
+            form.submit();
+        }
     } else {
         suggestionInput.dispatchEvent(new Event('input'));
         descriptionInput.dispatchEvent(new Event('input'));
@@ -93,3 +117,28 @@ submitButton.addEventListener('click', function () {
         limitationInput.dispatchEvent(new Event('change'));
     }
 });
+
+similarSuggestionModalCloseButton.addEventListener('click',  function () {
+    $("#similarSuggestionModal").modal("hide")
+    $("#newSuggestionModal").modal("show")
+});
+
+async function GetSimilarSuggestions(name, description) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'app/getSimilarSuggestions',
+            method: 'POST',
+            data: {
+                name: name,
+                description: description,
+            },
+            dataType: 'json',
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                console.log("Something Went Wrong!: GetSimilarSuggestions")
+            }
+        });
+    });
+}

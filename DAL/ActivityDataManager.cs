@@ -475,7 +475,7 @@ namespace DAL
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 		        List<string> UserId = new List<string>();
-		        string query = "SELECT voted_user_id FROM activity_user WHERE activity_id = @ActivityId";
+		        string query = "SELECT voted_user_id FROM vote WHERE activity_id = @ActivityId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try
@@ -525,4 +525,31 @@ namespace DAL
             }
         }
     }
+        public void TurnSuggestionInActivity(int id, string location, DateTime startDate, DateTime endDate)
+        {
+	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+	        {
+		        string query = $"UPDATE [activity] SET has_been_chosen = 1, location = @Location, start_date = @StartDate, end_date = @EndDate WHERE id = @Id";
+		        using (SqlCommand command = new SqlCommand(query, connection))
+		        {
+			        try
+			        {
+				        command.Parameters.AddWithValue("@Id", id);
+				        command.Parameters.AddWithValue("@Location", location);
+				        command.Parameters.AddWithValue("@StartDate", startDate);
+				        command.Parameters.AddWithValue("@EndDate", endDate);
+
+						connection.Open();
+
+				        command.ExecuteNonQuery();
+			        }
+			        catch (Exception ex)
+			        {
+				        // Handle exceptions appropriately (e.g., logging)
+				        throw new Exception("Error turning suggestion into activity", ex);
+			        }
+		        }
+	        }
+		}
+	}
 }
