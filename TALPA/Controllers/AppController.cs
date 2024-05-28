@@ -214,8 +214,8 @@ namespace TALPA.Controllers
 				!string.IsNullOrWhiteSpace(description)
 			)
 			{
-				string SqlInjectionPattern = @"\b(?:SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC(?:UTE)?|ALTER|CREATE|REPLACE|MERGE|TRUNCATE)\b|--|'\w*'|;|\b(?:xp_|sp_)\w+\b";
-				if (!Regex.IsMatch(name, SqlInjectionPattern, RegexOptions.IgnoreCase) && !Regex.IsMatch(description, SqlInjectionPattern, RegexOptions.IgnoreCase))
+				List<string> SqlInjections = new List<string> { "SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "--", ";", "/*", "*/", "XP_CMDShell" };
+				if (SqlInjections.Any(name.Contains) || SqlInjections.Any(name.Contains))
 				{
 					return Redirect("https://www.youtube.com/watch?v=3KLf3xXqZc4");
 				}
