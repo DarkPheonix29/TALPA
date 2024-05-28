@@ -86,13 +86,15 @@ limitationInputInput.addEventListener("change", function () {
 
 submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
+        $("#newSuggestionModal").modal("hide")
+        $("#similarSuggestionWaitModal").modal("show")
         var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
         if (similarSuggestions.length > 0) {
             //$("#similarSuggestionModalList").clear()
             $.each(similarSuggestions, function (index, suggestionId) {
                 var suggestion = allSuggestions[suggestionId]
                 var listElement = `
-                    <div class="card h-100" id = "@suggestion.Id" >
+                    <div class="card h-100 mb-3" id = "@suggestion.Id" >
 						<div class="card-body">
 							<div class="d-flex align-items-start justify-content-between mb-2">
 								<h5 class="card-title mb-0" id="suggestion-title">${suggestion.name}</h5>
@@ -104,8 +106,8 @@ submitButton.addEventListener('click', async function () {
                 $("#similarSuggestionModalList").append(listElement);
             });
 
+            $("#similarSuggestionWaitModal").modal("hide")
             $("#similarSuggestionModal").modal("show")
-            $("#newSuggestionModal").modal("hide")
 
         } else {
             form.submit();

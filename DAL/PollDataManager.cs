@@ -280,31 +280,6 @@ namespace DAL
 			}
 		}
 
-
-		public void DeleteAllVotesFromPoll(int pollId)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = "DELETE FROM vote WHERE poll_id = @PollId";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@PollId", pollId);
-
-						connection.Open();
-
-						command.ExecuteNonQuery();
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error deleting votes.", ex);
-					}
-				}
-			}
-		}
-
 		public int GetPollIdWithTeamId(int teamId)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
