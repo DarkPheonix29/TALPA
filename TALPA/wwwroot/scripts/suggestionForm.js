@@ -84,8 +84,8 @@ limitationInputInput.addEventListener("change", function () {
 
 submitButton.addEventListener('click', function () {
     if (valid1 && valid2 && valid3 && valid4) {
-        console.log("submit")
-        form.submit();
+        ShowSimilarSuggestions()
+        //form.submit();
     } else {
         suggestionInput.dispatchEvent(new Event('input'));
         descriptionInput.dispatchEvent(new Event('input'));
@@ -93,3 +93,29 @@ submitButton.addEventListener('click', function () {
         limitationInput.dispatchEvent(new Event('change'));
     }
 });
+
+function ShowSimilarSuggestions() {
+    var similarSuggestions = await GetSimilarSuggestions(suggestionInput.textContent, descriptionInput.textContent)
+    alert(similarSuggestions.join(", "))
+    $("#similarSuggestionModal").modal("show")
+}
+
+async function GetSimilarSuggestions(name, description) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'app/getSimilarSuggestions',
+            method: 'POST',
+            data: {
+                name: name,
+                description: description,
+            },
+            dataType: 'json',
+            success: function (response) {
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                console.log("Something Went Wrong!: GetSimilarSuggestions")
+            }
+        });
+    });
+}
