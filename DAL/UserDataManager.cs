@@ -141,7 +141,7 @@ namespace DAL
 	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 	        {
 		        List<string> dates = new();
-		        string query = "SELECT date FROM activity_user_date WHERE vote_id = @VoteId";
+		        string query = "SELECT date FROM vote_date WHERE vote_id = @VoteId";
 		        using (SqlCommand command = new SqlCommand(query, connection))
 		        {
 			        try

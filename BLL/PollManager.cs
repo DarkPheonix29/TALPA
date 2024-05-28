@@ -141,29 +141,37 @@ namespace BLL
 			return categories;
 		}
 
-		public bool SubmitPoll(string user, int suggestion, List<string> availability)
+		public bool SubmitPoll(string user, int suggestion, List<string> availability, int pollId)
 		{
 			PollDataManager pdm = new();
 
-			pdm.CreateVote(suggestion, user, availability);
+			pdm.CreateVote(suggestion, user, availability, pollId);
 
 			return true;
 		}
 
-		public bool CreatePoll(string team, List<int> activities, string date)
+		public bool CreatePoll(string team, List<int> activities, string date, List<string> Availability)
 		{
 			TeamDataManager tdm = new();
 			PollDataManager pdm = new();
 
 			try
 			{
-				pdm.PollSubmit(tdm.GetTeamId(team), date, activities);
+				pdm.PollSubmit(tdm.GetTeamId(team), date, activities, Availability);
 				return true;
 			}
 			catch
 			{
 				return false;
 			}
+		}
+
+		public int GetPollIdWithTeamName(string teamName)
+		{
+			PollDataManager pdm = new();
+			TeamDataManager tdm = new();
+
+			return pdm.GetPollIdWithTeamId(tdm.GetTeamId(teamName));
 		}
 	}
 }
