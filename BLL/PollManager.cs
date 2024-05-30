@@ -200,7 +200,7 @@ namespace BLL
 
                 if (selectedActivityId > 0)
                 {
-                    adm.ChooseActivity(selectedActivityId);
+                    adm.ChooseActivity(selectedActivityId, pdm.GetDateOfWinningActivity(pdm.GetVoteIdWithActivityId(selectedActivityId)));
 
                     // Retrieve the user who created the winning activity
                     string creatorId = adm.GetActivityCreator(selectedActivityId);
