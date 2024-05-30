@@ -254,7 +254,7 @@ namespace DAL
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
 				List<string> dates = new();
-				string query = "SELECT date FROM poll_date WHERE poll_id = @PollId";
+				string query = "SELECT date FROM poll_date WHERE poll_id = @PollId ORDER BY CONVERT(DATE, date, 105);";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
