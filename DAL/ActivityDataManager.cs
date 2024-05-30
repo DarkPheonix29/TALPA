@@ -609,5 +609,29 @@ namespace DAL
 				}
 			}
 		}
+
+		public void AddLocationToActivity(int activityId, string location)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "UPDATE activity SET location = @location WHERE id = @id";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@location", location);
+						command.Parameters.AddWithValue("@id", activityId);
+
+						connection.Open();
+						command.ExecuteNonQuery();
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error adding location to activity.", ex);
+					}
+				}
+			}
+		}
 	}
 }
