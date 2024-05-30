@@ -114,7 +114,10 @@ namespace TALPA.Controllers
                 };
 
                 // Call EndPoll to finalize the poll if the deadline has passed
-                pollManager.EndPoll(employee.Team);
+                if (pollManager.EndPoll(employee.Team))
+                {
+	                return Redirect("/stemmen");
+                }
 
                 return View(pollViewModel);
             }

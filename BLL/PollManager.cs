@@ -168,7 +168,7 @@ namespace BLL
 			}
 		}
 
-    public void EndPoll(string team)
+    public bool EndPoll(string team)
     {
         TeamDataManager tdm = new TeamDataManager();
         PollDataManager pdm = new PollDataManager();
@@ -210,8 +210,11 @@ namespace BLL
                 }
 
                 pdm.DeletePoll(teamId);
+                return true;
             }
         }
+
+        return false;
     }
 
 		public int GetPollIdWithTeamName(string teamName)

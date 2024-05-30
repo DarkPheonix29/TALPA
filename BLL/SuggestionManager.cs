@@ -201,11 +201,5 @@ namespace BLL
 			adm.ActivitySubmit(name, description,limitations, categories, user);
 			return true;
 		}
-
-		public void ConvertToActivity(int suggestionId, string location, DateTime startDate, DateTime endDate)
-		{
-			ActivityDataManager adm = new();
-			adm.TurnSuggestionInActivity(suggestionId, location, startDate, endDate);
-		}
 	}
 }
