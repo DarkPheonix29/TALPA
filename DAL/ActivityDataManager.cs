@@ -367,16 +367,17 @@ namespace DAL
 	        }
 		}
 
-        public void ChooseActivity(int id)
+        public void ChooseActivity(int id, string startDate)
         {
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
-                string query = "UPDATE activity SET has_been_chosen = @HasBeenChosen WHERE id = @id";
+                string query = "UPDATE activity SET has_been_chosen, start_date = @HasBeenChosen, @startDate WHERE id = @id";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
                     {
                         command.Parameters.AddWithValue("@HasBeenChosen", 1);
+                        command.Parameters.AddWithValue("@startDate", startDate);
                         command.Parameters.AddWithValue("@id", id);
 
                         connection.Open();
@@ -524,31 +525,5 @@ namespace DAL
                 }
             }
         }
-        public void TurnSuggestionInActivity(int id, string location, DateTime startDate, DateTime endDate)
-        {
-	        using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-	        {
-		        string query = $"UPDATE [activity] SET has_been_chosen = 1, location = @Location, start_date = @StartDate, end_date = @EndDate WHERE id = @Id";
-		        using (SqlCommand command = new SqlCommand(query, connection))
-		        {
-			        try
-			        {
-				        command.Parameters.AddWithValue("@Id", id);
-				        command.Parameters.AddWithValue("@Location", location);
-				        command.Parameters.AddWithValue("@StartDate", startDate);
-				        command.Parameters.AddWithValue("@EndDate", endDate);
-
-						connection.Open();
-
-				        command.ExecuteNonQuery();
-			        }
-			        catch (Exception ex)
-			        {
-				        // Handle exceptions appropriately (e.g., logging)
-				        throw new Exception("Error turning suggestion into activity", ex);
-			        }
-		        }
-	        }
-		}
 	}
 }

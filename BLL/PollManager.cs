@@ -168,7 +168,7 @@ namespace BLL
 			}
 		}
 
-    public void EndPoll(string team)
+    public bool EndPoll(string team)
     {
         TeamDataManager tdm = new TeamDataManager();
         PollDataManager pdm = new PollDataManager();
@@ -200,7 +200,7 @@ namespace BLL
 
                 if (selectedActivityId > 0)
                 {
-                    adm.ChooseActivity(selectedActivityId);
+                    adm.ChooseActivity(selectedActivityId, pdm.GetDateOfWinningActivity(pdm.GetVoteIdWithActivityId(selectedActivityId)));
 
                     // Retrieve the user who created the winning activity
                     string creatorId = adm.GetActivityCreator(selectedActivityId);
@@ -210,8 +210,11 @@ namespace BLL
                 }
 
                 pdm.DeletePoll(teamId);
+                return true;
             }
         }
+
+        return false;
     }
 
 		public int GetPollIdWithTeamName(string teamName)

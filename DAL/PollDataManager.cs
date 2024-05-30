@@ -1,9 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -297,6 +299,73 @@ namespace DAL
 						int pollId = Convert.ToInt32(command.ExecuteScalar());
 
 						return pollId;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting vote id.", ex);
+					}
+				}
+			}
+		}
+
+		public string GetDateOfWinningActivity(List<int> voteId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string inClause = string.Join(",", voteId);
+
+				// Construct the query with the IN clause
+				string query = $@"
+					SELECT TOP 1 vote_date
+					FROM vote
+					WHERE vote_id IN ({inClause})
+					GROUP BY vote_date
+					ORDER BY COUNT(vote_date) DESC";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						connection.Open();
+
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							return reader.GetString(0);
+						}
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting most occurring date.", ex);
+					}
+				}
+			}
+		}
+
+		public List<int> GetVoteIdWithActivityId(int activityId)
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				List<string> dates = new();
+				string query = "SELECT id FROM vote WHERE activity_id = @activityId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						command.Parameters.AddWithValue("@activityId", activityId);
+
+						connection.Open();
+
+						List<int> ids = new();
+						using (SqlDataReader dr = command.ExecuteReader())
+						{
+							while (dr.Read())
+							{
+								ids.Add(dr.GetInt32(0));
+							}
+						}
+
+						return ids;
 					}
 					catch (Exception ex)
 					{
