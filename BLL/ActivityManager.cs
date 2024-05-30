@@ -47,5 +47,12 @@ namespace BLL
 
 			return activity;
         }
+
+		public void AddLocationToActivity(string location, int activityId)
+		{
+			ActivityDataManager adm = new();
+
+			adm.AddLocationToActivity(activityId, location);
+		}
     }
 }
