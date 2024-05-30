@@ -10,12 +10,13 @@ namespace BLL
         {
 	        ActivityDataManager adm = new();
 			List<Suggestion> suggestions = new();
+			List<int> chosenSugestions = adm.GetAllChosenActivityIds();
 			if (filter.Contains("Mijn-suggesties"))
 			{
 				DataTable dt = adm.GetActivityFromUser(user);
 				foreach (DataRow row in dt.Rows)
 				{
-					if (!Convert.ToBoolean(row["has_been_chosen"]))
+					if (!chosenSugestions.Contains(Convert.ToInt32(row["id"])))
 					{
 						List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["id"]));
 
@@ -53,7 +54,7 @@ namespace BLL
 				DataTable dt = adm.GetAllActivity();
 				foreach (DataRow row in dt.Rows)
 				{
-					if (!Convert.ToBoolean(row["has_been_chosen"]))
+					if (!chosenSugestions.Contains(Convert.ToInt32(row["id"])))
 					{
 						List<string> votedUsers = adm.GetVotedUsers(Convert.ToInt32(row["id"]));
 

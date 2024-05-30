@@ -60,7 +60,7 @@ namespace BLL
 			int pollIdInt = Convert.ToInt32(pollId["id"]);
 			DataTable selection = pdm.GetSelection(pollIdInt);
 
-			int chosenSuggestion = GetChosenSuggestion(adm, selection);
+			int chosenSuggestion = GetChosenSuggestion(adm, teamId);
 			List<Suggestion> suggestions = GetSuggestions(adm, selection);
 
 			Poll poll = new Poll
@@ -75,17 +75,15 @@ namespace BLL
 			return poll;
 		}
 
-		private int GetChosenSuggestion(ActivityDataManager adm, DataTable selection)
+		private int GetChosenSuggestion(ActivityDataManager adm, int teamId)
 		{
-			foreach (DataRow row in selection.Rows)
+			int chosenActivityId = adm.GetTeamActivityId(teamId);
+
+			if (chosenActivityId == null)
 			{
-				DataRow activity = adm.GetActivity(Convert.ToInt32(row["activity_id"]));
-				if (Convert.ToBoolean(activity["has_been_chosen"]))
-				{
-					return Convert.ToInt32(row["activity_id"]);
-				}
+				return 0;
 			}
-			return 0; // Default value if no chosen suggestion is found
+			return chosenActivityId; // Default value if no chosen suggestion is found
 		}
 
 		private List<Suggestion> GetSuggestions(ActivityDataManager adm, DataTable selection)
@@ -200,7 +198,7 @@ namespace BLL
 
                 if (selectedActivityId > 0)
                 {
-                    adm.ChooseActivity(selectedActivityId, pdm.GetDateOfWinningActivity(pdm.GetVoteIdWithActivityId(selectedActivityId)));
+                    adm.ChooseActivity(selectedActivityId, pdm.GetDateOfWinningActivity(pdm.GetVoteIdWithActivityId(selectedActivityId)), teamId);
 
                     // Retrieve the user who created the winning activity
                     string creatorId = adm.GetActivityCreator(selectedActivityId);

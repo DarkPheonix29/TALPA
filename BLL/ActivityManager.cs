@@ -42,8 +42,7 @@ namespace BLL
 				Categories = categories,
 				Limitations = limitations,
 				Location = activityData["location"].ToString(),
-				StartDate = activityData["start_date"].ToString(),
-				EndDate = activityData["end_date"].ToString()
+				StartDate = activityData["start_date"].ToString()
 			};
 
 			return activity;
