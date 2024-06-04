@@ -150,11 +150,11 @@
 							<p class="card-text" id="suggestion-description">@suggestion.Description</p>
 							<p class="mb-0">Categorie: @string.Join(", ", @suggestion.Categories)</p>
 							<p>Beperkingen: @string.Join(", ", @suggestion.Limitations)</p>
-							@if (ViewBag.Employee.Role != "Manager")
+							@if (ViewBag.Employee.Role != "Admin")
 							{
 								<button class="btn">Kiezen</button>
 							}
-							@if (ViewBag.Employee.Role == "Manager")
+							@if (ViewBag.Employee.Role == "Admin")
 							{
 								<button class="btn">Verwijder</button>
 							}
