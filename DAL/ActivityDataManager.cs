@@ -297,6 +297,8 @@ namespace DAL
 				string query = "DELETE FROM Team_activity WHERE activityId = @ActivityId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
+					//if id present in team_activity or activity_poll, do not delete
+
 					try
 					{
 						command.Parameters.AddWithValue("@ActivityId", id);
@@ -314,7 +316,50 @@ namespace DAL
 			}
 		}
 
-		public DataTable GetAllActivity()
+        public void DeleteSuggestionById(int id)
+        {
+            RemoveDates(id);
+            using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+            {
+                string checkQuery = "SELECT COUNT(*) FROM Team_activity WHERE activityId = @SuggestionId " +
+                                    "UNION ALL " +
+                                    "SELECT COUNT(*) FROM activity_poll WHERE activity_id = @SuggestionId";
+
+                using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@SuggestionId", id);
+
+                    connection.Open();
+
+                    int count = (int)checkCommand.ExecuteScalar();
+
+                    if (count == 0)
+                    {
+                        string deleteQuery = "DELETE FROM activity WHERE id = @SuggestionId";
+                        using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                        {
+                            deleteCommand.Parameters.AddWithValue("@SuggestionId", id);
+
+                            try
+                            {
+                                deleteCommand.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Error deleting suggestion.", ex);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Suggestion is in use.");
+                    }
+                }
+            }
+        }
+
+
+        public DataTable GetAllActivity()
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{

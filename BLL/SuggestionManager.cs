@@ -202,5 +202,12 @@ namespace BLL
 			adm.ActivitySubmit(name, description,limitations, categories, user);
 			return true;
 		}
+
+		public void RemoveSuggestion(int id)
+		{
+
+            ActivityDataManager adm = new();
+            adm.DeleteActivityById(id);
+        }	
 	}
 }
