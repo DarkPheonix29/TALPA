@@ -7,7 +7,14 @@
 @model TALPA.Models.PollViewModel
 
 <div class="d-md-flex align-items-center justify-content-between mb-3">
-	<h1>Stem op je favoriete uitje</h1>
+	@if (ViewBag.Employee.Role == "Admin")
+	{
+		<h1>Huidige stemmingen</h1>
+
+	} else
+	{
+		<h1>Stem op je favoriete uitje</h1>
+	}
 	@if (Model.PollActive)
 	{
 		<p class="mb-0"><small class="text-muted">Einddatum: @Model.Poll.Deadline</small></p>
@@ -94,7 +101,7 @@ else
 
 @if (Model.PollActive)
 {
-	@if (!Model.PollChosen)
+	@if (!Model.PollChosen && ViewBag.Employee.Role != "Admin")
 	{
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" asp-append-version="true" />
 		<link rel="stylesheet" href="~/styles/calender.css" asp-append-version="true" />

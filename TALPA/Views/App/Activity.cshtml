@@ -6,7 +6,13 @@
 
 @model TALPA.Models.ActivityViewModel
 
-<h1 class="mb-3">Huidig uitje</h1>
+@if (ViewBag.Employee.Role == "Admin")
+{
+	<h1 class="mb-3">Huidige uitjes</h1>
+} else
+{
+	<h1 class="mb-3">Huidig uitje</h1>
+}
 
 @if (Model.ActivityPlanned)
 {
