@@ -1,0 +1,58 @@
+.table-condensed, .datepicker-inline {
+    width: 100% !important;
+}
+
+.datepicker {
+    border: 1px solid #ced4da !important;
+}
+
+.table-condensed {
+    border-collapse: unset !important;
+}
+
+.datepicker th {
+    width: 14% !important;
+}
+
+td.day, span.month, span.year {
+    font-weight: bold;
+    color: #5236AB;
+}
+
+.disabled-date, .disabled {
+    font-weight: normal !important;
+}
+
+.datepicker table tr td.today, .datepicker table tr td.today:hover, .datepicker table tr td.today.disabled:hover {
+    background-image: none !important;
+    background-color: transparent !important;
+    border: 2px solid #5236AB !important;
+}
+
+.datepicker table tr td.today.disabled {
+    color: #999 !important;
+}
+
+.datepicker table tr td.today:hover {
+    background-color: #eee !important;
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+    background-image: linear-gradient(to bottom, #8361e1, #5236AB) !important;
+    background-color: #5236AB !important;
+}
+
+.datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+    background-image: linear-gradient(to bottom, #8361e1, #5236AB) !important;
+    background-color: #5236AB !important;
+}
+
+.scrollInput {
+    margin: 4px, 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.datepicker table tr td.active.today {
+    border-color: #000000 !important;
+}

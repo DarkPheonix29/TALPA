@@ -1,0 +1,43 @@
+﻿@{
+	Layout = "_DashboardLayout";
+	ViewData["Title"] = "Uitje";
+	ViewData["Page"] = "Uitje";
+}
+
+@model TALPA.Models.ActivityViewModel
+
+<h1 class="mb-3">Huidig uitje</h1>
+
+@if (Model.ActivityPlanned)
+{
+	<div class="card h-100">
+		<div class="card-header">
+			<div class="d-md-flex align-items-center justify-content-between">
+				<div>
+					<a class="text-btn" target="_blank" href="https://maps.google.com/?q=@Model.Activity.Location">@Model.Activity.Location</a>
+					<br />
+					<p class="mb-md-0">@Model.Activity.StartDate</p>
+				</div>
+				<a class="btn" target="_blank" href="https://calendar.google.com/calendar/u/0/r/eventedit?text=Bedrijfs+uitje:+@System.Web.HttpUtility.UrlEncode(Model.Activity.Name)&dates=@DateTime.ParseExact(Model.Activity.StartDate, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyyMMddTHHmmss")/@DateTime.ParseExact(Model.Activity.StartDate, "dd-MM-yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyyMMddTHHmmss")&location=@System.Web.HttpUtility.UrlEncode(Model.Activity.Location)&details=@System.Web.HttpUtility.UrlEncode(Model.Activity.Description)%0A%0ATeam:+@System.Web.HttpUtility.UrlEncode(ViewBag.Employee.Team)%0ALocatie:+@System.Web.HttpUtility.UrlEncode(Model.Activity.Location)&location=@System.Web.HttpUtility.UrlEncode(Model.Activity.Location)">
+					Toevoegen aan agenda
+				</a>
+			</div>
+		</div>
+		<div class="card-body">
+			<h5 class="card-title overflow-hidden mb-0">@Model.Activity.Name</h5>
+			<p class="card-text">@Model.Activity.Description</p>
+			<p class="mb-0">Categorie: @string.Join(", ", Model.Activity.Categories)</p>
+			<p class="mb-0">Beperkingen: @string.Join(", ", Model.Activity.Limitations)</p>
+		</div>
+	</div>
+} 
+else
+{
+	<div class="text-center">
+		<p>Op dit moment zijn er geen uitjes gepland.</p>
+		@if (ViewBag.Employee.Role == "Manager")
+		{
+			<a class="btn" href="/suggesties">Nieuw stemming starten</a>
+		}
+	</div>
+}
