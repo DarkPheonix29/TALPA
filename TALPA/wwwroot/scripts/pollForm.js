@@ -71,18 +71,28 @@ $(function () {
     $("th.next").html('<h3><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16"><path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753" /></svg></h3>')
 
     function disabledDates() {
-        var allDates = [];
-        var startDate = new Date();
+        var begin = getStartDate()
+        var end = getEndDate()
 
-        for (var i = 0; i < getDateRange() * 2; i++) {
-            var currentDate = startDate.getDate() + '-' + (startDate.getMonth() + 1) + '-' + startDate.getFullYear();
-            if (($.inArray(currentDate, availableDates) === -1)) {
-                allDates.push(currentDate);
-            }
-            startDate.setDate(startDate.getDate() + 1);
+        const dates = [];
+        const [day, month, year] = begin.split('-').map(Number);
+        const beginDate = new Date(year, month - 1, day);
+        const [day2, month2, year2] = end.split('-').map(Number);
+        const endDate = new Date(year2, month2 - 1, day2);
+
+        while (beginDate <= endDate) {
+            const day = String(beginDate.getDate()).padStart(2, '0');
+            const month = String(beginDate.getMonth() + 1).padStart(2, '0');
+            const year = beginDate.getFullYear();
+
+            var dateSrting = `${day}-${month}-${year}`
+            if (!availableDates.includes(dateSrting))
+                dates.push(dateSrting);
+
+            beginDate.setDate(beginDate.getDate() + 1);
         }
 
-        return allDates;
+        return dates;
     }
 
     function getStartDate() {
