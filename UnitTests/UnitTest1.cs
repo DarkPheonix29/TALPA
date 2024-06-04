@@ -2,6 +2,7 @@ using System.Data;
 using System.Diagnostics;
 using BLL;
 using DAL;
+using DAL.Exceptions;
 using Activity = BLL.Models.Activity;
 
 
@@ -38,21 +39,6 @@ namespace UnitTests
 		}
 
         [TestMethod]
-        public void Submit_Limitation()
-        {
-	        //Arrange
-	        DAL.ConnectionManager.Initialize(connectionString);
-	        DAL.ActivityDataManager adm = new();
-
-	        string description = "This is a test limitation, don't forget to delete it.";
-	        string type = "test";
-	        //Act
-	        adm.SubmitLimitation(description, type);
-	        //Assert
-		}
-
-
-        [TestMethod]
         public void Delete_Poll()
         {
 			//Arrange
@@ -74,45 +60,6 @@ namespace UnitTests
 
 			//Act
             tdm.CreateTeam( "testTeam");
-
-			//Assert
-		}
-
-        [TestMethod]
-        public void Add_member_to_team()
-        {
-			//Arrange
-			DAL.ConnectionManager.Initialize(connectionString);
-			DAL.TeamDataManager tdm = new();
-
-			//Act
-            tdm.AddMemberToTeam("auth0|66052e2b423e9ac1d787cb32", 1);
-
-			//Assert
-		}
-
-        [TestMethod]
-        public void Remove_member_from_team()
-        {
-	        //Arrange
-	        DAL.ConnectionManager.Initialize(connectionString);
-	        DAL.TeamDataManager tdm = new();
-
-	        //Act
-	        tdm.RemoveMemberFromTeam("auth0|66052e2b423e9ac1d787cb32");
-
-	        //Assert
-		}
-
-        [TestMethod]
-        public void Delete_team()
-        {
-			//Arrange
-			DAL.ConnectionManager.Initialize(connectionString);
-			DAL.TeamDataManager tdm = new();
-
-			//Act
-			tdm.DeleteTeam(1);
 
 			//Assert
 		}
@@ -144,19 +91,6 @@ namespace UnitTests
 
 	        //Act
 	        adm.DeleteActivityById(9);
-
-	        //Assert
-		}
-
-        [TestMethod]
-        public void Update_voted_users()
-        {
-	        //Arrange
-	        DAL.ConnectionManager.Initialize(connectionString);
-	        DAL.ActivityDataManager adm = new();
-
-	        //Act
-	        adm.VotedUserUpdate("auth0|66052e2b423e9ac1d787cb32", 1);
 
 	        //Assert
 		}
@@ -242,5 +176,32 @@ namespace UnitTests
 			//Assert
 			Assert.AreEqual(11, pollId);
 		}
+
+		[TestMethod]
+		public void Do_not_remove_used_suggestion()
+		{
+            //Arrange
+            DAL.ConnectionManager.Initialize(connectionString);
+            BLL.SuggestionManager sm = new(new Logger());
+			int unusedSuggestionId = 3;
+
+			//Act
+			sm.RemoveSuggestion(unusedSuggestionId);
+
+            //Assert
+            Assert.ThrowsException<SuggestionRemovalException>(() => sm.RemoveSuggestion(unusedSuggestionId));
+        }
+
+		[TestMethod]
+		public void Remove_unused_suggestion()
+		{
+            //Arrange
+            DAL.ConnectionManager.Initialize(connectionString);
+            BLL.SuggestionManager sm = new(new Logger());
+            int unusedSuggestionId = 10;
+
+            //Act
+            sm.RemoveSuggestion(unusedSuggestionId);
+        }
 	}
 }

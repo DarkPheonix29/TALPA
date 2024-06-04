@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using DAL.Exceptions;
 
 namespace DAL
 {
@@ -264,7 +265,6 @@ namespace DAL
 
         public void DeleteSuggestionById(int id)
         {
-            RemoveDates(id);
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
                 string checkQuery = "SELECT COUNT(*) FROM Team_activity WHERE activityId = @SuggestionId " +
@@ -292,13 +292,14 @@ namespace DAL
                             }
                             catch (Exception ex)
                             {
-                                throw new Exception("Error deleting suggestion.", ex);
-                            }
+                                throw new SuggestionRemovalException($"Error removing suggestion with ID {id}:{ex.Message}");
+
+							}
                         }
                     }
                     else
                     {
-                        throw new Exception("Suggestion is in use.");
+                        throw new SuggestionRemovalException($"Error removing suggestion with ID {id}: Suggestion in use");
                     }
                 }
             }

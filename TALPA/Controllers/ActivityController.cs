@@ -11,7 +11,7 @@ namespace TALPA.Controllers
 
         public ActivityController()
         {
-            suggestionManager = new SuggestionManager();
+            suggestionManager = new SuggestionManager(new Logger());
             employeeManager = new EmployeeManager();
         }
 

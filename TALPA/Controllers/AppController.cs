@@ -20,7 +20,7 @@ namespace TALPA.Controllers
 		{
 			employeeUtility = new EmployeeUtility();
 			activityManager = new ActivityManager();
-			suggestionManager = new SuggestionManager();
+			suggestionManager = new SuggestionManager(new Logger());
 			pollManager = new PollManager();
 			aiManager = new AiManager();
 		}

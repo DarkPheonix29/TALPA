@@ -1,11 +1,20 @@
 ﻿using System.Data;
 using BLL.Models;
 using DAL;
+using DAL.Exceptions;
+using Microsoft.IdentityModel.Logging;
 
 namespace BLL
 {
     public class SuggestionManager
     {
+        private readonly Logger _logger;
+
+        public SuggestionManager(Logger logger)
+        {
+            _logger = logger;
+        }
+
         public List<Suggestion> GetSuggestions(string user, string search, string sort, List<string> filter, List<int> selected)
         {
 	        ActivityDataManager adm = new();
@@ -207,7 +216,13 @@ namespace BLL
 		{
 
             ActivityDataManager adm = new();
-            adm.DeleteActivityById(id);
+			try
+			{
+                adm.DeleteSuggestionById(id);
+            } catch (SuggestionRemovalException ex)
+			{
+                Logger.LogError(ex.Message);
+			}
         }	
 	}
 }
