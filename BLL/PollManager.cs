@@ -1,10 +1,6 @@
 ﻿using System.Data;
 using BLL.Models;
-using System.Globalization;
 using DAL;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Runtime.Intrinsics.Arm;
-using Microsoft.Data.SqlClient;
 namespace BLL
 {
     public class PollManager
