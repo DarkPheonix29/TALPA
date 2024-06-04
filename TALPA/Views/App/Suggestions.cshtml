@@ -156,7 +156,7 @@
 							}
 							@if (ViewBag.Employee.Role == "Admin")
 							{
-								<button class="btn" data-toggle="modal" data-target="#removePollModal">Verwijder</button>
+								<a class="btn">Verwijder</a>
 							}
 						</div>
 						<div class="d-flex justify-content-center align-items-center position-absolute w-100 h-100 bg-light bg-opacity-75 rounded card-select @(Model.SelectedIds.Contains(suggestion.Id) ? "" : "hidden")">
@@ -322,7 +322,7 @@
 
 @if (ViewBag.Employee.Role == "Admin")
 {
-	<div class="modal fade" id="removePollModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="removePollModalLabel" aria-hidden="true">
+	<div class="modal fade" id="removeSuggestionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="removePollModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
