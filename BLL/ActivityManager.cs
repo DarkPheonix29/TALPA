@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using BLL.Models;
 using DAL;
 
 namespace BLL
@@ -71,6 +72,45 @@ namespace BLL
 			TeamDataManager tdm = new();
 
 			return adm.GetTeamActivityId(tdm.GetTeamId(teamName));
+		}
+
+		public List<Activity> GetAllActivities()
+		{
+			ActivityDataManager adm = new ActivityDataManager();
+			DataTable activityData = adm.GetAllActivitys();
+			List<Activity> activitys = new();
+
+			foreach (DataRow ActivityRow in activityData.Rows)
+			{
+				DataTable limitationsData = adm.GetLimitations(Convert.ToInt32(ActivityRow["id"]));
+				DataTable categoriesData = adm.GetCategories(Convert.ToInt32(ActivityRow["id"]));
+				List<string> limitations = new List<string>();
+				List<string> categories = new List<string>();
+
+				foreach(DataRow row in limitationsData.Rows)
+				{
+					limitations.Add(row["limitation"].ToString());
+				}
+
+				foreach (DataRow row in categoriesData.Rows)
+				{
+					categories.Add(row["category"].ToString());
+				}
+
+				BLL.Models.Activity activity = new BLL.Models.Activity
+				{
+					Name = ActivityRow["name"].ToString(),
+					Description = ActivityRow["description"].ToString(),
+					Categories = categories,
+					Limitations = limitations,
+					Location = ActivityRow["location"].ToString(),
+					StartDate = ActivityRow["start_date"].ToString()
+				};
+
+				activitys.Add(activity);
+			}
+
+			return activitys;
 		}
     }
 }
