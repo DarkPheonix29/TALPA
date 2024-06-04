@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using TALPA.Models;
 using BLL.Models;
-using System.Linq.Expressions;
 using BLL;
-using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using TALPA_ai_test;
 
 namespace TALPA.Controllers

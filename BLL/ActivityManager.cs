@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Diagnostics;
-using BLL.Models;
 using DAL;
 
 namespace BLL

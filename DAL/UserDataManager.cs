@@ -1,7 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using Mysqlx.Crud;
-using System.Data;
-
 
 namespace DAL
 {

@@ -91,59 +91,6 @@ namespace DAL
 			}
 		}
 
-		public void Add_dates(List<DateTime> dates, int activityId)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = $"INSERT INTO activity_date (activity_id, date) VALUES (@ActivityId, @date)";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					connection.Open();
-					foreach (DateTime date in dates)
-					{
-						try
-						{
-							command.Parameters.Clear();
-							command.Parameters.AddWithValue("@ActivityId", activityId);
-							command.Parameters.AddWithValue("@date", date);
-
-							command.ExecuteNonQuery();
-						}
-						catch (Exception ex)
-						{
-							// Handle exceptions appropriately (e.g., logging)
-							throw new Exception("Error adding dates.", ex);
-						}
-					}
-				}
-			}
-		}
-
-		public void VotedUserUpdate(string votedUserId, int activityId)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = $"INSERT INTO activity_user (activity_id, voted_user_id) VALUES (@ActivityId, @VotedUserId)";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@ActivityId", activityId);
-						command.Parameters.AddWithValue("@VotedUserId", votedUserId);
-
-						connection.Open();
-
-						command.ExecuteNonQuery();
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error updating voted user.", ex);
-					}
-				}
-			}
-		}
-
 		public DataRow GetActivity(int id)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
@@ -291,12 +238,13 @@ namespace DAL
 
 		public void DeleteActivityById(int id)
 		{
-			RemoveDates(id);
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
 				string query = "DELETE FROM Team_activity WHERE activityId = @ActivityId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
+					//if id present in team_activity or activity_poll, do not delete
+
 					try
 					{
 						command.Parameters.AddWithValue("@ActivityId", id);
@@ -314,7 +262,50 @@ namespace DAL
 			}
 		}
 
-		public DataTable GetAllActivity()
+        public void DeleteSuggestionById(int id)
+        {
+            RemoveDates(id);
+            using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+            {
+                string checkQuery = "SELECT COUNT(*) FROM Team_activity WHERE activityId = @SuggestionId " +
+                                    "UNION ALL " +
+                                    "SELECT COUNT(*) FROM activity_poll WHERE activity_id = @SuggestionId";
+
+                using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@SuggestionId", id);
+
+                    connection.Open();
+
+                    int count = (int)checkCommand.ExecuteScalar();
+
+                    if (count == 0)
+                    {
+                        string deleteQuery = "DELETE FROM activity WHERE id = @SuggestionId";
+                        using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
+                        {
+                            deleteCommand.Parameters.AddWithValue("@SuggestionId", id);
+
+                            try
+                            {
+                                deleteCommand.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Error deleting suggestion.", ex);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Suggestion is in use.");
+                    }
+                }
+            }
+        }
+
+
+        public DataTable GetAllActivity()
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
@@ -395,86 +386,6 @@ namespace DAL
 				}
 			}
 		}
-
-
-		public DataTable GetDates(int id)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = "SELECT * FROM activity_dates WHERE activity_id = @ActivityId";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@ActivityId", id);
-
-						connection.Open();
-						DataTable dt = new();
-						using (SqlDataAdapter da = new(command))
-						{
-							da.Fill(dt);
-						}
-
-						return dt;
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error getting dates.", ex);
-					}
-				}
-			}
-		}
-
-		public void RemoveDates(int id)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = "DELETE FROM Activity_date WHERE activity_id = @ActivityId";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@ActivityId", id);
-
-						connection.Open();
-
-						command.ExecuteNonQuery();
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error removing dates.", ex);
-					}
-				}
-			}
-		}
-
-		public void SubmitLimitation(string description, string type)
-		{
-			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
-			{
-				string query = $"INSERT INTO limitation (description, type) OUTPUT INSERTED.id VALUES (@Description, @Type)";
-				using (SqlCommand command = new SqlCommand(query, connection))
-				{
-					try
-					{
-						command.Parameters.AddWithValue("@Type", type);
-						command.Parameters.AddWithValue("@Description", description);
-
-						connection.Open();
-
-						command.ExecuteNonQuery();
-					}
-					catch (Exception ex)
-					{
-						// Handle exceptions appropriately (e.g., logging)
-						throw new Exception("Error submitting activity.", ex);
-					}
-				}
-			}
-		}
-
 		public List<string> GetVotedUsers(int id)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
