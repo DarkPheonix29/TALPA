@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using TALPA.Models;
 
 namespace TALPA.Controllers
 {
