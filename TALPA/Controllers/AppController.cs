@@ -243,5 +243,23 @@ namespace TALPA.Controllers
 			}
 			return Content("Invalid");
 		}
+
+		[Authorize]
+		[Route("removeSuggestion/{suggestion:int}")]
+		public IActionResult RemoveSuggestion(int suggestion)
+		{
+			Employee employee = employeeUtility.GetEmployee(User);
+			if (employee.Role == "Admin")
+			{
+				suggestionManager.RemoveSuggestion(suggestion);
+				TempData["message"] = "Suggestie is verwijderd!";
+				return Redirect("/suggesties");
+			}
+			else
+			{
+				TempData["errorMessage"] = "Je hebt geen toegang!";
+				return Redirect("/suggesties");
+			}
+		}
 	}
 }
