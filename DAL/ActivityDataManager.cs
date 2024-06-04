@@ -122,6 +122,69 @@ namespace DAL
 			}
 		}
 
+		public DataTable GetAllActivitys()
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				string query = "SELECT * FROM Activity WHERE id = @ActivityId";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					DataTable dt = new();
+					connection.Open();
+					foreach (int id in GetAllActivityIds())
+					{
+						try
+						{
+							command.Parameters.Clear();
+							command.Parameters.AddWithValue("@ActivityId", id);
+
+							using (SqlDataAdapter da = new(command))
+							{
+								da.Fill(dt);
+							}
+						}
+						catch (Exception ex)
+						{
+							// Handle exceptions appropriately (e.g., logging)
+							throw new Exception("Error getting all activitys.", ex);
+						}
+					}
+					return dt;
+				}
+			}
+		}
+
+		public List<int> GetAllActivityIds()
+		{
+			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
+			{
+				List<int> ActivityId = new();
+				string query = "SELECT activityId FROM team_activity";
+				using (SqlCommand command = new SqlCommand(query, connection))
+				{
+					try
+					{
+						connection.Open();
+
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								ActivityId.Add(reader.GetInt32(0));
+							}
+						}
+
+						return ActivityId;
+					}
+					catch (Exception ex)
+					{
+						// Handle exceptions appropriately (e.g., logging)
+						throw new Exception("Error getting activity ids voted on.", ex);
+					}
+				}
+			}
+		}
+
 		public DataTable GetLimitations(int id)
 		{
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
@@ -264,7 +327,6 @@ namespace DAL
 
         public void DeleteSuggestionById(int id)
         {
-            RemoveDates(id);
             using (var connection = ConnectionManager.GetConnection() as SqlConnection)
             {
                 string checkQuery = "SELECT COUNT(*) FROM Team_activity WHERE activityId = @SuggestionId " +
