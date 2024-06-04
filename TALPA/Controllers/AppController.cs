@@ -48,6 +48,17 @@ namespace TALPA.Controllers
                 activityViewModel.Activity = activityManager.GetActivity(employee.Team);
 
 			}
+
+            if (activityViewModel.ActivityPlanned)
+            {
+	            ActivityManager am = new();
+
+	            if (am.RemoveActivityAfterDeadline(am.GetPlannedActivityIdByTeamName(employee.Team),
+		                Convert.ToDateTime(activityViewModel.Activity.StartDate)))
+	            {
+		            return Redirect("/uitje");
+				}
+            }
             return View(activityViewModel);
         }
 

@@ -54,5 +54,25 @@ namespace BLL
 
 			adm.AddLocationToActivity(activityId, location);
 		}
+
+		public bool RemoveActivityAfterDeadline(int activityId, DateTime deadline)
+		{
+			ActivityDataManager adm = new();
+
+			if (deadline <= DateTime.Now.AddDays(1) && activityId != null)
+			{
+				adm.DeleteActivityById(activityId);
+				return true;
+			}
+			return false;
+		}
+
+		public int GetPlannedActivityIdByTeamName(string teamName)
+		{
+			ActivityDataManager adm = new();
+			TeamDataManager tdm = new();
+
+			return adm.GetTeamActivityId(tdm.GetTeamId(teamName));
+		}
     }
 }

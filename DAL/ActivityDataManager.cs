@@ -294,7 +294,7 @@ namespace DAL
 			RemoveDates(id);
 			using (var connection = ConnectionManager.GetConnection() as SqlConnection)
 			{
-				string query = "DELETE FROM Activity WHERE id = @ActivityId";
+				string query = "DELETE FROM Team_activity WHERE activityId = @ActivityId";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
