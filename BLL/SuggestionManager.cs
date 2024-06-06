@@ -219,7 +219,8 @@ namespace BLL
 			try
 			{
                 adm.DeleteSuggestionById(id);
-            } catch (SuggestionRemovalException ex)
+            } 
+			catch (SuggestionRemovalException ex)
 			{
                 Logger.LogError(ex.Message);
 			}

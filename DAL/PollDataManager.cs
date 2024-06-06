@@ -309,11 +309,11 @@ namespace DAL
 
 				// Construct the query with the IN clause
 				string query = $@"
-					SELECT TOP 1 vote_date
-					FROM vote
-					WHERE vote_id IN ({inClause})
-					GROUP BY vote_date
-					ORDER BY COUNT(vote_date) DESC";
+					SELECT TOP 1 date
+					FROM vote_date
+					WHERE vote_id IN({inClause})
+					GROUP BY date
+					ORDER BY COUNT(date) DESC;";
 				using (SqlCommand command = new SqlCommand(query, connection))
 				{
 					try
@@ -322,7 +322,15 @@ namespace DAL
 
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							return reader.GetString(0);
+							if (reader.Read())
+							{
+								return reader.GetString(0);
+							}
+							else
+							{
+								// Handle the case where no rows are returned, if necessary
+								return null;
+							}
 						}
 					}
 					catch (Exception ex)
