@@ -98,7 +98,7 @@ submitButton.addEventListener('click', async function () {
             $("#similarSuggestionWaitModal").modal("show")
             var similarSuggestions = await GetSimilarSuggestions(suggestionInput.value, descriptionInput.value)
             if (similarSuggestions.length > 0) {
-                $("#similarSuggestionModalList").clear()
+                $("#similarSuggestionModalList").empty()
                 $.each(similarSuggestions, function (index, suggestionId) {
                     var suggestion = allSuggestions[suggestionId]
                     var listElement = `
