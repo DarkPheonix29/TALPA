@@ -18,7 +18,8 @@ namespace TALPA.Controllers
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder().WithParameter("screen_hint", "signup").WithRedirectUri("/").Build();
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
-        }
+            Console.WriteLine($"{User.Identity.Name}");
+		}
 
         [Authorize]
         public async Task Logout()
