@@ -5,15 +5,17 @@ EXPOSE 443
 
 # Install necessary packages including locale package and set the locale
 RUN apt-get update && \
-    apt-get install -y openconnect dos2unix locales && \
+    apt-get install -y openconnect dos2unix locales tzdata && \
     apt-get clean && \
-    locale-gen en_US.UTF-8 nl_NL.UTF-8
+    locale-gen en_US.UTF-8 nl_NL.UTF-8 && \
+    ln -fs /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata && \
+    dpkg-reconfigure locales
 
 # Set environment variables for locale
 ENV LANG=nl_NL.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=nl_NL.UTF-8
-RUN dpkg-reconfigure locales
 
 # Use the .NET Core 8 SDK image as build environment 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
