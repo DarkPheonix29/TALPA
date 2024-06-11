@@ -147,8 +147,8 @@ namespace TALPA.Controllers
 				!string.IsNullOrWhiteSpace(name) && 
 				!string.IsNullOrWhiteSpace(description) &&
 				name.Length >= 3 &&
-				name.Length <= 5 &&
-				description.Length >= 30 &&
+				name.Length <= 30 &&
+				description.Length >= 5 &&
 				description.Length <= 150
 			)
 			{
