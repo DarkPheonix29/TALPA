@@ -146,14 +146,10 @@ namespace TALPA.Controllers
 			if (
 				!string.IsNullOrWhiteSpace(name) && 
 				!string.IsNullOrWhiteSpace(description) &&
-				categories.Any() &&
-				limitations.Any() &&
-				name.Length >= 5 &&
-				name.Length <= 30 &&
+				name.Length >= 3 &&
+				name.Length <= 5 &&
 				description.Length >= 30 &&
-				description.Length <= 150 &&
-				categories.Count >= 1 &&
-				limitations.Count >= 1
+				description.Length <= 150
 			)
 			{
 				Employee employee = employeeUtility.GetEmployee(User);
