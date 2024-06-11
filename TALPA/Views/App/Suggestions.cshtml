@@ -150,7 +150,7 @@
 							<p class="card-text" id="suggestion-description">@suggestion.Description</p>
 							<p class="mb-0">Categorie: @(suggestion.Categories.Any() ? string.Join(", ", suggestion.Categories) : "geen")</p>
 							<p>Beperkingen: @(suggestion.Limitations.Any() ? string.Join(", ", suggestion.Limitations) : "geen")</p>
-							@if (ViewBag.Employee.Role != "Admin")
+							@if (ViewBag.Employee.Role == "Manager")
 							{
 								<button class="btn">Kiezen</button>
 							}
