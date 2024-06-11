@@ -130,3 +130,7 @@ body {
 .timeGroup.focused {
     border: 1px solid #5236AB !important;
 }
+
+.form-select {
+    background-image: none !important;
+}
