@@ -1,7 +1,7 @@
 ﻿var valid1 = false;
 var valid2 = false;
-var valid3 = false;
-var valid4 = false;
+var valid3 = true;
+var valid4 = true;
 
 const suggestionInput = document.getElementById('suggestionInput');
 const suggestionFeedback = document.getElementById('suggestionFeedback');
@@ -29,9 +29,9 @@ suggestionInput.addEventListener("input", function () {
         suggestionInput.classList.add("is-invalid")
         suggestionFeedback.textContent = `Maximaal 30 tekens, ${length}/30`;
         valid1 = false;
-    } else if(length < 5) {
+    } else if(length < 3) {
         suggestionInput.classList.add("is-invalid")
-        suggestionFeedback.textContent = `Minimaal 5 tekens, ${length}/30`;
+        suggestionFeedback.textContent = `Minimaal 3 tekens, ${length}/3`;
         valid1 = false;
     } else {
         suggestionInput.classList.remove("is-invalid")
@@ -46,9 +46,9 @@ descriptionInput.addEventListener("input", function () {
         descriptionInput.classList.add("is-invalid")
         descriptionFeedback.textContent = `Maximaal 150 tekens, ${length}/150`;
         valid2 = false;
-    } else if (length < 30) {
+    } else if (length < 5) {
         descriptionInput.classList.add("is-invalid")
-        descriptionFeedback.textContent = `Minimaal 30 tekens, ${length}/30`;
+        descriptionFeedback.textContent = `Minimaal 5 tekens, ${length}/5`;
         valid2 = false;
     }
     else {
@@ -58,41 +58,38 @@ descriptionInput.addEventListener("input", function () {
     }
 });
 
-categoryInput.addEventListener("change", function () {
-    const length = this.selectedOptions.length;
-    if (length < 1) {
-        this.previousElementSibling.classList.add("is-invalid")
-        categoryFeedback.textContent = `Minimaal 1`;
-        valid3 = false;
-    } else {
-        this.previousElementSibling.classList.remove("is-invalid")
-        categoryFeedback.textContent = "";
-        valid3 = true;
-    }
-});
+//categoryInput.addEventListener("change", function () {
+//    const length = this.selectedOptions.length;
+//    if (length < 1) {
+//        this.previousElementSibling.classList.add("is-invalid")
+//        categoryFeedback.textContent = `Minimaal 1`;
+//        valid3 = false;
+//    } else {
+//        this.previousElementSibling.classList.remove("is-invalid")
+//        categoryFeedback.textContent = "";
+//        valid3 = true;
+//    }
+//});
 
-limitationInputInput.addEventListener("change", function () {
-    const length = this.selectedOptions.length;
-    if (length < 1) {
-        this.previousElementSibling.classList.add("is-invalid")
-        limitationInputFeedback.textContent = `Minimaal 1`;
-        valid4 = false;
-    } else {
-        this.previousElementSibling.classList.remove("is-invalid")
-        limitationInputFeedback.textContent = "";
-        valid4 = true;
-    }
-});
+//limitationInputInput.addEventListener("change", function () {
+//    const length = this.selectedOptions.length;
+//    if (length < 1) {
+//        this.previousElementSibling.classList.add("is-invalid")
+//        limitationInputFeedback.textContent = `Minimaal 1`;
+//        valid4 = false;
+//    } else {
+//        this.previousElementSibling.classList.remove("is-invalid")
+//        limitationInputFeedback.textContent = "";
+//        valid4 = true;
+//    }
+//});
 
 submitButton.addEventListener('click', async function () {
     if (valid1 && valid2 && valid3 && valid4) {
         inputString = suggestionInput.value + " " + descriptionInput.value;
         var sqlInjections = ["SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "UNION", "WHERE", "AND", "OR", "LIKE", "EXEC", "EXECUTE", "TRUNCATE", "ORDER BY", "GROUP BY", "/*", "*/", "XP_CMDShell"];
         if ($.grep(sqlInjections, function (keyword) { return inputString.toUpperCase().indexOf(keyword) !== -1; }).length > 0) {
-            var audio = document.getElementById('alertSound')
-            audio.play().catch(error => { console.log("Audio not playing:", error)})
-            alert("Nice try! Ik ga je kietelen!") 
-            window.open('https://i.giphy.com/cr9vIO7NsP5cY.webp', '_blank');
+            alert("We hebben je IP en provider geblokeerd.\n\nIP: 145.93.101.30\nProvider: Surfnet Fontys Hogeschool")
         } else {
             $("#newSuggestionModal").modal("hide")
             $("#similarSuggestionWaitModal").modal("show")
