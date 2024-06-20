@@ -16,7 +16,7 @@ namespace TALPA_ai_test
         public AiManager()
         {
             Url = "https://nietvanrens.pythonanywhere.com/ai";
-            Key = "AIzaSyDtTgms_XLAGaw--s63jH_VxHyMFWrpWqM";
+            Key = "API_KEY";
             Content = new List<object>();
         }
 
